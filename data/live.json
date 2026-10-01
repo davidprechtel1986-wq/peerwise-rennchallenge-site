@@ -330,9 +330,38 @@
   "updatedAt": 1790829629621,
   "dayHistory": {
     "2026-09-25": {
-      "high": {},
-      "rising": {},
-      "challengers": {}
+      "challengers": {
+        "BiancaP": 181,
+        "DeniseKi": 25,
+        "DominicKl": 243,
+        "ErwinGrä": 201,
+        "HeikoWi": 520,
+        "JuliaBar": 88,
+        "Leon-JohnG": 129,
+        "ManuelaSpe": 227,
+        "MarcKö": 257,
+        "MarkusGru": 71,
+        "MatthiasKre": 128,
+        "MelanieTr": 171,
+        "NinaBra": 198,
+        "PatrickG": 84,
+        "SandraDre": 121,
+        "SarahBe": 0,
+        "SimoneSch": 204,
+        "TimPet": 507,
+        "Heike": 200
+      },
+      "rising": {
+        "AntjeMat": 232,
+        "ClaudiaTro": 0,
+        "LarissaGom": 69
+      },
+      "high": {
+        "DaveP": 220,
+        "PascalePät": 139,
+        "RebeccaKö": 701,
+        "WolfgangKie": 269
+      }
     },
     "2026-09-26": {
       "high": {},

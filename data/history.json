@@ -22,7 +22,7 @@
     "30.09.",
     "01.10."
   ],
-  "note": "23.09., 24.09., 30.09. und 01.10. sind eingetragen. Fehlt ein Tag, steht –. Endergebnis = Summe der bekannten Tage.",
+  "note": "23.–25.09., 30.09. und 01.10. sind eingetragen. Fehlt ein Tag, steht –. Endergebnis = Summe der bekannten Tage.",
   "teamTotals": {
     "high": 10703,
     "rising": 3595,
@@ -36,7 +36,7 @@
       "daily": [
         488,
         773,
-        null,
+        701,
         null,
         null,
         null,
@@ -44,7 +44,7 @@
         874,
         55
       ],
-      "total": 2190
+      "total": 2891
     },
     {
       "name": "DaveP",
@@ -53,7 +53,7 @@
       "daily": [
         20,
         195,
-        null,
+        220,
         null,
         null,
         null,
@@ -61,7 +61,7 @@
         345,
         565
       ],
-      "total": 1125
+      "total": 1345
     },
     {
       "name": "WolfgangKie",
@@ -70,7 +70,7 @@
       "daily": [
         0,
         293,
-        null,
+        269,
         null,
         null,
         null,
@@ -78,7 +78,7 @@
         343,
         294
       ],
-      "total": 930
+      "total": 1199
     },
     {
       "name": "PascalePät",
@@ -87,7 +87,7 @@
       "daily": [
         0,
         178,
-        null,
+        139,
         null,
         null,
         null,
@@ -95,7 +95,7 @@
         13,
         13
       ],
-      "total": 204
+      "total": 343
     },
     {
       "name": "Jule",
@@ -121,7 +121,7 @@
       "daily": [
         0,
         133,
-        null,
+        232,
         null,
         null,
         null,
@@ -129,7 +129,7 @@
         672,
         204
       ],
-      "total": 1009
+      "total": 1241
     },
     {
       "name": "LarissaGom",
@@ -138,7 +138,7 @@
       "daily": [
         0,
         114,
-        null,
+        69,
         null,
         null,
         null,
@@ -146,7 +146,7 @@
         157,
         122
       ],
-      "total": 393
+      "total": 462
     },
     {
       "name": "ClaudiaTro",
@@ -155,7 +155,7 @@
       "daily": [
         9,
         120,
-        null,
+        0,
         null,
         null,
         null,
@@ -172,7 +172,7 @@
       "daily": [
         172,
         385,
-        null,
+        520,
         null,
         null,
         null,
@@ -180,7 +180,7 @@
         498,
         209
       ],
-      "total": 1264
+      "total": 1784
     },
     {
       "name": "BiancaP",
@@ -189,7 +189,7 @@
       "daily": [
         0,
         441,
-        null,
+        181,
         null,
         null,
         null,
@@ -197,41 +197,7 @@
         187,
         572
       ],
-      "total": 1200
-    },
-    {
-      "name": "ErwinGrä",
-      "league": "challengers",
-      "leagueTitle": "CHALLENGERS",
-      "daily": [
-        0,
-        115,
-        null,
-        null,
-        null,
-        null,
-        null,
-        308,
-        434
-      ],
-      "total": 857
-    },
-    {
-      "name": "MarcKö",
-      "league": "challengers",
-      "leagueTitle": "CHALLENGERS",
-      "daily": [
-        0,
-        402,
-        null,
-        null,
-        null,
-        null,
-        null,
-        226,
-        226
-      ],
-      "total": 854
+      "total": 1381
     },
     {
       "name": "TimPet",
@@ -240,7 +206,7 @@
       "daily": [
         0,
         362,
-        null,
+        507,
         null,
         null,
         null,
@@ -248,7 +214,41 @@
         244,
         143
       ],
-      "total": 749
+      "total": 1256
+    },
+    {
+      "name": "MarcKö",
+      "league": "challengers",
+      "leagueTitle": "CHALLENGERS",
+      "daily": [
+        0,
+        402,
+        257,
+        null,
+        null,
+        null,
+        null,
+        226,
+        226
+      ],
+      "total": 1111
+    },
+    {
+      "name": "ErwinGrä",
+      "league": "challengers",
+      "leagueTitle": "CHALLENGERS",
+      "daily": [
+        0,
+        115,
+        201,
+        null,
+        null,
+        null,
+        null,
+        308,
+        434
+      ],
+      "total": 1058
     },
     {
       "name": "PatrickG",
@@ -257,7 +257,7 @@
       "daily": [
         0,
         218,
-        null,
+        84,
         null,
         null,
         null,
@@ -265,7 +265,7 @@
         113,
         250
       ],
-      "total": 581
+      "total": 665
     },
     {
       "name": "MatthiasKre",
@@ -274,13 +274,98 @@
       "daily": [
         0,
         174,
-        null,
+        128,
         null,
         null,
         null,
         null,
         182,
         171
+      ],
+      "total": 655
+    },
+    {
+      "name": "ManuelaSpe",
+      "league": "challengers",
+      "leagueTitle": "CHALLENGERS",
+      "daily": [
+        0,
+        114,
+        227,
+        null,
+        null,
+        null,
+        null,
+        215,
+        79
+      ],
+      "total": 635
+    },
+    {
+      "name": "DominicKl",
+      "league": "challengers",
+      "leagueTitle": "CHALLENGERS",
+      "daily": [
+        0,
+        343,
+        243,
+        null,
+        null,
+        null,
+        null,
+        14,
+        14
+      ],
+      "total": 614
+    },
+    {
+      "name": "Heike",
+      "league": "challengers",
+      "leagueTitle": "CHALLENGERS",
+      "daily": [
+        null,
+        147,
+        200,
+        null,
+        null,
+        null,
+        null,
+        20,
+        209
+      ],
+      "total": 576
+    },
+    {
+      "name": "MelanieTr",
+      "league": "challengers",
+      "leagueTitle": "CHALLENGERS",
+      "daily": [
+        0,
+        21,
+        171,
+        null,
+        null,
+        null,
+        null,
+        173,
+        167
+      ],
+      "total": 532
+    },
+    {
+      "name": "NinaBra",
+      "league": "challengers",
+      "leagueTitle": "CHALLENGERS",
+      "daily": [
+        0,
+        186,
+        198,
+        null,
+        null,
+        null,
+        null,
+        0,
+        143
       ],
       "total": 527
     },
@@ -291,7 +376,7 @@
       "daily": [
         39,
         169,
-        null,
+        88,
         null,
         null,
         null,
@@ -299,126 +384,7 @@
         107,
         105
       ],
-      "total": 420
-    },
-    {
-      "name": "ManuelaSpe",
-      "league": "challengers",
-      "leagueTitle": "CHALLENGERS",
-      "daily": [
-        0,
-        114,
-        null,
-        null,
-        null,
-        null,
-        null,
-        215,
-        79
-      ],
-      "total": 408
-    },
-    {
-      "name": "Heike",
-      "league": "challengers",
-      "leagueTitle": "CHALLENGERS",
-      "daily": [
-        null,
-        147,
-        null,
-        null,
-        null,
-        null,
-        null,
-        20,
-        209
-      ],
-      "total": 376
-    },
-    {
-      "name": "DominicKl",
-      "league": "challengers",
-      "leagueTitle": "CHALLENGERS",
-      "daily": [
-        0,
-        343,
-        null,
-        null,
-        null,
-        null,
-        null,
-        14,
-        14
-      ],
-      "total": 371
-    },
-    {
-      "name": "MelanieTr",
-      "league": "challengers",
-      "leagueTitle": "CHALLENGERS",
-      "daily": [
-        0,
-        21,
-        null,
-        null,
-        null,
-        null,
-        null,
-        173,
-        167
-      ],
-      "total": 361
-    },
-    {
-      "name": "NinaBra",
-      "league": "challengers",
-      "leagueTitle": "CHALLENGERS",
-      "daily": [
-        0,
-        186,
-        null,
-        null,
-        null,
-        null,
-        null,
-        0,
-        143
-      ],
-      "total": 329
-    },
-    {
-      "name": "MarkusGru",
-      "league": "challengers",
-      "leagueTitle": "CHALLENGERS",
-      "daily": [
-        0,
-        18,
-        null,
-        null,
-        null,
-        null,
-        null,
-        95,
-        119
-      ],
-      "total": 232
-    },
-    {
-      "name": "Leon-JohnG",
-      "league": "challengers",
-      "leagueTitle": "CHALLENGERS",
-      "daily": [
-        0,
-        11,
-        null,
-        null,
-        null,
-        null,
-        null,
-        155,
-        0
-      ],
-      "total": 166
+      "total": 508
     },
     {
       "name": "SimoneSch",
@@ -427,7 +393,7 @@
       "daily": [
         0,
         1,
-        null,
+        204,
         null,
         null,
         null,
@@ -435,41 +401,41 @@
         0,
         115
       ],
-      "total": 116
+      "total": 320
     },
     {
-      "name": "DeniseKi",
-      "league": "challengers",
-      "leagueTitle": "CHALLENGERS",
-      "daily": [
-        24,
-        67,
-        null,
-        null,
-        null,
-        null,
-        null,
-        0,
-        0
-      ],
-      "total": 91
-    },
-    {
-      "name": "SarahBe",
+      "name": "MarkusGru",
       "league": "challengers",
       "leagueTitle": "CHALLENGERS",
       "daily": [
         0,
-        90,
+        18,
+        71,
         null,
         null,
         null,
         null,
-        null,
+        95,
+        119
+      ],
+      "total": 303
+    },
+    {
+      "name": "Leon-JohnG",
+      "league": "challengers",
+      "leagueTitle": "CHALLENGERS",
+      "daily": [
         0,
+        11,
+        129,
+        null,
+        null,
+        null,
+        null,
+        155,
         0
       ],
-      "total": 90
+      "total": 295
     },
     {
       "name": "SandraDre",
@@ -478,7 +444,7 @@
       "daily": [
         0,
         74,
-        null,
+        121,
         null,
         null,
         null,
@@ -486,14 +452,77 @@
         0,
         0
       ],
-      "total": 74
+      "total": 195
+    },
+    {
+      "name": "DeniseKi",
+      "league": "challengers",
+      "leagueTitle": "CHALLENGERS",
+      "daily": [
+        24,
+        67,
+        25,
+        null,
+        null,
+        null,
+        null,
+        0,
+        0
+      ],
+      "total": 116
+    },
+    {
+      "name": "SarahBe",
+      "league": "challengers",
+      "leagueTitle": "CHALLENGERS",
+      "daily": [
+        0,
+        90,
+        0,
+        null,
+        null,
+        null,
+        null,
+        0,
+        0
+      ],
+      "total": 90
     }
   ],
   "entries": {
     "2026-09-25": {
-      "high": {},
-      "rising": {},
-      "challengers": {}
+      "challengers": {
+        "BiancaP": 181,
+        "DeniseKi": 25,
+        "DominicKl": 243,
+        "ErwinGrä": 201,
+        "HeikoWi": 520,
+        "JuliaBar": 88,
+        "Leon-JohnG": 129,
+        "ManuelaSpe": 227,
+        "MarcKö": 257,
+        "MarkusGru": 71,
+        "MatthiasKre": 128,
+        "MelanieTr": 171,
+        "NinaBra": 198,
+        "PatrickG": 84,
+        "SandraDre": 121,
+        "SarahBe": 0,
+        "SimoneSch": 204,
+        "TimPet": 507,
+        "Heike": 200
+      },
+      "rising": {
+        "AntjeMat": 232,
+        "ClaudiaTro": 0,
+        "LarissaGom": 69
+      },
+      "high": {
+        "DaveP": 220,
+        "PascalePät": 139,
+        "RebeccaKö": 701,
+        "WolfgangKie": 269
+      }
     },
     "2026-09-26": {
       "high": {},
