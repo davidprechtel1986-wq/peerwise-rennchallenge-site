@@ -35,6 +35,63 @@
 .taler-sack {
   position: relative;
   filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.45));
+  animation: sack-glow 2.6s ease-in-out infinite;
+}
+.coin-rain {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 0;
+  height: 58%;
+  pointer-events: none;
+  overflow: hidden;
+}
+.coin-rain i {
+  position: absolute;
+  top: -12px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff6c2, #ffd24a 42%, #b8860b);
+  border: 1.5px solid #6a4a16;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+  animation: coin-drop 1.5s linear infinite;
+}
+.coin-rain i:nth-child(1) { left: 18%; animation-delay: 0s; }
+.coin-rain i:nth-child(2) { left: 46%; animation-delay: 0.45s; }
+.coin-rain i:nth-child(3) { left: 70%; animation-delay: 0.9s; }
+@keyframes sack-glow {
+  0%, 100% { filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 0 rgba(255, 210, 74, 0)); }
+  50% { filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 18px rgba(255, 210, 74, 0.75)); }
+}
+@keyframes coin-drop {
+  0% { transform: translateY(0) scale(0.7); opacity: 0; }
+  18% { opacity: 1; }
+  100% { transform: translateY(118px) scale(1); opacity: 0; }
+}
+.month-bar {
+  margin: 0.75rem auto 0;
+  max-width: 26rem;
+}
+.month-bar p {
+  margin: 0 0 0.35rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 800;
+  font-size: 0.86rem;
+  color: #ffe08a;
+}
+.month-track {
+  height: 12px;
+  border-radius: 99px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 210, 74, 0.4);
+  overflow: hidden;
+}
+.month-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #ffd24a, #ff4fd8);
 }
 .taler-sack svg { width: 100%; height: auto; display: block; }
 .taler-count {
@@ -145,9 +202,40 @@
   background: rgba(255, 77, 216, 0.12);
 }
 .track-label.normal { color: #9aefff; background: rgba(92, 225, 255, 0.08); }
+.lane-ruler {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0.5rem 0.75rem 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 800;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+.flag, .goal {
+  padding: 0.18rem 0.45rem;
+  border-radius: 5px;
+  color: #1a0a2e;
+}
+.flag { background: #ff4fd8; }
+.goal { background: #ffd24a; }
+.ruler-coins {
+  flex: 1;
+  display: flex;
+  justify-content: space-evenly;
+}
+.ruler-coins i,
+.lane-coin {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff6c2, #ffd24a 45%, #b8860b);
+  border: 1px solid #6a4a16;
+  display: block;
+}
 .lane {
   position: relative;
-  margin: 0.4rem 0.6rem 0.7rem;
+  margin: 0.35rem 0.6rem 0.7rem;
   border-radius: 12px;
   background:
     repeating-linear-gradient(
@@ -162,11 +250,14 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 7.4rem 1fr auto;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "name score" "track track";
   align-items: center;
-  min-height: 84px;
-  padding: 0.1rem 0.55rem 0.1rem 0.7rem;
+  padding: 0.45rem 0.55rem 0.2rem 0.7rem;
 }
+.runner-name { grid-area: name; }
+.runner-meta { grid-area: score; justify-self: end; }
+.runner-track { grid-area: track; }
 .runner + .runner { border-top: 1px dashed rgba(255, 255, 255, 0.06); }
 .runner-name {
   font-family: Arial, Helvetica, sans-serif;
@@ -176,8 +267,9 @@
 }
 .runner-track {
   position: relative;
-  height: 78px;
-  margin-right: 0.35rem;
+  height: 112px;
+  margin: 0.15rem 0 0.2rem;
+  overflow: hidden;
 }
 .runner-track::before {
   content: "";
@@ -188,11 +280,54 @@
   width: 3px;
   background: repeating-linear-gradient(#fff 0 6px, #111 6px 12px);
   opacity: 0.75;
+  z-index: 1;
+}
+.runner-track::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 34px;
+  bottom: 4px;
+  height: 7px;
+  border-radius: 6px;
+  background: linear-gradient(#8a6240, #3d2814);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.lane-coin {
+  position: absolute;
+  bottom: 14px;
+  z-index: 1;
+}
+.lane-coin.a { left: 26%; }
+.lane-coin.b { left: 50%; bottom: 20px; }
+.lane-coin.c { left: 72%; }
+.goal-sack {
+  position: absolute;
+  right: 2px;
+  bottom: 6px;
+  width: 26px;
+  height: 30px;
+  border-radius: 42% 42% 48% 48%;
+  background: radial-gradient(circle at 50% 28%, #f0d48a, #c9954a 62%, #8a5a20);
+  border: 2px solid #5c3b12;
+  z-index: 1;
+}
+.goal-sack::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  top: -7px;
+  height: 10px;
+  border: 2px solid #5c3b12;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
 }
 .runner-mover {
   position: absolute;
-  bottom: 0;
-  width: 72px;
+  bottom: 2px;
+  width: 68px;
+  z-index: 2;
   transition: left 0.6s ease;
 }
 .runner-mover svg { width: 100%; height: auto; display: block; }
@@ -213,7 +348,24 @@
   font-weight: 800;
   font-size: 0.85rem;
 }
-.runner.is-last .runner-meta b { color: #ffb4b4; }
+.runner.is-first .runner-name,
+.runner.is-first .runner-meta span { color: #ffd24a; }
+.runner.is-last .runner-name,
+.runner.is-last .runner-meta span { color: #ffb4b4; }
+.dot {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-right: 0.35rem;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.28);
+  vertical-align: -1px;
+  flex: 0 0 auto;
+}
+.who, .runner-name {
+  display: inline-flex;
+  align-items: center;
+}
 
 @keyframes sack-hop {
   0%, 100% { transform: translateY(0) rotate(-2deg); }
@@ -224,7 +376,7 @@
   50% { transform: rotate(-28deg) translateY(0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bob, .trip { animation: none; }
+  .bob, .trip, .taler-sack, .coin-rain i { animation: none; }
 }
 
 .sack-note {
@@ -294,5 +446,21 @@
   color: #9aefff;
 }
 .sack-table .zero { color: #9a86b0; }
+.sack-table th.is-today,
+.sack-table td.is-today {
+  background: rgba(255, 210, 74, 0.2);
+  color: #fff6d0;
+}
+.sack-table th.is-today {
+  box-shadow: inset 0 -3px 0 #ffd24a;
+  min-width: 3.2rem;
+  line-height: 1.15;
+}
+.sack-table .heute {
+  display: block;
+  color: #ffd24a;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+}
 .sack-table tr:hover td { background: rgba(255, 255, 255, 0.04); }
 .sack-table tr:hover td:first-child { background: rgba(40, 16, 70, 0.98); }
