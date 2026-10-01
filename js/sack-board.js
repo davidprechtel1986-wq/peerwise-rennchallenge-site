@@ -7,29 +7,29 @@
 
   var WL = [
     { name: "BiancaP", gender: "f", look: "pigtails", color: "#fbbf24", hair: "#6b3a1f", mood: 0 },
-    { name: "Melanie", gender: "f", look: "bun", color: "#f472b6", hair: "#3d2314", mood: 1 },
-    { name: "Heiko", gender: "m", look: "cap", beard: true, color: "#fb7185", hair: "#333333", mood: 2 },
-    { name: "Matthias", gender: "m", look: "short", color: "#38bdf8", hair: "#4a3728", mood: 0 },
+    { name: "MelanieTr", gender: "f", look: "bun", color: "#f472b6", hair: "#3d2314", mood: 1 },
+    { name: "HeikoWi", gender: "m", look: "cap", beard: true, color: "#fb7185", hair: "#333333", mood: 2 },
+    { name: "MatthiasKre", gender: "m", look: "short", color: "#38bdf8", hair: "#4a3728", mood: 0 },
     { name: "MarkusGru", gender: "m", look: "cap", color: "#a78bfa", hair: "#2a2a2a", mood: 1 },
     { name: "MarcKö", gender: "m", look: "short", glasses: true, color: "#4ade80", hair: "#1a1a1a", mood: 2 },
-    { name: "Manuela", gender: "f", look: "ponytail", color: "#ff4fd8", hair: "#3a2418", mood: 0 },
-    { name: "Monika", gender: "f", look: "bob", color: "#5ce1ff", hair: "#5c3a1e", mood: 1 },
-    { name: "Simone", gender: "f", look: "bun", color: "#ff7a3c", hair: "#2c1810", mood: 2 },
+    { name: "ManuelaSpe", gender: "f", look: "ponytail", color: "#ff4fd8", hair: "#3a2418", mood: 0 },
+    { name: "MonikaKos", gender: "f", look: "bob", color: "#5ce1ff", hair: "#5c3a1e", mood: 1 },
+    { name: "SimoneSch", gender: "f", look: "bun", color: "#ff7a3c", hair: "#2c1810", mood: 2 },
     { name: "JuliaBar", gender: "f", look: "pigtails", color: "#c9a0ff", hair: "#4a2c1a", mood: 0 },
-    { name: "Nina", gender: "f", look: "ponytail", color: "#ff5a8a", hair: "#1c1c1c", mood: 1 },
-    { name: "Erwin", gender: "m", look: "beard", glasses: true, color: "#ffd24a", hair: "#555555", mood: 2 },
-    { name: "Denise", gender: "f", look: "bob", color: "#7dffb3", hair: "#6b4423", mood: 0 },
+    { name: "NinaBra", gender: "f", look: "ponytail", color: "#ff5a8a", hair: "#1c1c1c", mood: 1 },
+    { name: "ErwinGrä", gender: "m", look: "beard", glasses: true, color: "#ffd24a", hair: "#555555", mood: 2 },
+    { name: "DeniseKi", gender: "f", look: "bob", color: "#7dffb3", hair: "#6b4423", mood: 0 },
     { name: "Martin", gender: "m", look: "cap", color: "#6ecbff", hair: "#3a2418", mood: 1 },
-    { name: "Tim", gender: "m", look: "short", color: "#fb923c", hair: "#5c3a1e", mood: 2 },
-    { name: "Sabrina", gender: "f", look: "pigtails", color: "#e879f9", hair: "#2c1810", mood: 0 },
-    { name: "Heike", gender: "f", look: "bun", color: "#f9a8d4", hair: "#4a2c1a", mood: 1 }
+    { name: "TimPet", gender: "m", look: "short", color: "#fb923c", hair: "#5c3a1e", mood: 2 },
+    { name: "SabrinaKlie", gender: "f", look: "pigtails", color: "#e879f9", hair: "#2c1810", mood: 0 },
+    { name: "HeikeErl", gender: "f", look: "bun", color: "#f9a8d4", hair: "#4a2c1a", mood: 1 }
   ];
 
   var NORMAL = [
-    { name: "Dave", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1 },
-    { name: "Wolfgang", gender: "m", look: "cap", color: "#22d3ee", hair: "#2c2c2c", mood: 0 },
-    { name: "Antje", gender: "f", look: "bun", color: "#d8b4fe", hair: "#4a2c1a", mood: 1 },
-    { name: "Rebecca", gender: "f", look: "ponytail", color: "#f43f5e", hair: "#3a2418", mood: 2 }
+    { name: "DaveP", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1 },
+    { name: "WolfgangKie", gender: "m", look: "cap", color: "#22d3ee", hair: "#2c2c2c", mood: 0 },
+    { name: "AntjeMat", gender: "f", look: "bun", color: "#d8b4fe", hair: "#4a2c1a", mood: 1 },
+    { name: "RebeccaKö", gender: "f", look: "ponytail", color: "#f43f5e", hair: "#3a2418", mood: 2 }
   ];
 
   function zeros() {
