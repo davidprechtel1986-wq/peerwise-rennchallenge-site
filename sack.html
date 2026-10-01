@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PEERWISE · 30-Tage Sackhüpfen</title>
+  <link rel="stylesheet" href="css/battle.css?v=29" />
+  <link rel="stylesheet" href="css/sack.css?v=2" />
+</head>
+<body class="sack-body">
+  <div class="frame">
+    <div class="frame-corner tl"></div>
+    <div class="frame-corner tr"></div>
+    <div class="frame-corner bl"></div>
+    <div class="frame-corner br"></div>
+
+    <header class="hero sack-hero">
+      <div class="sack-hero-main">
+        <div class="logo" aria-label="PEERWISE">
+          <img class="logo-img" src="peerwise-logo.png?v=25" alt="PEERWISE" />
+        </div>
+        <h1>30-TAGE<br />SACKHÜPFEN</h1>
+        <p class="dates">01.10.–30.10. · Jeder Tag einzeln · Endergebnis = Summe der Tage</p>
+        <p class="sack-rule">Wer hinten hängt, stolpert und verliert den Sack. Nicht der mit den meisten INS an einem Tag.</p>
+        <div class="hero-actions">
+          <a class="admin-link" href="index.html">← Zur Rennstrecke</a>
+        </div>
+      </div>
+      <aside class="taler-wrap" id="talerSack" aria-label="Gesamt-INS im Sack"></aside>
+    </header>
+
+    <section class="sack-legend" aria-label="So läuft das Sackhüpfen">
+      <div class="legend-card" id="legendRun"></div>
+      <div class="legend-card" id="legendTrip"></div>
+    </section>
+
+    <section class="sack-teams" id="teamTotals"></section>
+
+    <section class="tracks" id="tracks" aria-label="Figuren auf der Strecke"></section>
+
+    <p class="sack-note" id="sackNote"></p>
+
+    <section class="sack-wrap">
+      <div class="sack-scroll">
+        <table class="sack-table" id="sackTable">
+          <thead id="sackHead"></thead>
+          <tbody id="sackBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="js/sack.js?v=2"></script>
+</body>
+</html>
