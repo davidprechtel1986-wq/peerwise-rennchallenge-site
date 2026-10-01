@@ -20,7 +20,8 @@
     { name: "DeniseKi", gender: "f", look: "bob", color: "#7dffb3", hair: "#6b4423", mood: 0 },
     { name: "Martin", gender: "m", look: "cap", color: "#6ecbff", hair: "#3a2418", mood: 1 },
     { name: "TimPet", gender: "m", look: "short", color: "#fb923c", hair: "#5c3a1e", mood: 2 },
-    { name: "SabrinaKlie", gender: "f", look: "pigtails", color: "#e879f9", hair: "#2c1810", mood: 0 }
+    { name: "SabrinaKlie", gender: "f", look: "pigtails", color: "#e879f9", hair: "#2c1810", mood: 0 },
+    { name: "MarkusWeg", gender: "m", look: "short", color: "#14b8a6", hair: "#3a2a1a", mood: 0 }
   ];
 
   var NORMAL = [
