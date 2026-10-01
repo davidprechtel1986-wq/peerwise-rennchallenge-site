@@ -146,6 +146,51 @@ body::before {
   min-width: 4.6rem;
 }
 
+.wochen-cta {
+  display: inline-block;
+  margin: 1.1rem auto 0.35rem;
+  padding: 0.95rem 1.75rem;
+  max-width: calc(100% - 1rem);
+  border-radius: 14px;
+  border: 3px solid rgba(255, 210, 74, 0.85);
+  background: linear-gradient(135deg, #ffd24a 0%, #ff9a3c 45%, #ff2d9b 100%);
+  color: #1a0a2e;
+  text-decoration: none;
+  font-family: Arial Black, Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: clamp(1.05rem, 3.6vw, 1.45rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.18) inset,
+    0 8px 28px rgba(255, 45, 155, 0.35);
+  animation: wochen-cta-blink 1.8s ease-in-out infinite;
+}
+.wochen-cta:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+@keyframes wochen-cta-blink {
+  0%, 100% {
+    opacity: 1;
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, 0.18) inset,
+      0 8px 28px rgba(255, 45, 155, 0.35),
+      0 0 18px rgba(255, 210, 74, 0.35);
+  }
+  50% {
+    opacity: 0.78;
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, 0.12) inset,
+      0 8px 22px rgba(255, 45, 155, 0.22),
+      0 0 6px rgba(255, 210, 74, 0.12);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wochen-cta { animation: none; }
+}
+
 .admin-link, .top-links a, .linkish, .gate a {
   display: inline-block;
   margin-top: 0.85rem;
