@@ -1,7 +1,6 @@
 {
   "title": "Tages-INS pro Person",
   "dates": [
-    "2026-09-23",
     "2026-09-24",
     "2026-09-25",
     "2026-09-26",
@@ -9,10 +8,10 @@
     "2026-09-28",
     "2026-09-29",
     "2026-09-30",
-    "2026-10-01"
+    "2026-10-01",
+    "2026-10-02"
   ],
   "dateLabels": [
-    "23.09.",
     "24.09.",
     "25.09.",
     "26.09.",
@@ -20,9 +19,10 @@
     "28.09.",
     "29.09.",
     "30.09.",
-    "01.10."
+    "01.10.",
+    "02.10."
   ],
-  "note": "Eingetragen: 2026-09-23, 2026-09-24, 2026-09-25, 2026-09-26, 2026-09-27, 2026-09-28, 2026-09-29, 2026-09-30, 2026-10-01. Fehlt ein Tag, steht –. Endergebnis = Summe der bekannten Tage.",
+  "note": "Alle Tage 24.09.–02.10. sind eingetragen (um 1 Tag nach hinten versetzt). Endergebnis = Summe der Tageswerte.",
   "teamTotals": {
     "high": 10703,
     "rising": 3595,
@@ -490,7 +490,7 @@
     }
   ],
   "entries": {
-    "2026-09-25": {
+    "2026-09-26": {
       "challengers": {
         "BiancaP": 181,
         "DeniseKi": 25,
@@ -524,7 +524,7 @@
         "WolfgangKie": 269
       }
     },
-    "2026-09-26": {
+    "2026-09-27": {
       "challengers": {
         "BiancaP": 520,
         "DeniseKi": 0,
@@ -558,7 +558,7 @@
         "WolfgangKie": 410
       }
     },
-    "2026-09-27": {
+    "2026-09-28": {
       "challengers": {
         "BiancaP": 327,
         "DeniseKi": 0,
@@ -592,7 +592,7 @@
         "WolfgangKie": 305
       }
     },
-    "2026-09-28": {
+    "2026-09-29": {
       "challengers": {
         "BiancaP": 205,
         "DeniseKi": 0,
@@ -626,7 +626,7 @@
         "WolfgangKie": 399
       }
     },
-    "2026-09-29": {
+    "2026-09-30": {
       "challengers": {
         "BiancaP": 241,
         "DeniseKi": 0,
@@ -660,7 +660,7 @@
         "WolfgangKie": 409
       }
     },
-    "2026-09-30": {
+    "2026-10-01": {
       "high": {
         "RebeccaKö": 874,
         "DaveP": 345,
@@ -694,7 +694,7 @@
         "SimoneSch": 0
       }
     },
-    "2026-10-01": {
+    "2026-10-02": {
       "high": {
         "DaveP": 565,
         "WolfgangKie": 294,
@@ -728,7 +728,7 @@
         "SarahBe": 0
       }
     },
-    "2026-09-23": {
+    "2026-09-24": {
       "challengers": {
         "BiancaP": 0,
         "DeniseKi": 24,
@@ -762,7 +762,7 @@
         "WolfgangKie": 0
       }
     },
-    "2026-09-24": {
+    "2026-09-25": {
       "challengers": {
         "BiancaP": 441,
         "DeniseKi": 67,
