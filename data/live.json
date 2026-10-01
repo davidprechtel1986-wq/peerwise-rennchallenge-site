@@ -432,14 +432,72 @@
       }
     },
     "2026-09-28": {
-      "high": {},
-      "rising": {},
-      "challengers": {}
+      "challengers": {
+        "BiancaP": 205,
+        "DeniseKi": 0,
+        "DominicKl": 305,
+        "ErwinGrä": 290,
+        "HeikoWi": 856,
+        "JuliaBar": 29,
+        "Leon-JohnG": 110,
+        "ManuelaSpe": 186,
+        "MarcKö": 0,
+        "MarkusGru": 100,
+        "MatthiasKre": 0,
+        "MelanieTr": 148,
+        "NinaBra": 225,
+        "PatrickG": 122,
+        "SandraDre": 0,
+        "SarahBe": 0,
+        "SimoneSch": 72,
+        "TimPet": 135,
+        "Heike": 226
+      },
+      "rising": {
+        "AntjeMat": 165,
+        "ClaudiaTro": 0,
+        "LarissaGom": 223
+      },
+      "high": {
+        "DaveP": 177,
+        "PascalePät": 162,
+        "RebeccaKö": 604,
+        "WolfgangKie": 399
+      }
     },
     "2026-09-29": {
-      "high": {},
-      "rising": {},
-      "challengers": {}
+      "challengers": {
+        "BiancaP": 241,
+        "DeniseKi": 0,
+        "DominicKl": 46,
+        "ErwinGrä": 0,
+        "HeikoWi": 82,
+        "JuliaBar": 10,
+        "Leon-JohnG": 187,
+        "ManuelaSpe": 150,
+        "MarcKö": 329,
+        "MarkusGru": 148,
+        "MatthiasKre": 175,
+        "MelanieTr": 204,
+        "NinaBra": 231,
+        "PatrickG": 46,
+        "SandraDre": 0,
+        "SarahBe": 0,
+        "SimoneSch": 0,
+        "TimPet": 164,
+        "Heike": 331
+      },
+      "rising": {
+        "AntjeMat": 415,
+        "ClaudiaTro": 0,
+        "LarissaGom": 0
+      },
+      "high": {
+        "DaveP": 54,
+        "PascalePät": 217,
+        "RebeccaKö": 527,
+        "WolfgangKie": 409
+      }
     },
     "2026-09-30": {
       "high": {
