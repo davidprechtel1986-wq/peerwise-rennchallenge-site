@@ -1,0 +1,97 @@
+/* 7-Tage Übersicht */
+.wochen-body .wochen-hero h1 {
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+}
+.wochen-teams {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 1rem 1rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 800px) {
+  .wochen-teams { grid-template-columns: 1fr 1fr 1fr; }
+}
+.wochen-team {
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.wochen-team.high { border-color: rgba(255, 210, 74, 0.45); }
+.wochen-team.rising { border-color: rgba(92, 225, 255, 0.45); }
+.wochen-team.challengers { border-color: rgba(201, 160, 255, 0.45); }
+.wochen-team strong {
+  display: block;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.2rem;
+}
+.wochen-team span {
+  font-weight: 800;
+  color: #ffd24a;
+  font-size: 1.25rem;
+}
+.wochen-note {
+  margin: 0 1.25rem 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  color: #d4b8ef;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+.wochen-wrap {
+  margin: 0 0.75rem 2rem;
+}
+.wochen-scroll {
+  overflow-x: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(8, 2, 20, 0.75);
+}
+.wochen-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.wochen-table th,
+.wochen-table td {
+  padding: 0.55rem 0.55rem;
+  text-align: right;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 800;
+  font-size: 0.92rem;
+}
+.wochen-table th {
+  position: sticky;
+  top: 0;
+  background: rgba(30, 10, 55, 0.95);
+  color: #ffd24a;
+  z-index: 1;
+}
+.wochen-table th:first-child,
+.wochen-table td:first-child {
+  text-align: left;
+  position: sticky;
+  left: 0;
+  background: rgba(20, 6, 40, 0.96);
+  z-index: 2;
+  min-width: 8.5rem;
+}
+.wochen-table th:first-child { z-index: 3; }
+.wochen-table th.total,
+.wochen-table td.total {
+  color: #5ce1ff;
+  border-left: 1px solid rgba(92, 225, 255, 0.25);
+}
+.wochen-table tr.league-head td {
+  text-align: left;
+  background: rgba(255, 77, 216, 0.12);
+  color: #ff7ad9;
+  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+  padding-top: 0.75rem;
+}
+.wochen-table tr:hover td { background: rgba(255, 255, 255, 0.04); }
+.wochen-table .miss { color: #8a739e; font-weight: 700; }
+.wochen-table .zero { color: #9a86b0; }

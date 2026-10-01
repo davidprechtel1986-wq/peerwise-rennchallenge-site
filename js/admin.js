@@ -352,7 +352,8 @@
             localStorage.setItem("pw-rennchallenge-day-ranking-v1", JSON.stringify(data));
             return data;
           })();
-    if (window.PW && PW.recordDayWinners) PW.recordDayWinners(saved);
+    if (window.PW && PW.recordDayWinners) PW.recordDayWinners(saved, dayKey);
+    if (window.PW && PW.recordDayHistory) PW.recordDayHistory(saved, dayKey);
 
     // Tages-Summen automatisch auf Gesamt-INS der Challenges / Cars verrechnen
     var applied = null;

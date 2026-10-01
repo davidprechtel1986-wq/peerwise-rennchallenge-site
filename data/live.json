@@ -327,5 +327,100 @@
     ],
     "locked": true
   },
-  "updatedAt": 1790829629621
+  "updatedAt": 1790829629621,
+  "dayHistory": {
+    "2026-09-25": {
+      "high": {},
+      "rising": {},
+      "challengers": {}
+    },
+    "2026-09-26": {
+      "high": {},
+      "rising": {},
+      "challengers": {}
+    },
+    "2026-09-27": {
+      "high": {},
+      "rising": {},
+      "challengers": {}
+    },
+    "2026-09-28": {
+      "high": {},
+      "rising": {},
+      "challengers": {}
+    },
+    "2026-09-29": {
+      "high": {},
+      "rising": {},
+      "challengers": {}
+    },
+    "2026-09-30": {
+      "high": {
+        "RebeccaKö": 874,
+        "DaveP": 345,
+        "WolfgangKie": 343,
+        "PascalePät": 13
+      },
+      "rising": {
+        "AntjeMat": 672,
+        "LarissaGom": 157,
+        "ClaudiaTro": 0
+      },
+      "challengers": {
+        "HeikoWi": 498,
+        "ErwinGrä": 308,
+        "TimPet": 244,
+        "MarcKö": 226,
+        "ManuelaSpe": 215,
+        "BiancaP": 187,
+        "MatthiasKre": 182,
+        "MelanieTr": 173,
+        "Leon-JohnG": 155,
+        "PatrickG": 113,
+        "JuliaBar": 107,
+        "MarkusGru": 95,
+        "Heike": 20,
+        "DominicKl": 14,
+        "DeniseKi": 0,
+        "NinaBra": 0,
+        "SandraDre": 0,
+        "SarahBe": 0,
+        "SimoneSch": 0
+      }
+    },
+    "2026-10-01": {
+      "high": {
+        "DaveP": 565,
+        "WolfgangKie": 294,
+        "RebeccaKö": 55,
+        "PascalePät": 13
+      },
+      "rising": {
+        "AntjeMat": 204,
+        "LarissaGom": 122,
+        "ClaudiaTro": 0
+      },
+      "challengers": {
+        "BiancaP": 572,
+        "ErwinGrä": 434,
+        "PatrickG": 250,
+        "MarcKö": 226,
+        "Heike": 209,
+        "HeikoWi": 209,
+        "MatthiasKre": 171,
+        "MelanieTr": 167,
+        "NinaBra": 143,
+        "TimPet": 143,
+        "MarkusGru": 119,
+        "SimoneSch": 115,
+        "JuliaBar": 105,
+        "ManuelaSpe": 79,
+        "DominicKl": 14,
+        "DeniseKi": 0,
+        "Leon-JohnG": 0,
+        "SandraDre": 0,
+        "SarahBe": 0
+      }
+    }
+  }
 }

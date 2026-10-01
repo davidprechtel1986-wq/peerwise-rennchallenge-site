@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PEERWISE · 7-Tage INS</title>
+  <link rel="stylesheet" href="css/battle.css?v=28" />
+  <link rel="stylesheet" href="css/wochen.css?v=1" />
+</head>
+<body class="wochen-body">
+  <div class="frame">
+    <div class="frame-corner tl"></div>
+    <div class="frame-corner tr"></div>
+    <div class="frame-corner bl"></div>
+    <div class="frame-corner br"></div>
+
+    <header class="hero wochen-hero">
+      <div class="logo" aria-label="PEERWISE">
+        <img class="logo-img" src="peerwise-logo.png?v=25" alt="PEERWISE" />
+      </div>
+      <h1>7-TAGE INS<br />PRO PERSON</h1>
+      <p class="dates">Jeder Tag einzeln · Endergebnis = Summe der bekannten Tage</p>
+      <div class="hero-actions">
+        <a class="admin-link" href="index.html">← Zur Rennstrecke</a>
+      </div>
+    </header>
+
+    <section class="wochen-teams" id="teamTotals"></section>
+    <p class="wochen-note" id="wochenNote"></p>
+
+    <section class="wochen-wrap">
+      <div class="wochen-scroll">
+        <table class="wochen-table" id="wochenTable">
+          <thead id="wochenHead"></thead>
+          <tbody id="wochenBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="js/wochen.js?v=1"></script>
+</body>
+</html>

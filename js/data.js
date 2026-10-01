@@ -5,6 +5,7 @@ window.PW = (function () {
   var META_KEY = "pw-rennchallenge-meta-v1";
   var STREAK_KEY = "pw-rennchallenge-streaks-v1";
   var DAY_SYNC_KEY = "pw-rennchallenge-day-sync-v1";
+  var DAY_HISTORY_KEY = "pw-rennchallenge-day-history-v1";
   var ROSTER_KEY = "pw-rennchallenge-roster-v1";
   var MUTE_KEY = "pw-rennchallenge-mute-v1";
   var PACK_KEY = "pw-rennchallenge-soundpack-v1";
@@ -58,6 +59,7 @@ window.PW = (function () {
         }
       })(),
       daySync: loadDaySync(),
+      dayHistory: loadDayHistory(),
       roster: loadRoster(),
       updatedAt: Date.now()
     };
@@ -134,6 +136,9 @@ window.PW = (function () {
     }
     if (state.daySync) {
       localStorage.setItem(DAY_SYNC_KEY, JSON.stringify(state.daySync));
+    }
+    if (state.dayHistory && typeof state.dayHistory === "object") {
+      localStorage.setItem(DAY_HISTORY_KEY, JSON.stringify(state.dayHistory));
     }
     try {
       localStorage.setItem("pw-rennchallenge-ping", String(Date.now()));
@@ -715,6 +720,39 @@ window.PW = (function () {
     return log;
   }
 
+  function loadDayHistory() {
+    try {
+      return JSON.parse(localStorage.getItem(DAY_HISTORY_KEY) || "{}") || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveDayHistory(hist) {
+    localStorage.setItem(DAY_HISTORY_KEY, JSON.stringify(hist || {}));
+    pushRemote();
+  }
+
+  /** Speichert die Tages-INS je Person für die 7-Tage-Seite */
+  function recordDayHistory(ranking, dateKey) {
+    var day = dateKey || todayKey();
+    var hist = loadDayHistory();
+    var pack = { high: {}, rising: {}, challengers: {} };
+    var keys = ["high", "rising", "challengers"];
+    for (var i = 0; i < keys.length; i++) {
+      var id = keys[i];
+      var list = (ranking && ranking[id]) || [];
+      for (var j = 0; j < list.length; j++) {
+        var nm = String(list[j].name || "").trim();
+        if (!nm) continue;
+        pack[id][nm] = Math.max(0, Math.round(Number(list[j].ins) || 0));
+      }
+    }
+    hist[day] = pack;
+    saveDayHistory(hist);
+    return hist;
+  }
+
   function getStreak(name, ligaId) {
     var n = String(name || "").trim().toLowerCase();
     if (!n) return 0;
@@ -811,6 +849,8 @@ window.PW = (function () {
     saveMeta: saveMeta,
     todayKey: todayKey,
     recordDayWinners: recordDayWinners,
+    recordDayHistory: recordDayHistory,
+    loadDayHistory: loadDayHistory,
     getStreak: getStreak,
     initials: initials,
     avatarColor: avatarColor,
