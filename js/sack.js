@@ -1,6 +1,6 @@
 /* PEERWISE · 30-Tage Sackhüpfen
    Alles startet bei 0. Tageswerte später hier eintragen.
-   wl = White List, normal = normale Liste. */
+   wl = mit Watchlist, normal = ohne Watchlist. */
 (function () {
   var DAYS = 30;
   var START = new Date(2026, 9, 1); // 01.10.2026
@@ -220,8 +220,8 @@
     var el = document.getElementById("teamTotals");
     if (!el) return;
     el.innerHTML =
-      '<div class="sack-team wl"><strong>WHITE LIST</strong><span>' + wlSum + " INS Gesamt</span></div>" +
-      '<div class="sack-team normal"><strong>NORMALE LISTE</strong><span>' + normalSum + " INS Gesamt</span></div>";
+      '<div class="sack-team wl"><strong>MIT WATCHLIST</strong><span>' + wlSum + " INS Gesamt</span></div>" +
+      '<div class="sack-team normal"><strong>OHNE WATCHLIST</strong><span>' + normalSum + " INS Gesamt</span></div>";
   }
 
   function trackBlock(title, list, kind) {
@@ -271,7 +271,7 @@
       return html;
     }
     if (body) {
-      body.innerHTML = rowsFor(wl, "WHITE LIST", "wl") + rowsFor(normal, "NORMALE LISTE", "normal");
+      body.innerHTML = rowsFor(wl, "MIT WATCHLIST", "wl") + rowsFor(normal, "OHNE WATCHLIST", "normal");
     }
   }
 
@@ -285,8 +285,8 @@
   var tracks = document.getElementById("tracks");
   if (tracks) {
     tracks.innerHTML =
-      trackBlock("WHITE LIST", wl, "wl") +
-      trackBlock("NORMALE LISTE", normal, "normal");
+      trackBlock("MIT WATCHLIST", wl, "wl") +
+      trackBlock("OHNE WATCHLIST", normal, "normal");
   }
   var note = document.getElementById("sackNote");
   if (note) {
