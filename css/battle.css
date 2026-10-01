@@ -191,6 +191,41 @@ body::before {
   .wochen-cta { animation: none; }
 }
 
+.events-corner {
+  position: absolute;
+  top: 1.15rem;
+  left: 1.15rem;
+  z-index: 6;
+  display: inline-block;
+  margin: 0;
+  padding: 0.32rem 0.62rem;
+  border-radius: 9px;
+  border: 2px solid rgba(255, 210, 74, 0.85);
+  background: linear-gradient(135deg, #ffd24a 0%, #ff9a3c 45%, #ff2d9b 100%);
+  color: #1a0a2e;
+  text-decoration: none;
+  font-family: Arial Black, Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.18) inset,
+    0 4px 12px rgba(255, 45, 155, 0.28);
+  animation: wochen-cta-blink 1.8s ease-in-out infinite;
+}
+.events-corner:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+.sack-body .events-corner {
+  left: 3.45rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .events-corner { animation: none; }
+}
+
 .admin-link, .top-links a, .linkish, .gate a {
   display: inline-block;
   margin-top: 0.85rem;
