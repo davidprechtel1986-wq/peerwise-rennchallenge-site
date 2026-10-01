@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PEERWISE Team-Challenge · Rennstrecke</title>
+  <link rel="stylesheet" href="css/battle.css?v=28" />
+</head>
+<body>
+  <canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+  <div class="frame">
+    <div class="frame-corner tl"></div>
+    <div class="frame-corner tr"></div>
+    <div class="frame-corner bl"></div>
+    <div class="frame-corner br"></div>
+
+    <header class="hero">
+      <div class="logo" aria-label="PEERWISE">
+        <img class="logo-img" src="peerwise-logo.png?v=25" alt="PEERWISE" />
+      </div>
+      <h1>TEAM-CHALLENGE:<br />FINALER STAND &amp; CHAMPION!</h1>
+      <p class="dates">Start: Mittwoch 23.09. · Ende: Monatsende 30.09. · HIGH PERFORMERS · RISING STARS · CHALLENGERS</p>
+      <div class="countdown" id="countdown"></div>
+      <a class="wochen-cta" href="index.html">Zur Sackhüpfen-Challenge</a>
+      <a class="wochen-cta" href="alte-events.html">alte Events</a>
+      <a class="admin-link" href="wochen.html">Tages-INS Übersicht · 22.–30.09.</a>
+      <div class="hero-actions">
+        <a class="admin-link" href="admin.html">Admin Panel</a>
+        <button type="button" class="mute-btn" id="muteBtn" aria-pressed="false">🔊 Sound an</button>
+        <label class="pack-label">
+          <span class="pack-label-text">Pack</span>
+          <select id="soundPack" class="pack-select" aria-label="Sound-Pack">
+            <option value="stadion">🏟️ Stadion</option>
+            <option value="arcade">🕹️ Arcade</option>
+            <option value="quiet">🌙 Quiet</option>
+          </select>
+        </label>
+        <button type="button" class="mute-btn ghost" id="trophyBtn" hidden>🏆 Pokal zeigen</button>
+      </div>
+      <div class="admin-comment" id="adminComment" hidden></div>
+    </header>
+
+    <section class="champion-board" id="championBoard">
+      <p class="champ-line" id="champLine">Die Challenge startet bald — wer holt den Pokal?</p>
+      <div class="score-box" id="scoreBox"></div>
+    </section>
+
+    <nav class="liga-nav" id="ligaNav">
+      <button type="button" class="liga-btn active" data-liga="all">ALLE LIGEN</button>
+      <button type="button" class="liga-btn high" data-liga="high">1. HIGH PERFORMERS</button>
+      <button type="button" class="liga-btn rising" data-liga="rising">2. RISING STARS</button>
+      <button type="button" class="liga-btn challengers" data-liga="challengers">3. CHALLENGERS (WL)</button>
+    </nav>
+
+    <div class="stage-row">
+      <aside class="side-board left" id="boardLeft"></aside>
+      <div class="arena" id="arena"></div>
+      <aside class="side-board right" id="boardRight"></aside>
+    </div>
+
+    <footer class="result-bar" id="resultBar">
+      INS = Position auf der Strecke · Admin trägt die Werte ein
+    </footer>
+
+    <section class="info-block" aria-label="Challenge-Info">
+      <h2>So läuft die Challenge</h2>
+      <p class="info-lead"><strong>Dauer:</strong> Mittwoch bis Mittwoch · Ende <strong>30.09.</strong></p>
+
+      <h3>3 Kategorien</h3>
+      <ul class="info-cats">
+        <li><span class="cat challengers">Challenger</span></li>
+        <li><span class="cat rising">Rising Stars</span></li>
+        <li><span class="cat high">High Performer</span></li>
+      </ul>
+      <p><strong>Warum?</strong> Einfach nur, damit man eher auf dem gleichen Level ist und motiviert bleiben kann!</p>
+
+      <h3>Updates</h3>
+      <p>Jeden Morgen gegen <strong>10 Uhr</strong> gibt es ein komplettes Update von allen – vom Vortag. Die aktuellen Zahlen vom laufenden Tag sind dann noch nicht dabei.</p>
+      <p>Ihr dürft alle <strong>3 Stunden</strong> selbständig eure Zahlen posten, wenn ihr wollt – um euch gegenseitig zu pushen und zu sehen, wo die anderen stehen.</p>
+      <p>Wir haben jetzt eine <strong>OWL-Gruppe</strong> gegründet. Dort können alle, die von der WL runter sind, ihre Zahlen posten – die anderen im ganz normalen Chat.</p>
+
+      <h3>Warum diese Zeiten und zwei Gruppen?</h3>
+      <p>Einfach deshalb, weil es sonst zu chaotisch wird und die Gruppe auseinander knallt. Bei der Menge an Mods schaffen wir es nicht häufiger als einmal am Tag – aber so wisst ihr immer ungefähr, wo ihr insgesamt steht, und dann kommt das Aktuelle noch drauf.</p>
+
+      <h3>Bitte beachten</h3>
+      <p><strong>Bitte nicht ständig nach dem Stand fragen</strong> – und auch nicht, wenn wir es mal ein paar Minuten später posten. Das ist wirklich extrem viel Aufwand und Arbeit. Denkt bitte ein bisschen an die Allgemeinheit.</p>
+      <p>Wenn ihr euch öfter über Status und Zahlen austauschen wollt: macht das in den <strong>DMs</strong>. Wenn hier jeder nach Belieben seine Zahlen schickt, bringt das nichts – alle sind genervt und wir verlieren den Überblick.</p>
+    </section>
+  </div>
+
+  <div id="trophyOverlay" class="trophy-overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="trophyTitle">
+    <div class="trophy-card">
+      <div class="trophy-cup" aria-hidden="true">🏆</div>
+      <p class="trophy-eyebrow">CHALLENGE BEENDET · 30.09.</p>
+      <h2 id="trophyTitle">POKAL-MOMENT!</h2>
+      <p class="trophy-name" id="trophyName">—</p>
+      <p class="trophy-score" id="trophyScore"></p>
+      <p class="trophy-sub" id="trophySub"></p>
+      <button type="button" class="btn" id="trophyClose">Weiter zur Strecke</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast is-hidden" aria-live="polite"></div>
+
+  <script src="js/data.js?v=37"></script>
+  <script src="js/fx.js?v=33"></script>
+  <script src="js/race.js?v=37"></script>
+</body>
+</html>
