@@ -1,1 +1,331 @@
-{"drivers": [{"id": "h1", "name": "", "league": "high", "ins": 9776, "color": "#e30613", "number": 1, "vehicle": "bobby"}, {"id": "r1", "name": "", "league": "rising", "ins": 3269, "color": "#1565c0", "number": 2, "vehicle": "bobby"}, {"id": "c1", "name": "", "league": "challengers", "ins": 21294, "color": "#f9a825", "number": 3, "vehicle": "bobby"}], "ranking": {"high": [{"place": 1, "name": "RebeccaKö", "ins": 874}, {"place": 2, "name": "DaveP", "ins": 345}, {"place": 3, "name": "WolfgangKie", "ins": 343}, {"place": 4, "name": "PascalePät", "ins": 13}], "rising": [{"place": 1, "name": "AntjeMat", "ins": 672}, {"place": 2, "name": "LarissaGom", "ins": 157}, {"place": 3, "name": "ClaudiaTro", "ins": 0}], "challengers": [{"place": 1, "name": "HeikoWi", "ins": 498}, {"place": 2, "name": "ErwinGrä", "ins": 308}, {"place": 3, "name": "TimPet", "ins": 244}, {"place": 4, "name": "MarcKö", "ins": 226}, {"place": 5, "name": "ManuelaSpe", "ins": 215}, {"place": 6, "name": "BiancaP", "ins": 187}, {"place": 7, "name": "MatthiasKre", "ins": 182}, {"place": 8, "name": "MelanieTr", "ins": 173}, {"place": 9, "name": "Leon-JohnG", "ins": 155}, {"place": 10, "name": "PatrickG", "ins": 113}, {"place": 11, "name": "JuliaBar", "ins": 107}, {"place": 12, "name": "MarkusGru", "ins": 95}, {"place": 13, "name": "Heike", "ins": 20}, {"place": 14, "name": "DominicKl", "ins": 14}, {"place": 15, "name": "DeniseKi", "ins": 0}, {"place": 16, "name": "NinaBra", "ins": 0}, {"place": 17, "name": "SandraDre", "ins": 0}, {"place": 18, "name": "SarahBe", "ins": 0}, {"place": 19, "name": "SimoneSch", "ins": 0}]}, "meta": {"comment": "", "commentDate": ""}, "streaks": {"high": [{"date": "2026-09-23", "name": "RebeccaKö"}, {"date": "2026-09-24", "name": "RebeccaKö"}, {"date": "2026-09-25", "name": "RebeccaKö"}, {"date": "2026-09-26", "name": "RebeccaKö"}, {"date": "2026-09-27", "name": "RebeccaKö"}, {"date": "2026-09-28", "name": "RebeccaKö"}, {"date": "2026-09-29", "name": "RebeccaKö"}, {"date": "2026-09-30", "name": "RebeccaKö"}], "rising": [{"date": "2026-09-23", "name": "ClaudiaTro"}, {"date": "2026-09-24", "name": "AntjeMat"}, {"date": "2026-09-25", "name": "AntjeMat"}, {"date": "2026-09-26", "name": "AntjeMat"}, {"date": "2026-09-27", "name": "AntjeMat"}, {"date": "2026-09-28", "name": "LarissaGom"}, {"date": "2026-09-29", "name": "AntjeMat"}, {"date": "2026-09-30", "name": "AntjeMat"}], "challengers": [{"date": "2026-09-23", "name": "HeikoWi"}, {"date": "2026-09-24", "name": "BiancaP"}, {"date": "2026-09-25", "name": "HeikoWi"}, {"date": "2026-09-26", "name": "BiancaP"}, {"date": "2026-09-27", "name": "HeikoWi"}, {"date": "2026-09-28", "name": "HeikoWi"}, {"date": "2026-09-29", "name": "ErwinGrä"}, {"date": "2026-09-30", "name": "HeikoWi"}]}, "daySync": {"date": "2026-09-30", "high": 1575, "rising": 829, "challengers": 2537}, "roster": {"high": ["DaveP", "PascalePät", "WolfgangKie", "RebeccaKö"], "rising": ["LarissaGom", "ClaudiaTro", "AntjeMat"], "challengers": ["DominicKl", "MelanieTr", "MatthiasKre", "Leon-JohnG", "MarcKö", "TimPet", "SimoneSch", "JuliaBar", "NinaBra", "SandraDre", "SarahBe", "ErwinGrä", "DeniseKi", "HeikoWi", "MarkusGru", "PatrickG", "BiancaP", "ManuelaSpe", "Heike"], "locked": true}, "updatedAt": 1790791230908}
+{
+  "drivers": [
+    {
+      "id": "h1",
+      "name": "",
+      "league": "high",
+      "ins": 10703,
+      "color": "#e30613",
+      "number": 1,
+      "vehicle": "bobby"
+    },
+    {
+      "id": "r1",
+      "name": "",
+      "league": "rising",
+      "ins": 3595,
+      "color": "#1565c0",
+      "number": 2,
+      "vehicle": "bobby"
+    },
+    {
+      "id": "c1",
+      "name": "",
+      "league": "challengers",
+      "ins": 24250,
+      "color": "#f9a825",
+      "number": 3,
+      "vehicle": "bobby"
+    }
+  ],
+  "ranking": {
+    "high": [
+      {
+        "place": 1,
+        "name": "DaveP",
+        "ins": 565
+      },
+      {
+        "place": 2,
+        "name": "WolfgangKie",
+        "ins": 294
+      },
+      {
+        "place": 3,
+        "name": "RebeccaK?",
+        "ins": 55
+      },
+      {
+        "place": 4,
+        "name": "PascaleP?t",
+        "ins": 13
+      }
+    ],
+    "rising": [
+      {
+        "place": 1,
+        "name": "AntjeMat",
+        "ins": 204
+      },
+      {
+        "place": 2,
+        "name": "LarissaGom",
+        "ins": 122
+      },
+      {
+        "place": 3,
+        "name": "ClaudiaTro",
+        "ins": 0
+      }
+    ],
+    "challengers": [
+      {
+        "place": 1,
+        "name": "BiancaP",
+        "ins": 572
+      },
+      {
+        "place": 2,
+        "name": "ErwinGr?",
+        "ins": 434
+      },
+      {
+        "place": 3,
+        "name": "PatrickG",
+        "ins": 250
+      },
+      {
+        "place": 4,
+        "name": "MarcK?",
+        "ins": 226
+      },
+      {
+        "place": 5,
+        "name": "Heike",
+        "ins": 209
+      },
+      {
+        "place": 6,
+        "name": "HeikoWi",
+        "ins": 209
+      },
+      {
+        "place": 7,
+        "name": "MatthiasKre",
+        "ins": 171
+      },
+      {
+        "place": 8,
+        "name": "MelanieTr",
+        "ins": 167
+      },
+      {
+        "place": 9,
+        "name": "NinaBra",
+        "ins": 143
+      },
+      {
+        "place": 10,
+        "name": "TimPet",
+        "ins": 143
+      },
+      {
+        "place": 11,
+        "name": "MarkusGru",
+        "ins": 119
+      },
+      {
+        "place": 12,
+        "name": "SimoneSch",
+        "ins": 115
+      },
+      {
+        "place": 13,
+        "name": "JuliaBar",
+        "ins": 105
+      },
+      {
+        "place": 14,
+        "name": "ManuelaSpe",
+        "ins": 79
+      },
+      {
+        "place": 15,
+        "name": "DominicKl",
+        "ins": 14
+      },
+      {
+        "place": 16,
+        "name": "DeniseKi",
+        "ins": 0
+      },
+      {
+        "place": 17,
+        "name": "Leon-JohnG",
+        "ins": 0
+      },
+      {
+        "place": 18,
+        "name": "SandraDre",
+        "ins": 0
+      },
+      {
+        "place": 19,
+        "name": "SarahBe",
+        "ins": 0
+      }
+    ]
+  },
+  "meta": {
+    "comment": "",
+    "commentDate": ""
+  },
+  "streaks": {
+    "high": [
+      {
+        "date": "2026-09-23",
+        "name": "RebeccaKö"
+      },
+      {
+        "date": "2026-09-24",
+        "name": "RebeccaKö"
+      },
+      {
+        "date": "2026-09-25",
+        "name": "RebeccaKö"
+      },
+      {
+        "date": "2026-09-26",
+        "name": "RebeccaKö"
+      },
+      {
+        "date": "2026-09-27",
+        "name": "RebeccaKö"
+      },
+      {
+        "date": "2026-09-28",
+        "name": "RebeccaKö"
+      },
+      {
+        "date": "2026-09-29",
+        "name": "RebeccaKö"
+      },
+      {
+        "date": "2026-09-30",
+        "name": "RebeccaKö"
+      },
+      {
+        "date": "2026-10-01",
+        "name": "DaveP"
+      }
+    ],
+    "rising": [
+      {
+        "date": "2026-09-23",
+        "name": "ClaudiaTro"
+      },
+      {
+        "date": "2026-09-24",
+        "name": "AntjeMat"
+      },
+      {
+        "date": "2026-09-25",
+        "name": "AntjeMat"
+      },
+      {
+        "date": "2026-09-26",
+        "name": "AntjeMat"
+      },
+      {
+        "date": "2026-09-27",
+        "name": "AntjeMat"
+      },
+      {
+        "date": "2026-09-28",
+        "name": "LarissaGom"
+      },
+      {
+        "date": "2026-09-29",
+        "name": "AntjeMat"
+      },
+      {
+        "date": "2026-09-30",
+        "name": "AntjeMat"
+      },
+      {
+        "date": "2026-10-01",
+        "name": "AntjeMat"
+      }
+    ],
+    "challengers": [
+      {
+        "date": "2026-09-23",
+        "name": "HeikoWi"
+      },
+      {
+        "date": "2026-09-24",
+        "name": "BiancaP"
+      },
+      {
+        "date": "2026-09-25",
+        "name": "HeikoWi"
+      },
+      {
+        "date": "2026-09-26",
+        "name": "BiancaP"
+      },
+      {
+        "date": "2026-09-27",
+        "name": "HeikoWi"
+      },
+      {
+        "date": "2026-09-28",
+        "name": "HeikoWi"
+      },
+      {
+        "date": "2026-09-29",
+        "name": "ErwinGrä"
+      },
+      {
+        "date": "2026-09-30",
+        "name": "HeikoWi"
+      },
+      {
+        "date": "2026-10-01",
+        "name": "BiancaP"
+      }
+    ]
+  },
+  "daySync": {
+    "date": "2026-10-01",
+    "high": 927,
+    "rising": 326,
+    "challengers": 2956
+  },
+  "roster": {
+    "high": [
+      "DaveP",
+      "PascalePät",
+      "WolfgangKie",
+      "RebeccaKö"
+    ],
+    "rising": [
+      "LarissaGom",
+      "ClaudiaTro",
+      "AntjeMat"
+    ],
+    "challengers": [
+      "DominicKl",
+      "MelanieTr",
+      "MatthiasKre",
+      "Leon-JohnG",
+      "MarcKö",
+      "TimPet",
+      "SimoneSch",
+      "JuliaBar",
+      "NinaBra",
+      "SandraDre",
+      "SarahBe",
+      "ErwinGrä",
+      "DeniseKi",
+      "HeikoWi",
+      "MarkusGru",
+      "PatrickG",
+      "BiancaP",
+      "ManuelaSpe",
+      "Heike"
+    ],
+    "locked": true
+  },
+  "updatedAt": 1790829629621
+}

@@ -39,8 +39,9 @@ window.PW = (function () {
 
   var API = "/api/state";
   var STATIC_STATE = "/data/live.json";
-  // true = feste Online-Version ohne PC/Server (nur lesen von live.json)
-  var STATIC_HOST = true;
+  // false = speichern erlaubt, wenn /api/state erreichbar (lokaler Server).
+  // Online (GitHub Pages) fällt Lesen auf live.json zurück; Schreiben nur lokal.
+  var STATIC_HOST = false;
   var remoteReady = null; // null=unknown, true/false
   var pushTimer = null;
 
