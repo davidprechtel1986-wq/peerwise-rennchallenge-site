@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin · INS eintragen</title>
+  <link rel="stylesheet" href="css/battle.css?v=25" />
+  <style>
+    .is-hidden { display: none !important; }
+    .admin-wrap {
+      width: min(920px, calc(100% - 2rem));
+      margin: 1.5rem auto 2rem;
+      position: relative;
+      z-index: 2;
+    }
+    .admin-box {
+      background: rgba(12, 4, 28, 0.92);
+      border: 2px solid rgba(255, 77, 216, 0.45);
+      border-radius: 18px;
+      padding: 1.35rem 1.25rem 1.5rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      margin-bottom: 1rem;
+    }
+    .admin-box h1, .admin-box h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.45rem;
+      background: linear-gradient(90deg, #ff7ad9, #b14dff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .admin-box h2 { font-size: 1.15rem; margin-top: 0.25rem; }
+    .admin-box .sub {
+      margin: 0 0 1.1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      color: #d4b8ef;
+      font-size: 0.9rem;
+    }
+    .slot {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.9rem;
+      margin-bottom: 0.75rem;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.3);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .slot.s1 { border-color: rgba(255, 210, 74, 0.45); }
+    .slot.s2 { border-color: rgba(92, 225, 255, 0.45); }
+    .slot.s3 { border-color: rgba(201, 160, 255, 0.45); }
+    .slot-left { display: flex; align-items: center; gap: 0.7rem; }
+    .slot-badge {
+      width: 2.5rem; height: 2.5rem; border-radius: 50%;
+      background: #fff; color: #111; display: grid; place-items: center;
+      font-family: Impact, "Arial Black", sans-serif; font-size: 1.3rem;
+    }
+    .slot strong { display: block; letter-spacing: 0.04em; }
+    .slot small { color: #d4b8ef; font-weight: 700; }
+    .slot label {
+      display: grid; gap: 0.25rem; font-weight: 800; font-size: 0.78rem; margin: 0;
+    }
+    .slot input {
+      width: 8.5rem; padding: 0.65rem; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.4);
+      color: #fff; font: inherit; font-size: 1.2rem; font-weight: 800; text-align: center;
+    }
+    .rank-grid { display: grid; gap: 1rem; }
+    @media (min-width: 800px) {
+      .rank-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+    .rank-cat {
+      border-radius: 14px; padding: 0.85rem;
+      border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.28);
+    }
+    .rank-cat.high { border-color: rgba(255,210,74,0.4); }
+    .rank-cat.rising { border-color: rgba(92,225,255,0.4); }
+    .rank-cat.challengers { border-color: rgba(201,160,255,0.4); }
+    .rank-cat h3 {
+      margin: 0 0 0.55rem; font-size: 0.9rem; letter-spacing: 0.04em;
+      font-family: Impact, "Arial Black", sans-serif;
+    }
+    .rank-cat.high h3 { color: #ffd24a; }
+    .rank-cat.rising h3 { color: #5ce1ff; }
+    .rank-cat.challengers h3 { color: #c9a0ff; }
+    .rank-line {
+      display: grid;
+      grid-template-columns: 1.6rem 1fr 4.5rem;
+      gap: 0.35rem;
+      margin-bottom: 0.4rem;
+      align-items: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 800;
+      font-size: 0.72rem;
+    }
+    .rank-line span { color: #ffd24a; text-align: center; }
+    .rank-line .rank-fixed-name {
+      color: #fff;
+      font-weight: 800;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding: 0.35rem 0.25rem;
+    }
+    .rank-line.locked {
+      grid-template-columns: 1.6rem 1fr 4.5rem;
+    }
+    .rank-empty { color: #d4b8ef; font-size: 0.8rem; font-weight: 700; }
+    .rank-line input {
+      width: 100%; padding: 0.4rem 0.45rem; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.35);
+      color: #fff; font: inherit; font-weight: 700;
+    }
+    .admin-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.75rem; }
+    .msg-ok { color: #7dffa8; font-family: Arial, Helvetica, sans-serif; font-weight: 800; margin: 0.5rem 0 0; }
+    .msg-err { color: #ff8f9a; font-family: Arial, Helvetica, sans-serif; font-weight: 800; margin: 0.5rem 0 0; }
+    .topnav { text-align: center; margin-bottom: 0.75rem; font-family: Arial, Helvetica, sans-serif; font-weight: 800; }
+    .topnav a, .topnav button {
+      color: #5ce1ff; background: none; border: none; font: inherit; font-weight: 800;
+      cursor: pointer; margin: 0 0.5rem; text-decoration: none;
+    }
+  </style>
+</head>
+<body class="admin-body">
+  <div class="admin-wrap">
+    <div id="loginView" class="admin-box">
+      <div class="logo small" style="margin-bottom:0.5rem" aria-label="PEERWISE">
+        <img class="logo-img" src="peerwise-logo.png?v=25" alt="PEERWISE" />
+      </div>
+      <h1>ADMIN LOGIN</h1>
+      <p class="sub">Passwort: dann Gesamt-INS + Tages-Bestenliste eintragen.</p>
+      <form id="loginForm">
+        <label style="display:grid;gap:0.35rem;font-family:Arial,Helvetica,sans-serif;font-weight:800;font-size:0.85rem;margin-bottom:0.85rem">
+          Passwort
+          <input id="pw" type="password" required autocomplete="current-password"
+            style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid rgba(255,255,255,0.18);background:rgba(0,0,0,0.35);color:#fff;font:inherit;font-weight:700" />
+        </label>
+        <p id="loginErr" class="msg-err is-hidden">Falsches Passwort.</p>
+        <button type="submit" class="btn">EINLOGGEN</button>
+      </form>
+      <p style="margin-top:1rem"><a href="index.html" style="color:#5ce1ff;font-family:Arial,Helvetica,sans-serif;font-weight:800;text-decoration:none">← Zur Rennstrecke</a></p>
+    </div>
+
+    <div id="insView" class="is-hidden">
+      <div class="topnav">
+        <a href="index.html">Rennstrecke</a>
+        <button type="button" id="logoutBtn">Logout</button>
+      </div>
+
+      <div class="admin-box">
+        <h1>1) GESAMT-INS (Bobby Cars)</h1>
+        <p class="sub">Wird automatisch berechnet: Jeden Tag die Tages-Besten speichern → Summen werden auf die jeweilige Liga (Car 1/2/3) draufgerechnet. Hier nur Kontrolle / Korrektur.</p>
+        <form id="insForm">
+          <div class="slot s1">
+            <div class="slot-left"><span class="slot-badge">1</span><div><strong>HIGH PERFORMERS</strong><small>Bobby Car 1</small></div></div>
+            <label>Gesamt-INS <input id="ins1" type="number" min="0" step="1" value="0" required /></label>
+          </div>
+          <div class="slot s2">
+            <div class="slot-left"><span class="slot-badge">2</span><div><strong>RISING STARS</strong><small>Bobby Car 2</small></div></div>
+            <label>Gesamt-INS <input id="ins2" type="number" min="0" step="1" value="0" required /></label>
+          </div>
+          <div class="slot s3">
+            <div class="slot-left"><span class="slot-badge">3</span><div><strong>CHALLENGERS</strong><small>Bobby Car 3</small></div></div>
+            <label>Gesamt-INS <input id="ins3" type="number" min="0" step="1" value="0" required /></label>
+          </div>
+          <div class="admin-actions">
+            <button type="submit" class="btn">GESAMT-INS SPEICHERN</button>
+            <button type="button" class="btn ghost" id="zeroBtn">Cars auf 0</button>
+          </div>
+          <p id="saveOk" class="msg-ok is-hidden">Gesamt-INS gespeichert.</p>
+          <p id="saveErr" class="msg-err is-hidden"></p>
+        </form>
+      </div>
+
+      <div class="admin-box">
+        <h1>2) TAGES-BESTE (Platz 1–20)</h1>
+        <p class="sub">Jeden Tag (~10 Uhr) nur noch die <strong>INS</strong> eintragen &amp; speichern. Namen sind fest. Fehlende Tage: Datum unten wählen (z. B. 30.09.), dann speichern.</p>
+        <p id="rosterStatus" class="sub"></p>
+        <form id="rankForm">
+          <label style="display:grid;gap:0.35rem;font-family:Arial,Helvetica,sans-serif;font-weight:800;font-size:0.85rem;margin-bottom:0.85rem;max-width:16rem">
+            Tag für diese Zahlen
+            <input id="entryDate" type="date" required
+              style="width:100%;padding:0.65rem;border-radius:10px;border:1px solid rgba(255,255,255,0.18);background:rgba(0,0,0,0.35);color:#fff;font:inherit;font-weight:700" />
+          </label>
+          <div class="rank-grid" id="rankGrid"></div>
+          <div class="admin-actions">
+            <button type="submit" class="btn">TAGES-INS SPEICHERN (+ auf Gesamt)</button>
+            <button type="button" class="btn ghost" id="lockNamesBtn">Namen jetzt festsetzen</button>
+            <button type="button" class="btn ghost" id="clearRankBtn">Tages-INS leeren (Namen bleiben)</button>
+          </div>
+          <p id="rankOk" class="msg-ok is-hidden">Bestenliste gespeichert.</p>
+          <p id="rankErr" class="msg-err is-hidden"></p>
+        </form>
+      </div>
+
+      <div class="admin-box">
+        <h1>3) ADMIN-KOMMENTAR</h1>
+        <p class="sub">Kurztext auf der Rennstrecke (z. B. „Starkes Finish von …!“). Leer speichern = ausblenden.</p>
+        <form id="commentForm">
+          <label style="display:grid;gap:0.35rem;font-family:Arial,Helvetica,sans-serif;font-weight:800;font-size:0.85rem;margin-bottom:0.75rem">
+            Kommentar (max. 160 Zeichen)
+            <textarea id="adminCommentInput" maxlength="160" rows="3" placeholder="Heute knackt High Performers die 1000 INS…"
+              style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid rgba(255,255,255,0.18);background:rgba(0,0,0,0.35);color:#fff;font:inherit;font-weight:700;resize:vertical"></textarea>
+          </label>
+          <div class="admin-actions">
+            <button type="submit" class="btn">KOMMENTAR SPEICHERN</button>
+            <button type="button" class="btn ghost" id="clearCommentBtn">Kommentar löschen</button>
+          </div>
+          <p id="commentOk" class="msg-ok is-hidden">Kommentar gespeichert.</p>
+          <p id="commentErr" class="msg-err is-hidden"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js?v=37"></script>
+  <script src="js/admin.js?v=37"></script>
+</body>
+</html>
