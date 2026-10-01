@@ -1,50 +1,61 @@
 /* 30-Tage Sackhüpfen */
 .sack-body .frame {
-  overflow: visible;
-  padding-left: 3.3rem;
-  padding-right: 3.3rem;
+  overflow: hidden;
+  padding-left: min(10cm, 27vw);
+  padding-right: min(10cm, 27vw);
 }
 .edge {
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
-  width: 3rem;
+  width: min(10cm, 27vw);
+  overflow: hidden;
   pointer-events: none;
-  z-index: 8;
+  z-index: 2;
+  background:
+    linear-gradient(90deg, rgba(255, 79, 216, 0.08), transparent 28%, transparent 72%, rgba(92, 225, 255, 0.08)),
+    linear-gradient(180deg, rgba(74, 31, 122, 0.35), rgba(26, 10, 46, 0.2));
 }
-.edge-left { left: 0; }
-.edge-right { right: 0; }
+.edge-left { left: 0; border-right: 1px solid rgba(255, 210, 74, 0.18); }
+.edge-right { right: 0; border-left: 1px solid rgba(255, 210, 74, 0.18); }
 .spark {
   position: absolute;
-  left: 0.15rem;
   line-height: 1;
-  animation: twinkle 2.2s ease-in-out infinite;
+  font-size: 0.62rem;
+  animation: spark 2.8s ease-in-out infinite;
 }
-.edge-left .s1 { top: 6%; color: #ffd24a; font-size: 1.15rem; }
-.edge-left .s2 { top: 18%; color: #ff4fd8; font-size: 0.72rem; animation-delay: 0.4s; }
-.edge-left .s3 { top: 36%; color: #fff; font-size: 0.95rem; animation-delay: 0.8s; }
-.edge-left .s4 { top: 54%; color: #5ce1ff; font-size: 0.7rem; animation-delay: 0.2s; }
-.edge-left .s5 { top: 72%; color: #ffd24a; font-size: 1rem; animation-delay: 1s; }
-.edge-left .s6 { top: 88%; color: #ff7ad9; font-size: 0.68rem; animation-delay: 0.6s; }
-.edge-right .spark { left: auto; right: 0.15rem; }
-.edge-right .s1 { top: 9%; color: #5ce1ff; font-size: 1.05rem; animation-delay: 0.3s; }
-.edge-right .s2 { top: 22%; color: #ffd24a; font-size: 0.7rem; animation-delay: 0.9s; }
-.edge-right .s3 { top: 40%; color: #ff4fd8; font-size: 0.95rem; animation-delay: 0.1s; }
-.edge-right .s4 { top: 58%; color: #fff; font-size: 0.68rem; animation-delay: 0.7s; }
-.edge-right .s5 { top: 74%; color: #ffd24a; font-size: 1.1rem; animation-delay: 0.5s; }
-.edge-right .s6 { top: 90%; color: #5ce1ff; font-size: 0.72rem; animation-delay: 1.1s; }
+.edge-left .s1 { top: 5%; left: 18%; color: #ffd24a; font-size: 0.85rem; }
+.edge-left .s2 { top: 14%; left: 68%; color: #fff; animation-delay: 0.4s; }
+.edge-left .s3 { top: 27%; left: 30%; color: #ff4fd8; font-size: 0.55rem; animation-delay: 1.1s; }
+.edge-left .s4 { top: 41%; left: 78%; color: #5ce1ff; animation-delay: 0.2s; }
+.edge-left .s5 { top: 55%; left: 22%; color: #ffd24a; font-size: 0.5rem; animation-delay: 1.6s; }
+.edge-left .s6 { top: 66%; left: 60%; color: #fff; animation-delay: 0.7s; }
+.edge-left .s7 { top: 76%; left: 36%; color: #ff7ad9; font-size: 0.48rem; animation-delay: 2s; }
+.edge-left .s8 { top: 86%; left: 74%; color: #ffd24a; animation-delay: 0.9s; }
+.edge-left .s9 { top: 33%; left: 48%; color: #5ce1ff; font-size: 0.45rem; animation-delay: 1.4s; }
+.edge-left .s10 { top: 93%; left: 16%; color: #fff; font-size: 0.5rem; animation-delay: 0.3s; }
+.edge-right .s1 { top: 8%; left: 62%; color: #5ce1ff; font-size: 0.8rem; animation-delay: 0.5s; }
+.edge-right .s2 { top: 18%; left: 24%; color: #ffd24a; animation-delay: 1.2s; }
+.edge-right .s3 { top: 30%; left: 72%; color: #fff; font-size: 0.5rem; animation-delay: 0.15s; }
+.edge-right .s4 { top: 44%; left: 18%; color: #ff4fd8; animation-delay: 1.8s; }
+.edge-right .s5 { top: 58%; left: 58%; color: #ffd24a; font-size: 0.48rem; animation-delay: 0.6s; }
+.edge-right .s6 { top: 70%; left: 34%; color: #5ce1ff; animation-delay: 1.3s; }
+.edge-right .s7 { top: 80%; left: 76%; color: #fff; font-size: 0.55rem; animation-delay: 0.25s; }
+.edge-right .s8 { top: 90%; left: 28%; color: #ff7ad9; animation-delay: 1.7s; }
+.edge-right .s9 { top: 22%; left: 48%; color: #ffd24a; font-size: 0.42rem; animation-delay: 2.1s; }
+.edge-right .s10 { top: 50%; left: 84%; color: #fff; font-size: 0.46rem; animation-delay: 0.85s; }
 .mascot-deer,
 .mascot-bird {
   position: absolute;
   width: 46px;
-  left: 0;
+  top: 8%;
+  left: 4px;
 }
-.mascot-bird { left: auto; right: 0; width: 48px; }
-.mascot-deer { animation: roam 18s linear infinite; }
-.mascot-bird { animation: roam 15s linear infinite reverse; }
+.mascot-bird { width: 48px; }
+.mascot-deer { animation: wander 16s linear infinite; }
+.mascot-bird { animation: wander 13s linear infinite reverse; }
 .mascot-deer svg,
 .mascot-bird svg { width: 100%; height: auto; display: block; overflow: visible; }
-.edge-right .mascot-bird svg { transform: scaleX(-1); }
 .mascot-deer .leg {
   transform-box: fill-box;
   transform-origin: center top;
@@ -56,13 +67,20 @@
   transform-origin: 20% 70%;
   animation: flap 0.38s ease-in-out infinite;
 }
-@keyframes twinkle {
-  0%, 100% { opacity: 0.35; transform: scale(0.75); }
-  50% { opacity: 1; transform: scale(1); }
+@keyframes spark {
+  0%, 72%, 100% { opacity: 0.2; transform: scale(0.45); filter: none; }
+  78% { opacity: 1; transform: scale(1.45) rotate(18deg); filter: drop-shadow(0 0 6px currentColor); }
+  86% { opacity: 0.25; transform: scale(0.55) rotate(-8deg); }
 }
-@keyframes roam {
-  0% { top: 8%; }
-  100% { top: 78%; }
+@keyframes wander {
+  0% { top: 8%; left: 6px; transform: scaleX(1); }
+  24% { top: 34%; left: calc(100% - 52px); transform: scaleX(1); }
+  25% { top: 36%; left: calc(100% - 52px); transform: scaleX(-1); }
+  49% { top: 62%; left: 8px; transform: scaleX(-1); }
+  50% { top: 64%; left: 8px; transform: scaleX(1); }
+  74% { top: 46%; left: calc(100% - 50px); transform: scaleX(1); }
+  75% { top: 48%; left: calc(100% - 50px); transform: scaleX(-1); }
+  100% { top: 8%; left: 6px; transform: scaleX(-1); }
 }
 @keyframes step {
   0%, 100% { transform: rotate(24deg); }
