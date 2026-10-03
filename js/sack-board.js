@@ -289,7 +289,7 @@
       '<div class="taler-sack' + (total > 0 ? " is-live" : "") + '">' +
       rain +
       talerSvg(total) +
-      '<div class="taler-count"><strong>' + total + '</strong><span>TALER · INS</span></div>' +
+      '<div class="taler-count"><strong>' + total + '</strong><span>INS GESAMT</span></div>' +
       "</div>";
   }
 
@@ -352,7 +352,7 @@
         '<div class="runner-mover ' + (last ? "trip" : "bob") + '" style="left:' + pct + '%;animation-delay:' + (i * 0.12) + 's">' +
         figureSvg(p, { stumble: last, crown: first }) +
         "</div></div>" +
-        '<div class="runner-meta"><span>' + p.total + " INS</span></div>" +
+        '<div class="runner-meta"><b>' + p.total + "</b><span>INS Summe</span></div>" +
         "</div>"
       );
     }).join("");
@@ -378,11 +378,11 @@
           var text = idx === today ? esc(l) + '<span class="heute">HEUTE</span>' : esc(l);
           return "<th" + cls + ">" + text + "</th>";
         }).join("") +
-        '<th class="total">Endergebnis</th></tr>';
+        "</tr>";
     }
     function rowsFor(list, title, kind) {
       var html =
-        '<tr class="league-head ' + kind + '"><td colspan="' + (DAYS + 2) + '">' + esc(title) + "</td></tr>";
+        '<tr class="league-head ' + kind + '"><td colspan="' + (DAYS + 1) + '">' + esc(title) + "</td></tr>";
       list.forEach(function (p) {
         html +=
           '<tr><td><span class="who"><i class="dot" style="background:' + esc(p.color) + '"></i>' + esc(p.name) + "</span></td>" +
@@ -392,7 +392,7 @@
             var inner = n === 0 ? '<span class="zero">0</span>' : String(n);
             return "<td" + cls + ">" + inner + "</td>";
           }).join("") +
-          '<td class="total">' + p.total + "</td></tr>";
+          "</tr>";
       });
       return html;
     }
@@ -418,7 +418,7 @@
   var note = document.getElementById("sackNote");
   if (note) {
     note.textContent =
-      "Stand vom 01.10. ist eingetragen. Endergebnis = Summe der Tageswerte. Der goldene Tag ist heute. Der Sack oben rechts sammelt alle INS als Taler.";
+      "Oben bei den Figuren steht die Summe aller Tage. Unten steht jeder Tag einzeln, vom 01.10. bis 30.10. Der Sack oben rechts ist die Gesamtzahl aller INS.";
   }
   renderTable(wl, normal);
 })();

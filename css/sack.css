@@ -421,8 +421,10 @@
   font-size: 0.85rem;
 }
 .runner.is-first .runner-name,
+.runner.is-first .runner-meta b,
 .runner.is-first .runner-meta span { color: #ffd24a; }
 .runner.is-last .runner-name,
+.runner.is-last .runner-meta b,
 .runner.is-last .runner-meta span { color: #ffb4b4; }
 .dot {
   display: inline-block;
