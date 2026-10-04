@@ -6,32 +6,32 @@
   var START = new Date(2026, 9, 1);
 
   var WL = [
-    { name: "BiancaP", gender: "f", look: "pigtails", color: "#fbbf24", hair: "#6b3a1f", mood: 0, scores: [29, 150] },
-    { name: "MelanieTr", gender: "f", look: "bun", color: "#f472b6", hair: "#3d2314", mood: 1, scores: [196, 185] },
-    { name: "HeikoWi", gender: "m", look: "cap", beard: true, color: "#fb7185", hair: "#333333", mood: 2, scores: [765, 90] },
-    { name: "MatthiasKre", gender: "m", look: "short", color: "#38bdf8", hair: "#4a3728", mood: 0, scores: [234, 234] },
-    { name: "MarkusGru", gender: "m", look: "cap", color: "#a78bfa", hair: "#2a2a2a", mood: 1, scores: [119, 128] },
-    { name: "MarcKö", gender: "m", look: "short", glasses: true, color: "#4ade80", hair: "#1a1a1a", mood: 2, scores: [435, 358] },
-    { name: "ManuelaSpe", gender: "f", look: "ponytail", color: "#ff4fd8", hair: "#3a2418", mood: 0, scores: [64, 64] },
-    { name: "SimoneSch", gender: "f", look: "bun", color: "#ff7a3c", hair: "#2c1810", mood: 2, scores: [10, 47] },
-    { name: "JuliaBar", gender: "f", look: "pigtails", color: "#c9a0ff", hair: "#4a2c1a", mood: 0, scores: [42, 132] },
-    { name: "NinaBra", gender: "f", look: "ponytail", color: "#ff5a8a", hair: "#1c1c1c", mood: 1, scores: [0, 246] },
-    { name: "ErwinGrä", gender: "m", look: "beard", glasses: true, color: "#ffd24a", hair: "#555555", mood: 2, scores: [253, 389] },
-    { name: "DeniseKi", gender: "f", look: "bob", color: "#7dffb3", hair: "#6b4423", mood: 0, scores: [0, 0] },
-    { name: "Martin", gender: "m", look: "cap", color: "#6ecbff", hair: "#3a2418", mood: 1, scores: [54, 54] },
-    { name: "TimPet", gender: "m", look: "short", color: "#fb923c", hair: "#5c3a1e", mood: 2, scores: [0, 171] },
-    { name: "SabrinaKlie", gender: "f", look: "pigtails", color: "#e879f9", hair: "#2c1810", mood: 0, scores: [73, 73] },
+    { name: "BiancaP", gender: "f", look: "pigtails", color: "#fbbf24", hair: "#6b3a1f", mood: 0, scores: [29, 150, 0] },
+    { name: "MelanieTr", gender: "f", look: "bun", color: "#f472b6", hair: "#3d2314", mood: 1, scores: [196, 185, 233] },
+    { name: "HeikoWi", gender: "m", look: "cap", beard: true, color: "#fb7185", hair: "#333333", mood: 2, scores: [765, 90, 0] },
+    { name: "MatthiasKre", gender: "m", look: "short", color: "#38bdf8", hair: "#4a3728", mood: 0, scores: [234, 234, 109] },
+    { name: "MarkusGru", gender: "m", look: "cap", color: "#a78bfa", hair: "#2a2a2a", mood: 1, scores: [119, 128, 200] },
+    { name: "MarcKö", gender: "m", look: "short", glasses: true, color: "#4ade80", hair: "#1a1a1a", mood: 2, scores: [435, 358, 229] },
+    { name: "ManuelaSpe", gender: "f", look: "ponytail", color: "#ff4fd8", hair: "#3a2418", mood: 0, scores: [64, 64, 47] },
+    { name: "SimoneSch", gender: "f", look: "bun", color: "#ff7a3c", hair: "#2c1810", mood: 2, scores: [10, 47, 0] },
+    { name: "JuliaBar", gender: "f", look: "pigtails", color: "#c9a0ff", hair: "#4a2c1a", mood: 0, scores: [42, 132, 73] },
+    { name: "NinaBra", gender: "f", look: "ponytail", color: "#ff5a8a", hair: "#1c1c1c", mood: 1, scores: [0, 246, 154] },
+    { name: "ErwinGrä", gender: "m", look: "beard", glasses: true, color: "#ffd24a", hair: "#555555", mood: 2, scores: [253, 389, 199] },
+    { name: "DeniseKi", gender: "f", look: "bob", color: "#7dffb3", hair: "#6b4423", mood: 0, scores: [0, 0, 0] },
+    { name: "Martin", gender: "m", look: "cap", color: "#6ecbff", hair: "#3a2418", mood: 1, scores: [54, 54, 60] },
+    { name: "TimPet", gender: "m", look: "short", color: "#fb923c", hair: "#5c3a1e", mood: 2, scores: [0, 171, 234] },
+    { name: "SabrinaKlie", gender: "f", look: "pigtails", color: "#e879f9", hair: "#2c1810", mood: 0, scores: [73, 73, 0] },
     { name: "MarkusWeg", gender: "m", look: "short", color: "#14b8a6", hair: "#3a2a1a", mood: 0 }
   ];
 
   var NORMAL = [
-    { name: "DaveP", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, scores: [390, 349] },
-    { name: "WolfgangKie", gender: "m", look: "cap", color: "#22d3ee", hair: "#2c2c2c", mood: 0, scores: [315, 0] },
-    { name: "AntjeMat", gender: "f", look: "bun", color: "#d8b4fe", hair: "#4a2c1a", mood: 1, scores: [0, 135] },
-    { name: "RebeccaKö", gender: "f", look: "ponytail", color: "#f43f5e", hair: "#3a2418", mood: 2, scores: [422, 858] },
-    { name: "MonikaKos", gender: "f", look: "bob", color: "#5ce1ff", hair: "#5c3a1e", mood: 1, scores: [314, 246] },
-    { name: "HeikeErl", gender: "f", look: "bun", color: "#f9a8d4", hair: "#4a2c1a", mood: 1, scores: [350, 0] },
-    { name: "Jule", gender: "f", look: "ponytail", color: "#a3e635", hair: "#4a2c1a", mood: 2, scores: [950, 698] }
+    { name: "DaveP", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, scores: [390, 349, 227] },
+    { name: "WolfgangKie", gender: "m", look: "cap", color: "#22d3ee", hair: "#2c2c2c", mood: 0, scores: [315, 0, 459] },
+    { name: "AntjeMat", gender: "f", look: "bun", color: "#d8b4fe", hair: "#4a2c1a", mood: 1, scores: [0, 135, 193] },
+    { name: "RebeccaKö", gender: "f", look: "ponytail", color: "#f43f5e", hair: "#3a2418", mood: 2, scores: [422, 858, 223] },
+    { name: "MonikaKos", gender: "f", look: "bob", color: "#5ce1ff", hair: "#5c3a1e", mood: 1, scores: [314, 246, 0] },
+    { name: "HeikeErl", gender: "f", look: "bun", color: "#f9a8d4", hair: "#4a2c1a", mood: 1, scores: [350, 0, 173] },
+    { name: "Jule", gender: "f", look: "ponytail", color: "#a3e635", hair: "#4a2c1a", mood: 2, scores: [950, 698, 324] }
   ];
 
   function zeros() {
