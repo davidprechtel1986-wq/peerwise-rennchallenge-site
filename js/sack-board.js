@@ -26,13 +26,13 @@
   ];
 
   var NORMAL = [
-    { name: "DaveP", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, scores: [390, 349, 227] },
-    { name: "WolfgangKie", gender: "m", look: "cap", color: "#22d3ee", hair: "#2c2c2c", mood: 0, scores: [315, 0, 459] },
-    { name: "AntjeMat", gender: "f", look: "bun", color: "#d8b4fe", hair: "#4a2c1a", mood: 1, scores: [0, 135, 193] },
-    { name: "RebeccaKö", gender: "f", look: "ponytail", color: "#f43f5e", hair: "#3a2418", mood: 2, scores: [422, 858, 223] },
-    { name: "MonikaKos", gender: "f", look: "bob", color: "#5ce1ff", hair: "#5c3a1e", mood: 1, scores: [314, 246, 0] },
-    { name: "HeikeErl", gender: "f", look: "bun", color: "#f9a8d4", hair: "#4a2c1a", mood: 1, scores: [350, 0, 173] },
-    { name: "Jule", gender: "f", look: "ponytail", color: "#a3e635", hair: "#4a2c1a", mood: 2, scores: [950, 698, 324] }
+    { name: "DaveP", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, scores: [390, 349, 227, 440] },
+    { name: "WolfgangKie", gender: "m", look: "cap", color: "#22d3ee", hair: "#2c2c2c", mood: 0, scores: [315, 0, 459, 415] },
+    { name: "AntjeMat", gender: "f", look: "bun", color: "#d8b4fe", hair: "#4a2c1a", mood: 1, scores: [0, 135, 193, 219] },
+    { name: "RebeccaKö", gender: "f", look: "ponytail", color: "#f43f5e", hair: "#3a2418", mood: 2, scores: [422, 858, 223, 143] },
+    { name: "MonikaKos", gender: "f", look: "bob", color: "#5ce1ff", hair: "#5c3a1e", mood: 1, scores: [314, 246, 0, 0] },
+    { name: "HeikeErl", gender: "f", look: "bun", color: "#f9a8d4", hair: "#4a2c1a", mood: 1, scores: [350, 0, 173, 98] },
+    { name: "Jule", gender: "f", look: "ponytail", color: "#a3e635", hair: "#4a2c1a", mood: 2, scores: [950, 698, 324, 615] }
   ];
 
   function zeros() {
