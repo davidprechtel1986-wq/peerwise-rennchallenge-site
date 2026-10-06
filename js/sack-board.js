@@ -31,7 +31,7 @@
     { name: "AntjeMat", gender: "f", look: "bun", color: "#d8b4fe", hair: "#4a2c1a", mood: 1, scores: [0, 135, 193, 219, 347] },
     { name: "RebeccaKö", gender: "f", look: "ponytail", color: "#f43f5e", hair: "#3a2418", mood: 2, scores: [422, 858, 223, 143, 0] },
     { name: "MonikaKos", gender: "f", look: "bob", color: "#5ce1ff", hair: "#5c3a1e", mood: 1, scores: [314, 246, 0, 0, 0] },
-    { name: "HeikeErl", gender: "f", look: "bun", color: "#f9a8d4", hair: "#4a2c1a", mood: 1, scores: [350, 0, 173, 98, 202] },
+    { name: "HeikeErl", gender: "f", look: "bun", color: "#f9a8d4", hair: "#4a2c1a", mood: 1, scores: [350, 0, 173, 98, 346] },
     { name: "Jule", gender: "f", look: "ponytail", color: "#a3e635", hair: "#4a2c1a", mood: 2, scores: [950, 698, 324, 615, 0] }
   ];
 
