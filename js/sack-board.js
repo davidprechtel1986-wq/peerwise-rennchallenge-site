@@ -6,33 +6,33 @@
   var START = new Date(2026, 9, 1);
 
   var WL = [
-    { name: "BiancaP", gender: "f", look: "pigtails", color: "#fbbf24", hair: "#6b3a1f", mood: 0, scores: [29, 150, 0, 0, 0, 0, 0, 33, 0, 0, 0, 0, 0] },
-    { name: "MelanieTr", gender: "f", look: "bun", color: "#f472b6", hair: "#3d2314", mood: 1, scores: [196, 185, 233, 170, 219, 166, 190, 125, 210, 256, 33, 141, 165] },
-    { name: "HeikoWi", gender: "m", look: "cap", beard: true, color: "#fb7185", hair: "#333333", mood: 2, scores: [765, 90, 0, 0, 202, 304, 304, 273, 240, 131, 378, 262, 191] },
-    { name: "MatthiasKre", gender: "m", look: "short", color: "#38bdf8", hair: "#4a3728", mood: 0, scores: [234, 234, 109, 117, 100, 142, 0, 158, 182, 194, 11, 0, 128] },
-    { name: "MarkusGru", gender: "m", look: "cap", color: "#a78bfa", hair: "#2a2a2a", mood: 1, scores: [119, 128, 200, 115, 128, 136, 120, 117, 230, 197, 28, 4, 80] },
-    { name: "MarcKö", gender: "m", look: "short", glasses: true, color: "#4ade80", hair: "#1a1a1a", mood: 2, scores: [435, 358, 229, 223, 183, 186, 178, 116, 7, 68, 0, 137, 105] },
-    { name: "ManuelaSpe", gender: "f", look: "ponytail", color: "#ff4fd8", hair: "#3a2418", mood: 0, scores: [64, 64, 47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 106] },
-    { name: "SimoneSch", gender: "f", look: "bun", color: "#ff7a3c", hair: "#2c1810", mood: 2, scores: [10, 47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
-    { name: "JuliaBar", gender: "f", look: "pigtails", color: "#c9a0ff", hair: "#4a2c1a", mood: 0, scores: [42, 132, 73, 75, 191, 34, 82, 88, 120, 95, 54, 135, 42] },
-    { name: "NinaBra", gender: "f", look: "ponytail", color: "#ff5a8a", hair: "#1c1c1c", mood: 1, scores: [0, 246, 154, 230, 0, 0, 290, 190, 243, 222, 81, 6, 4] },
-    { name: "ErwinGrä", gender: "m", look: "beard", glasses: true, color: "#ffd24a", hair: "#555555", mood: 2, scores: [253, 389, 199, 250, 334, 316, 312, 238, 233, 286, 201, 280, 266] },
-    { name: "DeniseKi", gender: "f", look: "bob", color: "#7dffb3", hair: "#6b4423", mood: 0, scores: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
-    { name: "Martin", gender: "m", look: "cap", color: "#6ecbff", hair: "#3a2418", mood: 1, scores: [54, 54, 60, 100, 191, 127, 127, 238, 217, 219, 15, 0, 216] },
-    { name: "TimPet", gender: "m", look: "short", color: "#fb923c", hair: "#5c3a1e", mood: 2, scores: [0, 171, 234, 100, 0, 227, 140, 238, 172, 19, 0, 263, 205] },
-    { name: "SabrinaKlie", gender: "f", look: "pigtails", color: "#e879f9", hair: "#2c1810", mood: 0, scores: [73, 73, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
-    { name: "MarkusWeg", gender: "m", look: "short", color: "#14b8a6", hair: "#3a2a1a", mood: 0, scores: [333, 298, 70, 0, 0, 0, 37, 0, 0, 0, 0, 0, 1] },
-    { name: "AnettePal", gender: "f", look: "bun", color: "#f97316", hair: "#4a2c1a", mood: 1, scores: [168, 165, 136, 237, 181, 214, 182, 239, 192, 165, 9, 227, 215] }
+    { name: "BiancaP", gender: "f", look: "pigtails", color: "#fbbf24", hair: "#6b3a1f", mood: 0, scores: [29, 150, 0, 0, 0, 0, 0, 33, 0, 0, 0, 0, 0, 0] },
+    { name: "MelanieTr", gender: "f", look: "bun", color: "#f472b6", hair: "#3d2314", mood: 1, scores: [196, 185, 233, 170, 219, 166, 190, 125, 210, 256, 33, 141, 165, 148] },
+    { name: "HeikoWi", gender: "m", look: "cap", beard: true, color: "#fb7185", hair: "#333333", mood: 2, scores: [765, 90, 0, 0, 202, 304, 304, 273, 240, 131, 378, 262, 191, 298] },
+    { name: "MatthiasKre", gender: "m", look: "short", color: "#38bdf8", hair: "#4a3728", mood: 0, scores: [234, 234, 109, 117, 100, 142, 0, 158, 182, 194, 11, 0, 128, 219] },
+    { name: "MarkusGru", gender: "m", look: "cap", color: "#a78bfa", hair: "#2a2a2a", mood: 1, scores: [119, 128, 200, 115, 128, 136, 120, 117, 230, 197, 28, 4, 80, 7] },
+    { name: "MarcKö", gender: "m", look: "short", glasses: true, color: "#4ade80", hair: "#1a1a1a", mood: 2, scores: [435, 358, 229, 223, 183, 186, 178, 116, 7, 68, 0, 137, 105, 67] },
+    { name: "ManuelaSpe", gender: "f", look: "ponytail", color: "#ff4fd8", hair: "#3a2418", mood: 0, scores: [64, 64, 47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 106, 133] },
+    { name: "SimoneSch", gender: "f", look: "bun", color: "#ff7a3c", hair: "#2c1810", mood: 2, scores: [10, 47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    { name: "JuliaBar", gender: "f", look: "pigtails", color: "#c9a0ff", hair: "#4a2c1a", mood: 0, scores: [42, 132, 73, 75, 191, 34, 82, 88, 120, 95, 54, 135, 42, 72] },
+    { name: "NinaBra", gender: "f", look: "ponytail", color: "#ff5a8a", hair: "#1c1c1c", mood: 1, scores: [0, 246, 154, 230, 0, 0, 290, 190, 243, 222, 81, 6, 4, 247] },
+    { name: "ErwinGrä", gender: "m", look: "beard", glasses: true, color: "#ffd24a", hair: "#555555", mood: 2, scores: [253, 389, 199, 250, 334, 316, 312, 238, 233, 286, 201, 280, 266, 369] },
+    { name: "DeniseKi", gender: "f", look: "bob", color: "#7dffb3", hair: "#6b4423", mood: 0, scores: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    { name: "Martin", gender: "m", look: "cap", color: "#6ecbff", hair: "#3a2418", mood: 1, scores: [54, 54, 60, 100, 191, 127, 127, 238, 217, 219, 15, 0, 216, 266] },
+    { name: "TimPet", gender: "m", look: "short", color: "#fb923c", hair: "#5c3a1e", mood: 2, scores: [0, 171, 234, 100, 0, 227, 140, 238, 172, 19, 0, 263, 205, 21] },
+    { name: "SabrinaKlie", gender: "f", look: "pigtails", color: "#e879f9", hair: "#2c1810", mood: 0, scores: [73, 73, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    { name: "MarkusWeg", gender: "m", look: "short", color: "#14b8a6", hair: "#3a2a1a", mood: 0, scores: [333, 298, 70, 0, 0, 0, 37, 0, 0, 0, 0, 0, 1, 122] },
+    { name: "AnettePal", gender: "f", look: "bun", color: "#f97316", hair: "#4a2c1a", mood: 1, scores: [168, 165, 136, 237, 181, 214, 182, 239, 192, 165, 9, 227, 215, 198] }
   ];
 
   var NORMAL = [
-    { name: "DaveP", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, scores: [390, 349, 227, 440, 289, 48, 242, 344, 147, 304, 551, 110, 208] },
-    { name: "WolfgangKie", gender: "m", look: "cap", color: "#22d3ee", hair: "#2c2c2c", mood: 0, scores: [315, 0, 459, 415, 332, 220, 335, 373, 227, 514, 189, 252, 208] },
-    { name: "AntjeMat", gender: "f", look: "bun", color: "#d8b4fe", hair: "#4a2c1a", mood: 1, scores: [0, 135, 193, 219, 347, 319, 217, 0, 339, 153, 221, 180, 199] },
-    { name: "RebeccaKö", gender: "f", look: "ponytail", color: "#f43f5e", hair: "#3a2418", mood: 2, scores: [422, 858, 223, 143, 0, 143, 179, 28, 4, 8, 0, 27, 85] },
-    { name: "MonikaKos", gender: "f", look: "bob", color: "#5ce1ff", hair: "#5c3a1e", mood: 1, scores: [314, 246, 0, 0, 0, 126, 86, 112, 403, 309, 226, 264, 9] },
-    { name: "HeikeErl", gender: "f", look: "bun", color: "#f9a8d4", hair: "#4a2c1a", mood: 1, scores: [350, 0, 173, 98, 346, 0, 0, 185, 74, 149, 120, 353, 34] },
-    { name: "Jule", gender: "f", look: "ponytail", color: "#a3e635", hair: "#4a2c1a", mood: 2, scores: [950, 698, 324, 615, 0, 328, 747, 236, 120, 0, 0, 0, 0] }
+    { name: "DaveP", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, scores: [390, 349, 227, 440, 289, 48, 242, 344, 147, 304, 551, 110, 208, 145] },
+    { name: "WolfgangKie", gender: "m", look: "cap", color: "#22d3ee", hair: "#2c2c2c", mood: 0, scores: [315, 0, 459, 415, 332, 220, 335, 373, 227, 514, 189, 252, 208, 262] },
+    { name: "AntjeMat", gender: "f", look: "bun", color: "#d8b4fe", hair: "#4a2c1a", mood: 1, scores: [0, 135, 193, 219, 347, 319, 217, 0, 339, 153, 221, 180, 199, 15] },
+    { name: "RebeccaKö", gender: "f", look: "ponytail", color: "#f43f5e", hair: "#3a2418", mood: 2, scores: [422, 858, 223, 143, 0, 143, 179, 28, 4, 8, 0, 27, 85, 8] },
+    { name: "MonikaKos", gender: "f", look: "bob", color: "#5ce1ff", hair: "#5c3a1e", mood: 1, scores: [314, 246, 0, 0, 0, 126, 86, 112, 403, 309, 226, 264, 9, 310] },
+    { name: "HeikeErl", gender: "f", look: "bun", color: "#f9a8d4", hair: "#4a2c1a", mood: 1, scores: [350, 0, 173, 98, 346, 0, 0, 185, 74, 149, 120, 353, 34, 102] },
+    { name: "Jule", gender: "f", look: "ponytail", color: "#a3e635", hair: "#4a2c1a", mood: 2, scores: [950, 698, 324, 615, 0, 328, 747, 236, 120, 0, 0, 0, 0, 0] }
   ];
 
   function zeros() {
