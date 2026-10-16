@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PEERWISE · 30-Tage Sackhüpfen</title>
-  <link rel="stylesheet" href="css/battle.css?v=30" />
+  <link rel="stylesheet" href="css/battle.css?v=32" />
   <link rel="stylesheet" href="css/sack.css?v=9" />
 </head>
 <body class="sack-body">
@@ -64,6 +64,7 @@
         <h1>30-TAGE<br />SACKHÜPFEN</h1>
         <p class="dates">01.10.–30.10. · Unten jeder Tag einzeln · Oben die Summe</p>
         <p class="sack-rule">Wer hinten hängt, stolpert und verliert den Sack. Der höchste Stand bekommt die Krone.</p>
+        <p class="entry-slot"><a class="entry-button" id="entryCorner" href="sack-eintragen.html" hidden>Zahlen eintragen</a></p>
         <div class="month-bar" id="monthBar"></div>
       </div>
       <aside class="taler-wrap" id="talerSack" aria-label="Gesamt-INS im Sack"></aside>
@@ -91,6 +92,15 @@
     </section>
   </div>
 
-  <script src="js/sack-board.js?v=30"></script>
+  <script>
+    (function () {
+      var host = location.hostname;
+      if (host === "127.0.0.1" || host === "localhost") {
+        var link = document.getElementById("entryCorner");
+        if (link) link.hidden = false;
+      }
+    })();
+  </script>
+  <script src="js/sack-board.js?v=31"></script>
 </body>
 </html>

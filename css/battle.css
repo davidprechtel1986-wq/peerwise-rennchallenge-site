@@ -222,6 +222,34 @@ body::before {
 .sack-body .events-corner {
   left: 3.45rem;
 }
+.entry-button[hidden] { display: none !important; }
+.entry-slot { margin: 0.85rem 0 0; }
+.entry-button {
+  position: relative;
+  z-index: 8;
+  display: inline-block;
+  margin: 0;
+  padding: 0.85rem 1.5rem;
+  border-radius: 12px;
+  border: 3px solid #fff3bf;
+  background: linear-gradient(135deg, #ffd24a 0%, #ff9a3c 45%, #ff2d9b 100%);
+  color: #1a0a2e;
+  text-decoration: none;
+  font-family: Arial Black, Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+    0 8px 18px rgba(255, 45, 155, 0.35);
+}
+.entry-button:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
 @media (prefers-reduced-motion: reduce) {
   .events-corner { animation: none; }
 }
