@@ -31,8 +31,7 @@
     { name: "AntjeMat", gender: "f", look: "bun", color: "#d8b4fe", hair: "#4a2c1a", mood: 1, scores: [0, 135, 193, 219, 347, 319, 217, 0, 339, 153, 221, 180, 199, 15, 134, 214, 181, 197, 22, 225, 17] },
     { name: "RebeccaKö", gender: "f", look: "ponytail", color: "#f43f5e", hair: "#3a2418", mood: 2, scores: [422, 858, 223, 143, 0, 143, 179, 28, 4, 8, 0, 27, 85, 8, 4, 230, 20, 4, 1, 0, 1] },
     { name: "MonikaKos", gender: "f", look: "bob", color: "#5ce1ff", hair: "#5c3a1e", mood: 1, scores: [314, 246, 0, 0, 0, 126, 86, 112, 403, 309, 226, 264, 9, 310, 277, 301, 11, 454, 322, 11, 326] },
-    { name: "HeikeErl", gender: "f", look: "bun", color: "#f9a8d4", hair: "#4a2c1a", mood: 1, scores: [350, 0, 173, 98, 346, 0, 0, 185, 74, 149, 120, 353, 34, 102, 190, 9, 217, 104, 300, 17, 129] },
-    { name: "Jule", gender: "f", look: "ponytail", color: "#a3e635", hair: "#4a2c1a", mood: 2, scores: [950, 698, 324, 615, 0, 328, 747, 236, 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+    { name: "HeikeErl", gender: "f", look: "bun", color: "#f9a8d4", hair: "#4a2c1a", mood: 1, scores: [350, 0, 173, 98, 346, 0, 0, 185, 74, 149, 120, 353, 34, 102, 190, 9, 217, 104, 300, 17, 129] }
   ];
 
   function zeros() {
