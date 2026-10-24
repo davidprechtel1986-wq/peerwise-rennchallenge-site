@@ -364,6 +364,25 @@
     );
   }
 
+  function dayClass(idx, today) {
+    if (today < 0) return "";
+    if (idx === today) return ' class="is-today"';
+    if (idx >= today - 3 && idx <= today + 1) return ' class="is-recent"';
+    return "";
+  }
+
+  function scrollTableToToday() {
+    var scroller = document.querySelector(".sack-scroll");
+    var todayCell = document.querySelector(".sack-table th.is-today");
+    if (!scroller || !todayCell) return;
+    var left =
+      todayCell.offsetLeft -
+      scroller.clientWidth * 0.55 +
+      todayCell.offsetWidth * 0.5;
+    if (left < 0) left = 0;
+    scroller.scrollLeft = left;
+  }
+
   function renderTable(wl, normal) {
     var head = document.getElementById("sackHead");
     var body = document.getElementById("sackBody");
@@ -374,7 +393,7 @@
       head.innerHTML =
         "<tr><th>Name</th>" +
         labels.map(function (l, idx) {
-          var cls = idx === today ? ' class="is-today"' : "";
+          var cls = dayClass(idx, today);
           var text = idx === today ? esc(l) + '<span class="heute">HEUTE</span>' : esc(l);
           return "<th" + cls + ">" + text + "</th>";
         }).join("") +
@@ -388,7 +407,7 @@
           '<tr><td><span class="who"><i class="dot" style="background:' + esc(p.color) + '"></i>' + esc(p.name) + "</span></td>" +
           p.daily.map(function (v, idx) {
             var n = Number(v) || 0;
-            var cls = idx === today ? ' class="is-today"' : "";
+            var cls = dayClass(idx, today);
             var inner = n === 0 ? '<span class="zero">0</span>' : String(n);
             return "<td" + cls + ">" + inner + "</td>";
           }).join("") +
@@ -399,6 +418,7 @@
     if (body) {
       body.innerHTML = rowsFor(wl, "MIT WATCHLIST", "wl") + rowsFor(normal, "OHNE WATCHLIST", "normal");
     }
+    setTimeout(scrollTableToToday, 0);
   }
 
   var wl = withDays(WL, "wl");

@@ -462,27 +462,30 @@
   line-height: 1.35;
 }
 
-.sack-wrap { margin: 0 0.75rem 2rem; }
+.sack-wrap { margin: 0.4rem 0.75rem 2.2rem; }
 .sack-scroll {
   overflow-x: auto;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(8, 2, 20, 0.75);
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
 .sack-table {
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
-  min-width: 1680px;
   font-family: Arial, Helvetica, sans-serif;
 }
 .sack-table th,
 .sack-table td {
-  padding: 0.45rem 0.4rem;
+  padding: 0.72rem 0.7rem;
   text-align: right;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   font-weight: 800;
-  font-size: 0.82rem;
+  font-size: 1.05rem;
   white-space: nowrap;
+  min-width: 4.4rem;
 }
 .sack-table th {
   position: sticky;
@@ -490,7 +493,8 @@
   background: rgba(30, 10, 55, 0.96);
   color: #ffd24a;
   z-index: 1;
-  font-size: 0.72rem;
+  font-size: 0.92rem;
+  line-height: 1.2;
 }
 .sack-table th:first-child,
 .sack-table td:first-child {
@@ -499,7 +503,10 @@
   left: 0;
   background: rgba(20, 6, 40, 0.98);
   z-index: 2;
-  min-width: 8.2rem;
+  min-width: 10rem;
+  padding-left: 0.9rem;
+  padding-right: 0.9rem;
+  font-size: 1.05rem;
 }
 .sack-table th:first-child { z-index: 3; }
 .sack-table th.total,
@@ -512,8 +519,9 @@
   background: rgba(255, 77, 216, 0.12);
   color: #ff7ad9;
   letter-spacing: 0.06em;
-  font-size: 0.8rem;
-  padding-top: 0.75rem;
+  font-size: 0.95rem;
+  padding-top: 0.9rem;
+  padding-bottom: 0.55rem;
 }
 .sack-table tr.league-head.normal td {
   background: rgba(92, 225, 255, 0.08);
@@ -522,19 +530,26 @@
 .sack-table .zero { color: #9a86b0; }
 .sack-table th.is-today,
 .sack-table td.is-today {
-  background: rgba(255, 210, 74, 0.2);
+  background: rgba(255, 210, 74, 0.22);
   color: #fff6d0;
+  min-width: 5.2rem;
 }
 .sack-table th.is-today {
   box-shadow: inset 0 -3px 0 #ffd24a;
-  min-width: 3.2rem;
   line-height: 1.15;
+}
+.sack-table th.is-recent,
+.sack-table td.is-recent {
+  background: rgba(92, 225, 255, 0.08);
+  min-width: 4.8rem;
 }
 .sack-table .heute {
   display: block;
   color: #ffd24a;
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   letter-spacing: 0.04em;
 }
 .sack-table tr:hover td { background: rgba(255, 255, 255, 0.04); }
 .sack-table tr:hover td:first-child { background: rgba(40, 16, 70, 0.98); }
+.sack-table tr:hover td.is-today { background: rgba(255, 210, 74, 0.28); }
+.sack-table tr:hover td.is-recent { background: rgba(92, 225, 255, 0.14); }
