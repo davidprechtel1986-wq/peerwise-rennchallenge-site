@@ -1,8 +1,8 @@
-/* PEERWISE · 30-Tage Sackhüpfen
+/* PEERWISE · 31-Tage Sackhüpfen
    Alles startet bei 0. Tageswerte später hier eintragen.
    wl = mit Watchlist, normal = ohne Watchlist. */
 (function () {
-  var DAYS = 30;
+  var DAYS = 31;
   var START = new Date(2026, 9, 1);
 
   var WL = [
@@ -438,7 +438,7 @@
   var note = document.getElementById("sackNote");
   if (note) {
     note.textContent =
-      "Oben bei den Figuren steht die Summe aller Tage. Unten steht jeder Tag einzeln, vom 01.10. bis 30.10. Der Sack oben rechts ist die Gesamtzahl aller INS.";
+      "Oben bei den Figuren steht die Summe aller Tage. Unten steht jeder Tag einzeln, vom 01.10. bis 31.10. Der Sack oben rechts ist die Gesamtzahl aller INS.";
   }
   renderTable(wl, normal);
 })();
