@@ -1,24 +1,22 @@
 /* PEERWISE · Schneckenrennen
    Ein Tag: Sonntag, 15.11.2026.
-   wl = mit Watchlist, normal = ohne Watchlist.
+   Eine gemeinsame Starterliste, ein Rennen, eine Rangliste.
 
-   Namen später eintragen: unten in WL (mit Watchlist) oder NORMAL
-   (ohne Watchlist) eine Zeile pro Person in die eckigen Klammern setzen.
+   Namen später eintragen: unten in PEOPLE eine Zeile pro Person
+   in die eckigen Klammern setzen.
    Vorlage (einfach kopieren, Namen und Farbe anpassen):
      { name: 'NameHier', gender: 'f', look: 'bun', color: '#ffd24a', hair: '#3a2418', mood: 1, ins: 0 },
    gender: f oder m. look: pigtails, bun, ponytail, bob, cap, short, beard.
    glasses: true setzt eine Rennbrille. color ist die Hausfarbe. ins startet bei 0.
-   Die Eintragen-Seite liest diese Listen automatisch. */
+   Die Eintragen-Seite liest diese Liste automatisch. */
 (function () {
   var EVENT = new Date(2026, 10, 15);
 
-  var WL = [
+  var PEOPLE = [
+    { name: "Anni", gender: "f", look: "pigtails", glasses: true, color: "#ff6b9d", hair: "#5c3a1e", mood: 1, ins: 0 }
   ];
 
-  var NORMAL = [
-  ];
-
-  function withLeague(list, league) {
+  function withPerson(list) {
     return list.map(function (p) {
       return {
         name: p.name,
@@ -29,7 +27,6 @@
         color: p.color,
         hair: p.hair,
         mood: p.mood,
-        league: league,
         ins: Number(p.ins) || 0
       };
     });
@@ -203,7 +200,7 @@
     if (lead) {
       lead.innerHTML =
         '<div class="mini"><div class="crawl">' + snailSvg(sampleLead, { crown: true }) + "</div></div>" +
-        "<div><em>VORNE</em>Wer in der Gruppe die meisten Ins hat, trägt die Krone.</div>";
+        "<div><em>VORNE</em>Wer die meisten Ins hat, trägt die Krone und gewinnt.</div>";
     }
     if (trail) {
       trail.innerHTML =
@@ -217,43 +214,30 @@
     if (el) el.hidden = !on;
   }
 
-  function renderTeams(wlSum, normalSum) {
-    var el = document.getElementById("teamTotals");
-    if (!el) return;
-    el.innerHTML =
-      '<div class="sack-team wl"><strong>MIT WATCHLIST</strong><span>' + wlSum + " INS</span></div>" +
-      '<div class="sack-team normal"><strong>OHNE WATCHLIST</strong><span>' + normalSum + " INS</span></div>";
-  }
-
-  function renderLive(wl, normal) {
+  function renderLive(list) {
     var el = document.getElementById("liveRank");
     if (!el) return;
-
-    function card(title, list, kind) {
-      var rows = ranked(list);
-      var max = maxIns(list);
-      var html = '<article class="rank-card ' + kind + '"><h2>LIVE · ' + esc(title) + "</h2>";
-      if (!rows.length) {
-        html += '<p class="sack-note">Noch keine Starter in dieser Gruppe.</p>';
-      }
-      rows.forEach(function (row) {
-        var p = row.person;
-        var first = isFirst(p, list);
-        var gap = max > 0 && p.ins < max ? "−" + (max - p.ins) + " auf Platz 1" : (first ? "führt" : "gleichauf");
-        html +=
-          '<div class="rank-row' + (first ? " is-first" : "") + '">' +
-          '<span class="place">' + row.place + ".</span>" +
-          '<span class="who"><i class="dot" style="background:' + esc(p.color) + '"></i>' + esc(p.name) + "</span>" +
-          '<span class="pts">' + p.ins + ' INS<span class="gap">' + gap + "</span></span>" +
-          "</div>";
-      });
-      return html + "</article>";
+    var rows = ranked(list);
+    var max = maxIns(list);
+    var html = '<article class="rank-card"><h2>LIVE-RANGLISTE</h2>';
+    if (!rows.length) {
+      html += '<p class="sack-note">Noch keine Starter.</p>';
     }
-
-    el.innerHTML = card("MIT WATCHLIST", wl, "wl") + card("OHNE WATCHLIST", normal, "normal");
+    rows.forEach(function (row) {
+      var p = row.person;
+      var first = isFirst(p, list);
+      var gap = max > 0 && p.ins < max ? "−" + (max - p.ins) + " auf Platz 1" : (first ? "führt" : "gleichauf");
+      html +=
+        '<div class="rank-row' + (first ? " is-first" : "") + '">' +
+        '<span class="place">' + row.place + ".</span>" +
+        '<span class="who"><i class="dot" style="background:' + esc(p.color) + '"></i>' + esc(p.name) + "</span>" +
+        '<span class="pts">' + p.ins + ' INS<span class="gap">' + gap + "</span></span>" +
+        "</div>";
+    });
+    el.innerHTML = html + "</article>";
   }
 
-  function trackBlock(title, list, kind) {
+  function trackBlock(list) {
     var max = maxIns(list);
     var rows = list.map(function (p, i) {
       var first = isFirst(p, list);
@@ -275,46 +259,41 @@
     }).join("");
     return (
       '<section class="track-block">' +
-      '<h2 class="track-label ' + kind + '">' + esc(title) + "</h2>" +
+      '<h2 class="track-label">RENNSTRECKE</h2>' +
       '<div class="lane-ruler" aria-hidden="true"><span class="flag">START</span><span class="ruler-coins"></span><span class="goal">ZIEL</span></div>' +
-      '<div class="lane">' + (rows || '<p class="sack-note">Noch keine Schnecke in dieser Gruppe.</p>') + "</div></section>"
+      '<div class="lane">' + (rows || '<p class="sack-note">Noch keine Schnecke am Start.</p>') + "</div></section>"
     );
   }
 
-  function renderTable(wl, normal) {
+  function renderTable(list) {
     var head = document.getElementById("rankHead");
     var body = document.getElementById("rankBody");
     if (head) {
       head.innerHTML = "<tr><th>Platz</th><th>Name</th><th class=\"total\">Ins</th><th>Abstand</th></tr>";
     }
-    function rowsFor(list, title, kind) {
-      var rows = ranked(list);
-      var max = maxIns(list);
-      var html = '<tr class="league-head ' + kind + '"><td colspan="4">' + esc(title) + "</td></tr>";
-      if (!rows.length) {
-        html += '<tr><td colspan="4">Noch keine Starter.</td></tr>';
-      }
-      rows.forEach(function (row) {
-        var p = row.person;
-        var first = isFirst(p, list);
-        var gap = max > 0 && p.ins < max ? (max - p.ins) : (p.ins === 0 ? "—" : (max > minIns(list) ? "führt" : "gleichauf"));
-        var insCell = p.ins === 0 ? '<span class="zero">0</span>' : String(p.ins);
-        html +=
-          '<tr class="' + (first ? "is-first" : "") + '"><td>' + row.place + ".</td>" +
-          '<td><span class="who"><i class="dot" style="background:' + esc(p.color) + '"></i>' + esc(p.name) + "</span></td>" +
-          '<td class="total">' + insCell + "</td>" +
-          "<td>" + gap + "</td></tr>";
-      });
-      return html;
+    if (!body) return;
+    var rows = ranked(list);
+    var max = maxIns(list);
+    var html = "";
+    if (!rows.length) {
+      html += '<tr><td colspan="4">Noch keine Starter.</td></tr>';
     }
-    if (body) {
-      body.innerHTML = rowsFor(wl, "MIT WATCHLIST", "wl") + rowsFor(normal, "OHNE WATCHLIST", "normal");
-    }
+    rows.forEach(function (row) {
+      var p = row.person;
+      var first = isFirst(p, list);
+      var gap = max > 0 && p.ins < max ? (max - p.ins) : (p.ins === 0 ? "—" : (max > minIns(list) ? "führt" : "gleichauf"));
+      var insCell = p.ins === 0 ? '<span class="zero">0</span>' : String(p.ins);
+      html +=
+        '<tr class="' + (first ? "is-first" : "") + '"><td>' + row.place + ".</td>" +
+        '<td><span class="who"><i class="dot" style="background:' + esc(p.color) + '"></i>' + esc(p.name) + "</span></td>" +
+        '<td class="total">' + insCell + "</td>" +
+        "<td>" + gap + "</td></tr>";
+    });
+    body.innerHTML = html;
   }
 
-  var wl = withLeague(WL, "wl");
-  var normal = withLeague(NORMAL, "normal");
-  var waiting = wl.length === 0 && normal.length === 0;
+  var people = withPerson(PEOPLE);
+  var waiting = people.length === 0;
 
   if (document.body) {
     document.body.classList.toggle("is-waiting", waiting);
@@ -323,7 +302,6 @@
   renderDay();
   renderLegend();
   show("emptyState", waiting);
-  show("teamTotals", !waiting);
   show("liveRank", !waiting);
   show("tracks", !waiting);
   show("rankWrap", !waiting);
@@ -332,18 +310,13 @@
   if (note) {
     note.textContent = waiting
       ? ""
-      : "Nur dieser eine Sonntag, der 15.11.2026. Die Strecke richtet sich nach der Führung: Wer die meisten Ins hat, liegt an der Ziellinie. Die anderen kriechen im Verhältnis hinterher.";
+      : "Nur dieser eine Sonntag, der 15.11.2026. Wer die meisten Ins holt, liegt an der Ziellinie und gewinnt.";
   }
 
   if (!waiting) {
-    renderTeams(sum(wl), sum(normal));
-    renderLive(wl, normal);
+    renderLive(people);
     var tracks = document.getElementById("tracks");
-    if (tracks) {
-      tracks.innerHTML =
-        trackBlock("MIT WATCHLIST", wl, "wl") +
-        trackBlock("OHNE WATCHLIST", normal, "normal");
-    }
-    renderTable(wl, normal);
+    if (tracks) tracks.innerHTML = trackBlock(people);
+    renderTable(people);
   }
 })();

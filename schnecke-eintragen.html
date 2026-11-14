@@ -54,7 +54,7 @@
     .msg.ok { color: #7dffb3; }
     .msg.bad { color: #ff8aa8; }
     .toolbar { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: end; margin-bottom: 1rem; }
-    .lists { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .lists { display: grid; grid-template-columns: 1fr; gap: 1rem; max-width: 520px; }
     .person {
       display: grid;
       grid-template-columns: 1fr 110px;
@@ -118,11 +118,7 @@
     }
 
     function allPeople() {
-      var out = [];
-      (board.lists || []).forEach(function (group) {
-        (group.people || []).forEach(function (person) { out.push(person); });
-      });
-      return out;
+      return (board && board.people) ? board.people.slice() : [];
     }
 
     function valueAt(person) {
@@ -148,37 +144,35 @@
         preview.textContent = "";
         var hint = document.createElement("p");
         hint.className = "empty-hint";
-        hint.textContent = "Die Starterliste ist noch leer. Sobald die Namen in js/schnecke.js stehen (Listen WL und NORMAL), erscheinen sie hier und du kannst die Ins eintragen.";
+        hint.textContent = "Die Starterliste ist noch leer. Sobald die Namen in js/schnecke.js in der Liste PEOPLE stehen, erscheinen sie hier und du kannst die Ins eintragen.";
         lists.appendChild(hint);
         return;
       }
       if (saveBar) saveBar.hidden = false;
       formLead.hidden = false;
-      board.lists.forEach(function (group) {
-        var card = document.createElement("section");
-        card.className = "entry-card";
-        var title = document.createElement("h2");
-        title.textContent = group.title;
-        card.appendChild(title);
-        group.people.forEach(function (person) {
-          var row = document.createElement("div");
-          row.className = "person";
-          var name = document.createElement("b");
-          name.textContent = person.name;
-          var input = document.createElement("input");
-          input.type = "number";
-          input.min = "0";
-          input.step = "1";
-          input.inputMode = "numeric";
-          input.setAttribute("data-name", person.name);
-          input.value = person.ins == null ? "" : String(person.ins);
-          row.appendChild(name);
-          row.appendChild(input);
-          card.appendChild(row);
-          input.addEventListener("input", refresh);
-        });
-        lists.appendChild(card);
+      var card = document.createElement("section");
+      card.className = "entry-card";
+      var title = document.createElement("h2");
+      title.textContent = "Starter";
+      card.appendChild(title);
+      people.forEach(function (person) {
+        var row = document.createElement("div");
+        row.className = "person";
+        var name = document.createElement("b");
+        name.textContent = person.name;
+        var input = document.createElement("input");
+        input.type = "number";
+        input.min = "0";
+        input.step = "1";
+        input.inputMode = "numeric";
+        input.setAttribute("data-name", person.name);
+        input.value = person.ins == null ? "" : String(person.ins);
+        row.appendChild(name);
+        row.appendChild(input);
+        card.appendChild(row);
+        input.addEventListener("input", refresh);
       });
+      lists.appendChild(card);
       refresh();
     }
 
