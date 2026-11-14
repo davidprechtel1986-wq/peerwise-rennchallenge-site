@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PEERWISE · Schneckenrennen</title>
+  <link rel="stylesheet" href="css/battle.css?v=32" />
+  <link rel="stylesheet" href="css/schnecke.css?v=1" />
+</head>
+<body class="sack-body schnecke-body">
+  <div class="frame">
+    <div class="edge edge-left" aria-hidden="true">
+      <span class="spark s1">✦</span>
+      <span class="spark s2">★</span>
+      <span class="spark s3">✦</span>
+      <span class="spark s4">★</span>
+      <span class="spark s5">✦</span>
+      <span class="spark s6">★</span>
+      <div class="mascot-deer">
+        <svg viewBox="0 0 92 78">
+          <path d="M18 38 Q6 30 12 22" fill="none" stroke="#8a5a2b" stroke-width="3" stroke-linecap="round"/>
+          <g class="leg back"><path d="M30 48 L24 70" stroke="#6b3e1b" stroke-width="3.6" stroke-linecap="round"/><path d="M38 48 L42 70" stroke="#6b3e1b" stroke-width="3.6" stroke-linecap="round"/></g>
+          <ellipse cx="42" cy="42" rx="24" ry="14" fill="#e09a4e" stroke="#1a1020" stroke-width="2"/>
+          <ellipse cx="38" cy="46" rx="11" ry="6" fill="#f3d2a4"/>
+          <g class="leg front"><path d="M52 46 L48 70" stroke="#6b3e1b" stroke-width="3.6" stroke-linecap="round"/><path d="M60 44 L66 68" stroke="#6b3e1b" stroke-width="3.6" stroke-linecap="round"/></g>
+          <path d="M60 34 Q72 26 76 16" fill="none" stroke="#e09a4e" stroke-width="9" stroke-linecap="round"/>
+          <circle cx="80" cy="15" r="8" fill="#f0b56a" stroke="#1a1020" stroke-width="1.7"/>
+          <path d="M74 11 L71 2 L80 9" fill="#f0b56a" stroke="#1a1020" stroke-width="1.2"/>
+          <path d="M78 7 L75 0 M78 7 L85 1" fill="none" stroke="#f6e7bf" stroke-width="1.7" stroke-linecap="round"/>
+          <circle cx="83" cy="14" r="1.4" fill="#1a1020"/>
+          <circle cx="87" cy="16" r="1.6" fill="#5c3018"/>
+        </svg>
+      </div>
+    </div>
+    <div class="edge edge-right" aria-hidden="true">
+      <span class="spark s1">✦</span>
+      <span class="spark s2">★</span>
+      <span class="spark s3">✦</span>
+      <span class="spark s4">★</span>
+      <span class="spark s5">✦</span>
+      <span class="spark s6">★</span>
+      <div class="mascot-bird">
+        <svg viewBox="0 0 88 52">
+          <g class="wing"><ellipse cx="42" cy="20" rx="16" ry="7" fill="#ff4fd8" stroke="#1a1020" stroke-width="1.5"/></g>
+          <path d="M28 30 L12 22 L16 34 Z" fill="#8af0ff" stroke="#1a1020" stroke-width="1.3"/>
+          <ellipse cx="46" cy="30" rx="18" ry="11" fill="#5ce1ff" stroke="#1a1020" stroke-width="1.8"/>
+          <circle cx="62" cy="26" r="8" fill="#8af0ff" stroke="#1a1020" stroke-width="1.6"/>
+          <path d="M68 26 L82 23 L68 31 Z" fill="#ffd24a" stroke="#1a1020" stroke-width="1.2"/>
+          <circle cx="64" cy="24" r="1.5" fill="#1a1020"/>
+        </svg>
+      </div>
+    </div>
+    <div class="frame-corner tl"></div>
+    <div class="frame-corner tr"></div>
+    <div class="frame-corner bl"></div>
+    <div class="frame-corner br"></div>
+    <a class="events-corner" href="alte-events.html">alte Events</a>
+
+    <header class="hero sack-hero">
+      <div class="sack-hero-main">
+        <div class="logo" aria-label="PEERWISE">
+          <img class="logo-img" src="peerwise-logo.png?v=25" alt="PEERWISE" />
+        </div>
+        <h1>SCHNECKEN<br />RENNEN</h1>
+        <p class="dates">Sonntag, 15.11.2026 · Nur dieser eine Tag · Wer die meisten Ins holt, gewinnt</p>
+        <p class="sack-rule">Jede Person ist eine Schnecke. Mit jedem In kriecht sie weiter Richtung Ziel. Am Abend gewinnt, wer vorne liegt.</p>
+        <p class="entry-slot"><a class="entry-button" id="entryCorner" href="schnecke-eintragen.html" hidden>Ins eintragen</a></p>
+        <div class="month-bar" id="dayBar"></div>
+      </div>
+      <aside class="taler-wrap" id="insHero" aria-label="Gesamt-INS im Rennen"></aside>
+    </header>
+
+    <section class="sack-legend" aria-label="So läuft das Schneckenrennen">
+      <div class="legend-card" id="legendRun"></div>
+      <div class="legend-card" id="legendLead"></div>
+      <div class="legend-card" id="legendTrail"></div>
+    </section>
+
+    <section class="sack-teams" id="teamTotals"></section>
+
+    <section class="live-rank" id="liveRank" aria-label="Live-Rangliste"></section>
+
+    <section class="tracks" id="tracks" aria-label="Schnecken auf der Strecke"></section>
+
+    <p class="sack-note" id="sackNote"></p>
+
+    <section class="sack-wrap">
+      <div class="sack-scroll">
+        <table class="sack-table" id="rankTable">
+          <thead id="rankHead"></thead>
+          <tbody id="rankBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    (function () {
+      var host = location.hostname;
+      if (host === "127.0.0.1" || host === "localhost") {
+        var link = document.getElementById("entryCorner");
+        if (link) link.hidden = false;
+      }
+    })();
+  </script>
+  <script src="js/schnecke.js?v=1"></script>
+</body>
+</html>

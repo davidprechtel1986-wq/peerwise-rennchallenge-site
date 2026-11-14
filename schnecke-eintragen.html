@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ins eintragen · Schneckenrennen</title>
+  <link rel="stylesheet" href="css/battle.css?v=32" />
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; }
+    .entry-wrap { max-width: 1080px; margin: 0 auto; padding: 1.4rem 1rem 3rem; }
+    .entry-card {
+      background: rgba(12, 4, 28, 0.82);
+      border: 2px solid rgba(92, 225, 255, 0.35);
+      border-radius: 16px;
+      padding: 1rem 1rem 1.15rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+    }
+    h1 {
+      font-family: Arial Black, Impact, Haettenschweiler, sans-serif;
+      font-size: 1.55rem;
+      letter-spacing: 0.04em;
+      margin: 0 0 0.35rem;
+    }
+    h2 { margin: 0 0 0.6rem; font-size: 1.05rem; letter-spacing: 0.04em; }
+    .lead { color: #d4b8ef; margin: 0 0 1rem; line-height: 1.45; }
+    label { display: block; font-size: 0.82rem; font-weight: 800; margin-bottom: 0.3rem; }
+    input, button { font: inherit; }
+    input {
+      width: 100%;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      background: #120818;
+      color: #fff7ff;
+      padding: 0.55rem 0.7rem;
+    }
+    .pass-row { display: flex; gap: 0.6rem; align-items: end; }
+    .pass-row input { max-width: 220px; }
+    button {
+      border: 3px solid #fff3bf;
+      border-radius: 12px;
+      padding: 0.85rem 1.4rem;
+      font-family: Arial Black, Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ffd24a 0%, #ff9a3c 45%, #ff2d9b 100%);
+      color: #1a0a2e;
+      box-shadow: 0 8px 18px rgba(255, 45, 155, 0.35);
+    }
+    button:disabled { opacity: 0.55; cursor: wait; }
+    .msg { min-height: 1.3rem; margin: 0.75rem 0 0; font-weight: 800; }
+    .msg.ok { color: #7dffb3; }
+    .msg.bad { color: #ff8aa8; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: end; margin-bottom: 1rem; }
+    .lists { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .person {
+      display: grid;
+      grid-template-columns: 1fr 110px;
+      gap: 0.45rem 0.7rem;
+      align-items: center;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .person b { font-size: 0.95rem; }
+    .person input { text-align: right; }
+    .sack-preview {
+      margin-top: 1rem;
+      font-family: Arial Black, Impact, sans-serif;
+      font-size: 1.25rem;
+    }
+    .back { color: #5ce1ff; font-weight: 800; }
+    @media (max-width: 800px) {
+      .lists { grid-template-columns: 1fr; }
+      .pass-row { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+  <main class="entry-wrap">
+    <p><a class="back" href="schnecke.html">← Zur Schneckenrennen-Seite</a></p>
+    <h1>INS EINTRAGEN</h1>
+    <p class="lead">Nur auf diesem Computer. Du trägst die Ins vom Sonntag, 15.11.2026, ein, speicherst, und die Schnecken kriechen automatisch neu.</p>
+
+    <section class="entry-card" id="lockView">
+      <label for="password">Passwort</label>
+      <div class="pass-row">
+        <input id="password" type="password" autocomplete="current-password" />
+        <button type="button" id="unlockBtn">Weiter</button>
+      </div>
+      <p class="msg" id="lockMsg"></p>
+    </section>
+
+    <section class="entry-card" id="formView" hidden>
+      <div class="toolbar">
+        <button type="button" id="saveBtn">Speichern und übernehmen</button>
+      </div>
+      <p class="lead">Eine leere Zahl zählt als 0. Es gibt nur diesen einen Sonntag, deshalb hat jede Person genau eine Zahl.</p>
+      <div class="lists" id="lists"></div>
+      <p class="sack-preview" id="preview"></p>
+      <p class="msg" id="saveMsg"></p>
+    </section>
+  </main>
+  <script>
+    var password = "";
+    var board = null;
+
+    function msg(el, text, ok) {
+      el.textContent = text || "";
+      el.className = "msg" + (text ? (ok ? " ok" : " bad") : "");
+    }
+
+    function valueAt(person) {
+      var input = document.querySelector('input[data-name="' + person.name + '"]');
+      if (!input) return Number(person.ins) || 0;
+      var raw = String(input.value || "").trim();
+      if (raw === "") return 0;
+      var n = Number(raw);
+      return isFinite(n) ? Math.max(0, Math.round(n)) : 0;
+    }
+
+    function render() {
+      var lists = document.getElementById("lists");
+      lists.innerHTML = "";
+      board.lists.forEach(function (group) {
+        var card = document.createElement("section");
+        card.className = "entry-card";
+        var title = document.createElement("h2");
+        title.textContent = group.title;
+        card.appendChild(title);
+        group.people.forEach(function (person) {
+          var row = document.createElement("div");
+          row.className = "person";
+          var name = document.createElement("b");
+          name.textContent = person.name;
+          var input = document.createElement("input");
+          input.type = "number";
+          input.min = "0";
+          input.step = "1";
+          input.inputMode = "numeric";
+          input.setAttribute("data-name", person.name);
+          input.value = person.ins == null ? "" : String(person.ins);
+          row.appendChild(name);
+          row.appendChild(input);
+          card.appendChild(row);
+          input.addEventListener("input", refresh);
+        });
+        lists.appendChild(card);
+      });
+      refresh();
+    }
+
+    function refresh() {
+      var total = 0;
+      board.lists.forEach(function (group) {
+        group.people.forEach(function (person) {
+          total += valueAt(person);
+        });
+      });
+      document.getElementById("preview").textContent = "Ins gesamt: " + total;
+    }
+
+    function collect() {
+      var scores = {};
+      board.lists.forEach(function (group) {
+        group.people.forEach(function (person) {
+          scores[person.name] = valueAt(person);
+        });
+      });
+      return scores;
+    }
+
+    function remember() {
+      board.lists.forEach(function (group) {
+        group.people.forEach(function (person) {
+          person.ins = valueAt(person);
+        });
+      });
+    }
+
+    document.getElementById("unlockBtn").addEventListener("click", function () {
+      password = document.getElementById("password").value;
+      msg(document.getElementById("lockMsg"), "");
+      fetch("/api/schnecke-auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: password })
+      }).then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+        .then(function (result) {
+          if (!result.ok) {
+            msg(document.getElementById("lockMsg"), (result.data && result.data.error) || "Passwort stimmt nicht.", false);
+            return;
+          }
+          return fetch("/api/schnecke-entry").then(function (res) { return res.json(); }).then(function (data) {
+            board = data;
+            document.getElementById("lockView").hidden = true;
+            document.getElementById("formView").hidden = false;
+            render();
+          });
+        })
+        .catch(function () {
+          msg(document.getElementById("lockMsg"), "Das geht nur auf diesem Computer, wenn die Seite hier läuft.", false);
+        });
+    });
+
+    document.getElementById("password").addEventListener("keydown", function (event) {
+      if (event.key === "Enter") document.getElementById("unlockBtn").click();
+    });
+
+    document.getElementById("saveBtn").addEventListener("click", function () {
+      var button = document.getElementById("saveBtn");
+      button.disabled = true;
+      msg(document.getElementById("saveMsg"), "Speichere …", true);
+      fetch("/api/schnecke-save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: password, scores: collect() })
+      }).then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+        .then(function (result) {
+          button.disabled = false;
+          if (!result.ok) {
+            msg(document.getElementById("saveMsg"), (result.data && result.data.error) || "Speichern fehlgeschlagen.", false);
+            return;
+          }
+          remember();
+          if (result.data.changed) {
+            location.href = "schnecke.html?neu=" + result.data.version;
+            return;
+          }
+          refresh();
+          msg(document.getElementById("saveMsg"), "Diese Zahlen stehen schon auf der Seite.", true);
+        })
+        .catch(function () {
+          button.disabled = false;
+          msg(document.getElementById("saveMsg"), "Speichern fehlgeschlagen.", false);
+        });
+    });
+  </script>
+</body>
+</html>
