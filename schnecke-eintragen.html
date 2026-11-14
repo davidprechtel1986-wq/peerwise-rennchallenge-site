@@ -71,6 +71,12 @@
       font-size: 1.25rem;
     }
     .back { color: #5ce1ff; font-weight: 800; }
+    .empty-hint {
+      margin: 0;
+      font-weight: 800;
+      color: #ffe08a;
+      line-height: 1.45;
+    }
     @media (max-width: 800px) {
       .lists { grid-template-columns: 1fr; }
       .pass-row { flex-wrap: wrap; }
@@ -93,10 +99,10 @@
     </section>
 
     <section class="entry-card" id="formView" hidden>
-      <div class="toolbar">
+      <div class="toolbar" id="saveBar">
         <button type="button" id="saveBtn">Speichern und übernehmen</button>
       </div>
-      <p class="lead">Eine leere Zahl zählt als 0. Es gibt nur diesen einen Sonntag, deshalb hat jede Person genau eine Zahl.</p>
+      <p class="lead" id="formLead">Eine leere Zahl zählt als 0. Es gibt nur diesen einen Sonntag, deshalb hat jede Person genau eine Zahl.</p>
       <div class="lists" id="lists"></div>
       <p class="sack-preview" id="preview"></p>
       <p class="msg" id="saveMsg"></p>
@@ -111,6 +117,14 @@
       el.className = "msg" + (text ? (ok ? " ok" : " bad") : "");
     }
 
+    function allPeople() {
+      var out = [];
+      (board.lists || []).forEach(function (group) {
+        (group.people || []).forEach(function (person) { out.push(person); });
+      });
+      return out;
+    }
+
     function valueAt(person) {
       var input = document.querySelector('input[data-name="' + person.name + '"]');
       if (!input) return Number(person.ins) || 0;
@@ -123,6 +137,23 @@
     function render() {
       var lists = document.getElementById("lists");
       lists.innerHTML = "";
+      var people = allPeople();
+      var saveBtn = document.getElementById("saveBtn");
+      var saveBar = document.getElementById("saveBar");
+      var formLead = document.getElementById("formLead");
+      var preview = document.getElementById("preview");
+      if (!people.length) {
+        if (saveBar) saveBar.hidden = true;
+        formLead.hidden = true;
+        preview.textContent = "";
+        var hint = document.createElement("p");
+        hint.className = "empty-hint";
+        hint.textContent = "Die Starterliste ist noch leer. Sobald die Namen in js/schnecke.js stehen (Listen WL und NORMAL), erscheinen sie hier und du kannst die Ins eintragen.";
+        lists.appendChild(hint);
+        return;
+      }
+      if (saveBar) saveBar.hidden = false;
+      formLead.hidden = false;
       board.lists.forEach(function (group) {
         var card = document.createElement("section");
         card.className = "entry-card";
@@ -153,29 +184,21 @@
 
     function refresh() {
       var total = 0;
-      board.lists.forEach(function (group) {
-        group.people.forEach(function (person) {
-          total += valueAt(person);
-        });
-      });
+      allPeople().forEach(function (person) { total += valueAt(person); });
       document.getElementById("preview").textContent = "Ins gesamt: " + total;
     }
 
     function collect() {
       var scores = {};
-      board.lists.forEach(function (group) {
-        group.people.forEach(function (person) {
-          scores[person.name] = valueAt(person);
-        });
+      allPeople().forEach(function (person) {
+        scores[person.name] = valueAt(person);
       });
       return scores;
     }
 
     function remember() {
-      board.lists.forEach(function (group) {
-        group.people.forEach(function (person) {
-          person.ins = valueAt(person);
-        });
+      allPeople().forEach(function (person) {
+        person.ins = valueAt(person);
       });
     }
 
