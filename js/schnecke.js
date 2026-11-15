@@ -13,12 +13,12 @@
   var EVENT = new Date(2026, 10, 15);
 
   var PEOPLE = [
-    { name: "Anni", gender: "f", look: "pigtails", glasses: true, color: "#ff6b9d", hair: "#5c3a1e", mood: 1, ins: 0 },
-    { name: "HeikoWi", gender: "m", look: "cap", beard: true, color: "#38bdf8", hair: "#333333", mood: 2, ins: 0 },
-    { name: "Dave", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, ins: 0 },
-    { name: "JoeSp", gender: "m", look: "short", glasses: true, color: "#34d399", hair: "#2a2a2a", mood: 0, ins: 0 },
-    { name: "PascalePätz", gender: "f", look: "ponytail", glasses: true, color: "#a78bfa", hair: "#3b1f12", mood: 2, ins: 0 },
-    { name: "FelixHau", gender: "m", look: "mohawk", glasses: false, color: "#fb923c", hair: "#1a1410", mood: 1, ins: 0 }
+    { name: "Anni", gender: "f", look: "pigtails", glasses: true, color: "#ff6b9d", hair: "#5c3a1e", mood: 1, ins: 71 },
+    { name: "HeikoWi", gender: "m", look: "cap", beard: true, color: "#38bdf8", hair: "#333333", mood: 2, ins: 382 },
+    { name: "Dave", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, ins: 380 },
+    { name: "JoeSp", gender: "m", look: "short", glasses: true, color: "#34d399", hair: "#2a2a2a", mood: 0, ins: 398 },
+    { name: "PascalePätz", gender: "f", look: "ponytail", glasses: true, color: "#a78bfa", hair: "#3b1f12", mood: 2, ins: 79 },
+    { name: "FelixHau", gender: "m", look: "mohawk", glasses: false, color: "#fb923c", hair: "#1a1410", mood: 1, ins: 68 }
   ];
 
   var QUIPS = {
@@ -485,6 +485,15 @@
       stepHtml("bronze", "3", bronze, list);
   }
 
+
+  function renderCoinPot(list) {
+    var total = sum(list);
+    var el = document.getElementById("coinPotTotal");
+    if (el) el.textContent = String(total);
+    var wrap = document.getElementById("coinPot");
+    if (wrap) wrap.classList.toggle("is-hot", total > 0);
+  }
+
   function reducedMotion() {
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
@@ -520,6 +529,7 @@
   renderTicker(people);
   renderLegend();
   renderConfetti();
+  renderCoinPot(people);
   show("emptyState", waiting);
   show("liveRank", !waiting);
   show("podiumWrap", !waiting);
