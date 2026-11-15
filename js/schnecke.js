@@ -19,8 +19,15 @@
     { name: "JoeSp", gender: "m", look: "short", glasses: true, color: "#34d399", hair: "#2a2a2a", mood: 0, ins: 0 }
   ];
 
+  var QUIPS = {
+    Anni: ["Ich schleim voraus!", "Brille auf – los!", "Nicht so schnell … doch!"],
+    HeikoWi: ["Kappe fest!", "Bart an, Tempo an!", "Ich kriech voraus!"],
+    Dave: ["Mit Durchblick!", "Ruhe … und zack!", "Dave schleimt!"],
+    JoeSp: ["JoeSp macht Druck!", "Kurz und schleimig!", "Die Spur ist grün!"]
+  };
+
   function withPerson(list) {
-    return list.map(function (p) {
+    return list.map(function (p, i) {
       return {
         name: p.name,
         gender: p.gender,
@@ -30,7 +37,8 @@
         color: p.color,
         hair: p.hair,
         mood: p.mood,
-        ins: Number(p.ins) || 0
+        ins: Number(p.ins) || 0,
+        bib: i + 1
       };
     });
   }
@@ -56,6 +64,10 @@
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
+  }
+
+  function pad(n) {
+    return (n < 10 ? "0" : "") + n;
   }
 
   function sum(list) {
@@ -97,6 +109,13 @@
     });
   }
 
+  function quipFor(p, list) {
+    var lines = QUIPS[p.name] || ["Schleim voraus!"];
+    var idx = isFirst(p, list) ? 0 : (p.bib - 1) % lines.length;
+    if (maxIns(list) === minIns(list)) idx = (p.bib + p.mood) % lines.length;
+    return lines[idx];
+  }
+
   function eyewearSvg(p) {
     if (p.glasses) {
       return (
@@ -118,6 +137,40 @@
       '<rect x="118" y="24" width="12" height="6" rx="2" fill="#2a3350" opacity="0.85"/>' +
       '<rect x="138" y="23" width="12" height="6" rx="2" fill="#2a3350" opacity="0.85"/>' +
       "</g>"
+    );
+  }
+
+  function lookExtras(p, stroke) {
+    var hair = p.hair || "#3a2418";
+    var bits = "";
+    if (p.look === "pigtails") {
+      bits +=
+        '<g class="pigtails">' +
+        '<circle cx="54" cy="42" r="9" fill="' + hair + '" stroke="' + stroke + '" stroke-width="1.6"/>' +
+        '<circle cx="52" cy="54" r="6.5" fill="' + hair + '" stroke="' + stroke + '" stroke-width="1.4"/>' +
+        '<circle cx="114" cy="40" r="9" fill="' + hair + '" stroke="' + stroke + '" stroke-width="1.6"/>' +
+        '<circle cx="118" cy="52" r="6.5" fill="' + hair + '" stroke="' + stroke + '" stroke-width="1.4"/>' +
+        '<circle cx="51" cy="40" r="2" fill="#ffd24a"/>' +
+        '<circle cx="117" cy="38" r="2" fill="#ffd24a"/>' +
+        "</g>";
+    }
+    if (p.beard) {
+      bits +=
+        '<g class="beard">' +
+        '<path d="M128 78 Q136 92 150 80 Q142 94 128 90 Q122 84 128 78Z" fill="' + hair + '" stroke="' + stroke + '" stroke-width="1.3"/>' +
+        "</g>";
+    }
+    return bits;
+  }
+
+  function bibSvg(n) {
+    if (!n) return "";
+    return (
+      '<g class="snail-bib">' +
+      '<rect x="72" y="50" width="24" height="18" rx="4" fill="#fff" stroke="#1a1020" stroke-width="1.7"/>' +
+      '<text x="84" y="64" text-anchor="middle" font-size="13" font-weight="800" font-family="Impact, Arial Black, sans-serif" fill="#1a1020">' +
+      esc(String(n)) +
+      "</text></g>"
     );
   }
 
@@ -154,7 +207,7 @@
       '<ellipse cx="84" cy="48" rx="40" ry="38" fill="' + color + '" stroke="' + stroke + '" stroke-width="2.5"/>' +
       '<path d="M84 72 C66 70 56 56 58 44 C62 26 84 22 96 32 C106 42 102 56 84 56 C74 56 70 48 74 42 C78 36 90 38 92 44" fill="none" stroke="rgba(0,0,0,0.32)" stroke-width="5.5" stroke-linecap="round"/>' +
       '<path d="M68 28 Q86 16 106 28" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="3.2" stroke-linecap="round"/>' +
-      cap + crownSvg +
+      cap + lookExtras(p, stroke) + crownSvg + bibSvg(opt.bib || p.bib) +
       "</g>" +
       '<g class="snail-stalk" style="animation-delay:' + delay + 's">' +
       '<path d="M128 64 Q124 40 126 24" fill="none" stroke="' + foot + '" stroke-width="6" stroke-linecap="round"/>' +
@@ -174,40 +227,124 @@
     );
   }
 
-  function renderDay() {
-    var el = document.getElementById("dayBar");
-    if (!el) return;
+  function splitTime(ms) {
+    if (ms < 0) ms = 0;
+    var s = Math.floor(ms / 1000);
+    var d = Math.floor(s / 86400); s -= d * 86400;
+    var h = Math.floor(s / 3600); s -= h * 3600;
+    var m = Math.floor(s / 60); s -= m * 60;
+    return { d: d, h: h, m: m, s: s };
+  }
+
+  function cell(n, label) {
+    return '<div class="cell"><b>' + pad(n) + "</b><span>" + label + "</span></div>";
+  }
+
+  function renderClock() {
     var status = dayStatus();
-    var label =
-      status === "soon" ? "Startet am Sonntag, 15.11.2026" :
-      status === "today" ? "Heute ist Renntag · Sonntag, 15.11." :
-      "Rennen beendet · 15.11.2026";
-    var pct = status === "soon" ? 8 : status === "today" ? 55 : 100;
-    el.innerHTML =
-      "<p>" + label + "</p>" +
-      '<div class="month-track"><div class="month-fill" style="width:' + pct + '%"></div></div>';
+    var pill = document.getElementById("livePill");
+    var clock = document.getElementById("eventClock");
+    var board = document.getElementById("countdownBoard");
+    var now = new Date();
+    var time = pad(now.getHours()) + ":" + pad(now.getMinutes()) + ":" + pad(now.getSeconds());
+
+    if (pill) {
+      pill.classList.remove("is-soon", "is-done");
+      if (status === "soon") {
+        pill.classList.add("is-soon");
+        pill.innerHTML = "<i></i> SOON";
+      } else if (status === "today") {
+        pill.innerHTML = "<i></i> LIVE";
+      } else {
+        pill.classList.add("is-done");
+        pill.innerHTML = "<i></i> ENDE";
+      }
+    }
+
+    if (clock) {
+      clock.textContent =
+        (status === "today" ? "RENNTAG \u00b7 " : status === "soon" ? "COUNTDOWN \u00b7 " : "15.11. \u00b7 ") + time;
+    }
+
+    if (!board) return;
+    if (status === "done") {
+      board.innerHTML = '<p class="status">RENNEN BEENDET</p><div class="digits">' +
+        '<div class="cell"><b>15</b><span>NOV</span></div>' +
+        '<div class="cell"><b>26</b><span>JAHR</span></div></div>';
+      return;
+    }
+    var target = eventDay();
+    var label = "START IN";
+    if (status === "today") {
+      target = new Date(eventDay().getTime() + 24 * 60 * 60 * 1000);
+      label = "LIVE \u00b7 RENNTAG \u2013 NOCH";
+    }
+    var t = splitTime(target.getTime() - now.getTime());
+    var digits = "";
+    if (status === "soon" && t.d > 0) digits += cell(t.d, "TAGE");
+    digits += cell(t.h, "STD") + cell(t.m, "MIN") + cell(t.s, "SEK");
+    board.innerHTML = '<p class="status">' + label + "</p><div class=\"digits\">" + digits + "</div>";
+  }
+
+  function tickerLines(list) {
+    var status = dayStatus();
+    var lines = [
+      "PEERWISE SCHNECKENRENNEN \u2014 NUR HEUTE, NUR SONNTAG, 15. NOVEMBER!",
+      "Langsam war gestern \u2013 jetzt wird geschleimt!",
+      "Wer die meisten Ins holt, steht ganz vorn an der Ziellinie und gewinnt!"
+    ];
+    if (list && list.length) {
+      lines.push("Am Start: " + list.map(function (p) { return p.name; }).join(", ") + "!");
+      var max = maxIns(list);
+      var min = minIns(list);
+      if (max === 0) {
+        lines.push("Noch alle bei 0 Ins \u2013 das Feld ist v\u00f6llig offen!");
+      } else if (max === min) {
+        lines.push("Alle gleichauf bei " + max + " Ins \u2013 Spannung pur im Schleimstadion!");
+      } else {
+        list.filter(function (p) { return isFirst(p, list); }).forEach(function (p) {
+          lines.push(p.name + " f\u00fchrt mit " + p.ins + " Ins und tr\u00e4gt die Krone!");
+        });
+      }
+    } else {
+      lines.push("Die Starterliste kommt noch \u2013 die Bahn ist schon warm geschleimt!");
+    }
+    if (status === "today") lines.unshift("LIVE aus dem PEERWISE-Schleimstadion \u2013 RENNTAG!");
+    if (status === "soon") lines.unshift("Bald geht\u2019s los: Sonntag, 15. November 2026!");
+    if (status === "done") lines.unshift("Das Schneckenrennen ist gelaufen \u2013 danke f\u00fcrs Schleimen!");
+    return lines;
+  }
+
+  function renderTicker(list) {
+    var el = document.getElementById("tickerTrack");
+    if (!el) return;
+    var bits = tickerLines(list).map(function (t, i) {
+      return i % 2 ? "<b>" + esc(t) + "</b>" : esc(t);
+    });
+    var joined = bits.join("  \u00b7  ");
+    el.innerHTML = "<span>" + joined + "  \u00b7  </span><span>" + joined + "  \u00b7  </span>";
   }
 
   function renderLegend() {
     var run = document.getElementById("legendRun");
     var lead = document.getElementById("legendLead");
     var trail = document.getElementById("legendTrail");
-    var sample = { color: "#ff4fd8", glasses: true };
-    var sampleLead = { color: "#ffd24a", glasses: false, mood: 2 };
-    var sampleTrail = { color: "#5ce1ff", glasses: true };
+    var sample = { color: "#ff4fd8", glasses: true, bib: 1 };
+    var sampleLead = { color: "#ffd24a", glasses: false, mood: 2, bib: 1 };
+    var sampleTrail = { color: "#5ce1ff", glasses: true, bib: 2 };
     if (run) {
       run.innerHTML =
-        '<div class="mini"><div class="crawl">' + snailSvg(sample, {}) + "</div></div>" +
+        '<div class="mini"><div class="crawl">' + snailSvg(sample, { bib: 1 }) + "</div></div>" +
         "<div><em>UNTERWEGS</em>Mit jedem In kriecht die Schnecke weiter Richtung Ziel.</div>";
     }
     if (lead) {
       lead.innerHTML =
-        '<div class="mini"><div class="crawl">' + snailSvg(sampleLead, { crown: true }) + "</div></div>" +
-        "<div><em>VORNE</em>Wer die meisten Ins hat, trägt die Krone und gewinnt.</div>";
+        '<div class="mini"><div class="crawl">' + snailSvg(sampleLead, { crown: true, bib: 1 }) + "</div></div>" +
+        "<div><em>VORNE</em>Wer die meisten Ins hat, tr\u00e4gt die Krone und gewinnt.</div>";
     }
     if (trail) {
       trail.innerHTML =
-        '<div class="mini"><div class="crawl">' + snailSvg(sampleTrail, {}) + "</div></div>" +
+        '<div class="mini"><div class="crawl">' + snailSvg(sampleTrail, { bib: 2 }) + "</div></div>" +
         "<div><em>SCHLEIMSPUR</em>Hinter jeder Schnecke bleibt eine Spur in ihrer Farbe.</div>";
     }
   }
@@ -229,70 +366,124 @@
     rows.forEach(function (row) {
       var p = row.person;
       var first = isFirst(p, list);
-      var gap = max > 0 && p.ins < max ? "−" + (max - p.ins) + " auf Platz 1" : (first ? "führt" : "gleichauf");
+      var gap = max > 0 && p.ins < max ? "\u2212" + (max - p.ins) + " auf Platz 1" : (first ? "f\u00fchrt" : "gleichauf");
       html +=
         '<div class="rank-row' + (first ? " is-first" : "") + '">' +
         '<span class="place">' + row.place + ".</span>" +
-        '<span class="who"><i class="dot" style="background:' + esc(p.color) + '"></i>' + esc(p.name) + "</span>" +
+        '<span class="who"><i class="dot" style="background:' + esc(p.color) + '"></i>' +
+        esc(p.name) + " <small>#" + p.bib + "</small></span>" +
         '<span class="pts">' + p.ins + ' INS<span class="gap">' + gap + "</span></span>" +
         "</div>";
     });
     el.innerHTML = html + "</article>";
   }
 
-  function trackBlock(list) {
+  function renderTracks(list) {
+    var el = document.getElementById("tracks");
+    if (!el) return;
     var max = maxIns(list);
-    var rows = list.map(function (p, i) {
+    el.innerHTML = list.map(function (p, i) {
       var first = isFirst(p, list);
-      var pct = max ? Math.round((p.ins / max) * 68) : 2;
-      var trail = Math.max(8, pct + 6);
-      var cls = first ? " is-first" : "";
+      var pct = max ? Math.round((p.ins / max) * 62) + 4 : 4;
+      var trail = Math.min(86, Math.max(12, pct + 14));
       return (
-        '<div class="runner' + cls + '">' +
-        '<div class="runner-name"><i class="dot" style="background:' + esc(p.color) + '"></i>' + esc(p.name) + "</div>" +
-        '<div class="runner-track" style="--snail-color:' + esc(p.color) + ";--trail:" + trail + '%">' +
+        '<div class="lane' + (first ? " is-first" : "") + '" style="--snail-color:' + esc(p.color) + ";--trail:" + trail + '%">' +
+        '<div class="lane-head">' +
+        '<span class="who"><i class="dot" style="background:' + esc(p.color) + '"></i>#' + p.bib + " " + esc(p.name) + "</span>" +
+        "<span class=\"pts\"><b>" + p.ins + "</b> INS</span></div>" +
+        '<span class="start-stick" aria-hidden="true"></span>' +
         '<span class="slime-trail" aria-hidden="true"></span>' +
-        '<span class="goal-flag" aria-hidden="true"></span>' +
         '<div class="runner-mover crawl" style="left:' + pct + "%;animation-delay:" + (i * 0.12) + 's">' +
-        snailSvg(p, { crown: first, delay: i * 0.12 }) +
-        "</div></div>" +
-        '<div class="runner-meta"><b>' + p.ins + "</b><span>INS</span></div>" +
-        "</div>"
+        '<span class="bubble">' + esc(quipFor(p, list)) + "</span>" +
+        snailSvg(p, { crown: first, delay: i * 0.12, bib: p.bib }) +
+        "</div></div>"
       );
     }).join("");
+  }
+
+  function peopleAtPlace(rows, place) {
+    return rows.filter(function (r) { return r.place === place; }).map(function (r) { return r.person; });
+  }
+
+  function stepHtml(kind, label, people, list) {
+    var faces = (people || []).map(function (p) {
+      return (
+        '<div class="racer">' +
+        snailSvg(p, { crown: kind === "gold" && isFirst(p, list), bib: p.bib }) +
+        '<div class="name">' + esc(p.name) + " #" + p.bib + "</div>" +
+        '<div class="ins">' + p.ins + " INS</div></div>"
+      );
+    }).join("");
+    if (!faces) {
+      faces = '<div class="racer"><div class="name">???</div><div class="ins">noch offen</div></div>';
+    }
     return (
-      '<section class="track-block">' +
-      '<h2 class="track-label">RENNSTRECKE</h2>' +
-      '<div class="lane-ruler" aria-hidden="true"><span class="flag">START</span><span class="ruler-coins"></span><span class="goal">ZIEL</span></div>' +
-      '<div class="lane">' + (rows || '<p class="sack-note">Noch keine Schnecke am Start.</p>') + "</div></section>"
+      '<div class="step ' + kind + (people && people.length ? "" : " empty") + '">' +
+      '<div class="face">' + faces + "</div>" +
+      '<div class="block">' + label + "</div></div>"
     );
   }
 
-  function renderTable(list) {
-    var head = document.getElementById("rankHead");
-    var body = document.getElementById("rankBody");
-    if (head) {
-      head.innerHTML = "<tr><th>Platz</th><th>Name</th><th class=\"total\">Ins</th><th>Abstand</th></tr>";
+  function renderPodium(list) {
+    var wrap = document.getElementById("podiumWrap");
+    var el = document.getElementById("podium");
+    if (!wrap || !el) return;
+    if (!list.length) {
+      wrap.hidden = true;
+      return;
     }
-    if (!body) return;
+    wrap.hidden = false;
     var rows = ranked(list);
     var max = maxIns(list);
-    var html = "";
-    if (!rows.length) {
-      html += '<tr><td colspan="4">Noch keine Starter.</td></tr>';
+    var min = minIns(list);
+    var title = wrap.querySelector("h2");
+    if (max === min) {
+      if (title) title.innerHTML = "<span>POKAL-PODIUM</span>";
+      var racers = list.map(function (p) {
+        return (
+          '<div class="racer">' +
+          snailSvg(p, { bib: p.bib }) +
+          '<div class="name">' + esc(p.name) + " #" + p.bib + "</div>" +
+          '<div class="ins">' + p.ins + " INS</div></div>"
+        );
+      }).join("");
+      var msg = max === 0
+        ? "Noch alle gleichauf bei 0 Ins \u2013 das Rennen ist v\u00f6llig offen!"
+        : "Alle liegen gleichauf bei " + max + " Ins \u2013 Gold ist noch nicht vergeben!";
+      el.innerHTML = '<p class="podium-open">' + msg + '</p><div class="podium-field">' + racers + "</div>";
+      return;
     }
-    rows.forEach(function (row) {
-      var p = row.person;
-      var first = isFirst(p, list);
-      var gap = max > 0 && p.ins < max ? (max - p.ins) : (p.ins === 0 ? "—" : (max > minIns(list) ? "führt" : "gleichauf"));
-      var insCell = p.ins === 0 ? '<span class="zero">0</span>' : String(p.ins);
+    if (title) title.innerHTML = "<span>POKAL-PODIUM</span>";
+    var gold = peopleAtPlace(rows, 1);
+    var silver = peopleAtPlace(rows, 2);
+    var bronze = peopleAtPlace(rows, 3);
+    el.innerHTML =
+      stepHtml("silver", "2", silver, list) +
+      stepHtml("gold", "1", gold, list) +
+      stepHtml("bronze", "3", bronze, list);
+  }
+
+  function reducedMotion() {
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function renderConfetti() {
+    var box = document.getElementById("confetti");
+    if (!box || reducedMotion()) return;
+    var colors = ["#ffe44d", "#ff4fd8", "#5ce1ff", "#34d399", "#ffffff", "#ff7a3c", "#c9a0ff"];
+    var html = "";
+    var n = 28;
+    for (var i = 0; i < n; i++) {
+      var left = (3 + (i * 97 / n) + (i % 3) * 2) % 100;
+      var delay = (i * 0.22) % 7;
+      var dur = 6.2 + (i % 5) * 0.7;
+      var color = colors[i % colors.length];
+      var cls = i % 3 === 0 ? " r" : "";
       html +=
-        '<tr class="' + (first ? "is-first" : "") + '"><td>' + row.place + ".</td>" +
-        '<td><span class="who"><i class="dot" style="background:' + esc(p.color) + '"></i>' + esc(p.name) + "</span></td>" +
-        '<td class="total">' + insCell + "</td>" +
-        "<td>" + gap + "</td></tr>";
-    });
-    body.innerHTML = html;
+        '<i class="' + cls + '" style="left:' + left.toFixed(1) + "%;background:" + color +
+        ";animation-delay:" + delay.toFixed(2) + "s;animation-duration:" + dur.toFixed(2) + 's"></i>';
+    }
+    box.innerHTML = html;
   }
 
   var people = withPerson(PEOPLE);
@@ -302,12 +493,14 @@
     document.body.classList.toggle("is-waiting", waiting);
   }
 
-  renderDay();
+  renderClock();
+  setInterval(renderClock, 1000);
+  renderTicker(people);
   renderLegend();
+  renderConfetti();
   show("emptyState", waiting);
   show("liveRank", !waiting);
-  show("tracks", !waiting);
-  show("rankWrap", !waiting);
+  show("podiumWrap", !waiting);
 
   var note = document.getElementById("sackNote");
   if (note) {
@@ -318,8 +511,7 @@
 
   if (!waiting) {
     renderLive(people);
-    var tracks = document.getElementById("tracks");
-    if (tracks) tracks.innerHTML = trackBlock(people);
-    renderTable(people);
+    renderTracks(people);
+    renderPodium(people);
   }
 })();
