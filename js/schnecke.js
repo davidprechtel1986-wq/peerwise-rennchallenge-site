@@ -16,14 +16,16 @@
     { name: "Anni", gender: "f", look: "pigtails", glasses: true, color: "#ff6b9d", hair: "#5c3a1e", mood: 1, ins: 0 },
     { name: "HeikoWi", gender: "m", look: "cap", beard: true, color: "#38bdf8", hair: "#333333", mood: 2, ins: 0 },
     { name: "Dave", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, ins: 0 },
-    { name: "JoeSp", gender: "m", look: "short", glasses: true, color: "#34d399", hair: "#2a2a2a", mood: 0, ins: 0 }
+    { name: "JoeSp", gender: "m", look: "short", glasses: true, color: "#34d399", hair: "#2a2a2a", mood: 0, ins: 0 },
+    { name: "PascalePätz", gender: "f", look: "ponytail", glasses: true, color: "#a78bfa", hair: "#3b1f12", mood: 2, ins: 0 }
   ];
 
   var QUIPS = {
     Anni: ["Ich schleim voraus!", "Brille auf – los!", "Nicht so schnell … doch!"],
     HeikoWi: ["Kappe fest!", "Bart an, Tempo an!", "Ich kriech voraus!"],
     Dave: ["Mit Durchblick!", "Ruhe … und zack!", "Dave schleimt!"],
-    JoeSp: ["JoeSp macht Druck!", "Kurz und schleimig!", "Die Spur ist grün!"]
+    JoeSp: ["JoeSp macht Druck!", "Kurz und schleimig!", "Die Spur ist grün!"],
+    "PascalePätz": ["Pascale schleimt mit!", "Lila Spur voraus!", "Ich kriech auch!"]
   };
 
   function withPerson(list) {
@@ -152,6 +154,15 @@
         '<circle cx="118" cy="52" r="6.5" fill="' + hair + '" stroke="' + stroke + '" stroke-width="1.4"/>' +
         '<circle cx="51" cy="40" r="2" fill="#ffd24a"/>' +
         '<circle cx="117" cy="38" r="2" fill="#ffd24a"/>' +
+        "</g>";
+    }
+    if (p.look === "ponytail") {
+      bits +=
+        '<g class="ponytail">' +
+        '<ellipse cx="52" cy="36" rx="11" ry="10" fill="' + hair + '" stroke="' + stroke + '" stroke-width="1.6"/>' +
+        '<path d="M48 40 Q28 58 36 86 Q44 70 52 78 Q46 58 58 42Z" fill="' + hair + '" stroke="' + stroke + '" stroke-width="1.5" stroke-linejoin="round"/>' +
+        '<path d="M46 38 L40 46 L52 46 Z" fill="#a78bfa" stroke="' + stroke + '" stroke-width="1.2"/>' +
+        '<path d="M44 42 Q40 48 46 52" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-linecap="round"/>' +
         "</g>";
     }
     if (p.beard) {
