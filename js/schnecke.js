@@ -17,7 +17,8 @@
     { name: "HeikoWi", gender: "m", look: "cap", beard: true, color: "#38bdf8", hair: "#333333", mood: 2, ins: 0 },
     { name: "Dave", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, ins: 0 },
     { name: "JoeSp", gender: "m", look: "short", glasses: true, color: "#34d399", hair: "#2a2a2a", mood: 0, ins: 0 },
-    { name: "PascalePätz", gender: "f", look: "ponytail", glasses: true, color: "#a78bfa", hair: "#3b1f12", mood: 2, ins: 0 }
+    { name: "PascalePätz", gender: "f", look: "ponytail", glasses: true, color: "#a78bfa", hair: "#3b1f12", mood: 2, ins: 0 },
+    { name: "FelixHau", gender: "m", look: "mohawk", glasses: false, color: "#fb923c", hair: "#1a1410", mood: 1, ins: 0 }
   ];
 
   var QUIPS = {
@@ -25,7 +26,8 @@
     HeikoWi: ["Kappe fest!", "Bart an, Tempo an!", "Ich kriech voraus!"],
     Dave: ["Mit Durchblick!", "Ruhe … und zack!", "Dave schleimt!"],
     JoeSp: ["JoeSp macht Druck!", "Kurz und schleimig!", "Die Spur ist grün!"],
-    "PascalePätz": ["Pascale schleimt mit!", "Lila Spur voraus!", "Ich kriech auch!"]
+    "PascalePätz": ["Pascale schleimt mit!", "Lila Spur voraus!", "Ich kriech auch!"],
+    FelixHau: ["Felix haut rein!", "Orange voraus!", "Ich schleim mit!"]
   };
 
   function withPerson(list) {
@@ -163,6 +165,15 @@
         '<path d="M48 40 Q28 58 36 86 Q44 70 52 78 Q46 58 58 42Z" fill="' + hair + '" stroke="' + stroke + '" stroke-width="1.5" stroke-linejoin="round"/>' +
         '<path d="M46 38 L40 46 L52 46 Z" fill="#a78bfa" stroke="' + stroke + '" stroke-width="1.2"/>' +
         '<path d="M44 42 Q40 48 46 52" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-linecap="round"/>' +
+        "</g>";
+    }
+    if (p.look === "mohawk") {
+      bits +=
+        '<g class="mohawk">' +
+        '<path d="M74 20 L80 -8 L86 18 L92 -12 L98 18 L104 -7 L110 20 L100 22 L80 22 Z" fill="' + hair + '" stroke="' + stroke + '" stroke-width="1.5" stroke-linejoin="round"/>' +
+        '<path d="M80 -8 L81 2" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round"/>' +
+        '<path d="M92 -12 L93 0" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round"/>' +
+        '<path d="M104 -7 L105 4" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round"/>' +
         "</g>";
     }
     if (p.beard) {
