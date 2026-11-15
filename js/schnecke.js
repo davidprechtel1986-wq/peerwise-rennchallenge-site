@@ -15,7 +15,8 @@
   var PEOPLE = [
     { name: "Anni", gender: "f", look: "pigtails", glasses: true, color: "#ff6b9d", hair: "#5c3a1e", mood: 1, ins: 0 },
     { name: "HeikoWi", gender: "m", look: "cap", beard: true, color: "#38bdf8", hair: "#333333", mood: 2, ins: 0 },
-    { name: "Dave", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, ins: 0 }
+    { name: "Dave", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, ins: 0 },
+    { name: "JoeSp", gender: "m", look: "short", glasses: true, color: "#34d399", hair: "#2a2a2a", mood: 0, ins: 0 }
   ];
 
   function withPerson(list) {
