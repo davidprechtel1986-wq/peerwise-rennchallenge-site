@@ -38,7 +38,9 @@
   /* Namen kommen spaeter. Jede Person so eintragen:
      { name: 'NameHier', gender: 'm', look: 'short', glasses: false, color: '#f5d76e', hair: '#2a1a10', mood: 0, ins: 0 }
   */
-  var PEOPLE = [];
+  var PEOPLE = [
+    { name: "Dave", gender: "m", look: "beard", glasses: true, color: "#facc15", hair: "#5c3a1e", mood: 1, ins: 0 }
+  ];
 
   function eventStart() { return new Date(EVENT_START.getFullYear(), EVENT_START.getMonth(), EVENT_START.getDate()); }
   function eventEndExclusive() { return new Date(EVENT_END.getFullYear(), EVENT_END.getMonth(), EVENT_END.getDate() + 1); }
@@ -310,16 +312,28 @@
     var holdCup = sid === "bettler";
     var holdGlass = sid === "yacht";
 
+    function shiftHex(hex, amt) {
+      hex = String(hex || "#888").replace("#", "");
+      if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+      var n = parseInt(hex, 16);
+      if (isNaN(n)) n = 0x888888;
+      var r = Math.max(0, Math.min(255, (n >> 16) + amt));
+      var g = Math.max(0, Math.min(255, ((n >> 8) & 255) + amt));
+      var b = Math.max(0, Math.min(255, (n & 255) + amt));
+      return "#" + (0x1000000 + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
     var defs =
       "<defs>" +
-      '<radialGradient id="sk' + uid + '" cx="32%" cy="28%"><stop offset="0%" stop-color="#f7d7bc"/><stop offset="70%" stop-color="#e8c2a0"/><stop offset="100%" stop-color="#c38a62"/></radialGradient>' +
-      '<linearGradient id="cl' + uid + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="' + fit.body + '"/><stop offset="55%" stop-color="' + fit.body2 + '"/><stop offset="100%" stop-color="' + fit.body2 + '"/></linearGradient>' +
-      '<linearGradient id="hr' + uid + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="' + hair + '"/><stop offset="100%" stop-color="#111"/></linearGradient>' +
-      '<linearGradient id="gd' + uid + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff6c2"/><stop offset="45%" stop-color="#f5d76e"/><stop offset="100%" stop-color="#8a5a10"/></linearGradient>' +
+      '<radialGradient id="sk' + uid + '" cx="30%" cy="26%"><stop offset="0%" stop-color="#ffe4cc"/><stop offset="42%" stop-color="#e8c2a0"/><stop offset="78%" stop-color="#c38a62"/><stop offset="100%" stop-color="#8a5a3a"/></radialGradient>' +
+      '<linearGradient id="cl' + uid + '" x1="0" y1="0" x2="1" y2="0.12"><stop offset="0%" stop-color="' + shiftHex(fit.body, 50) + '"/><stop offset="22%" stop-color="' + fit.body + '"/><stop offset="62%" stop-color="' + fit.body2 + '"/><stop offset="100%" stop-color="' + shiftHex(fit.body2, -40) + '"/></linearGradient>' +
+      '<linearGradient id="hr' + uid + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="' + shiftHex(hair, 36) + '"/><stop offset="45%" stop-color="' + hair + '"/><stop offset="100%" stop-color="#0a0806"/></linearGradient>' +
+      '<linearGradient id="gd' + uid + '" x1="0" y1="0" x2="0.85" y2="1"><stop offset="0%" stop-color="#fff8d6"/><stop offset="35%" stop-color="#f5d76e"/><stop offset="100%" stop-color="#6a4208"/></linearGradient>' +
       '<radialGradient id="au' + uid + '" cx="50%" cy="40%"><stop offset="0%" stop-color="' + accent + '" stop-opacity="0.55"/><stop offset="100%" stop-color="' + accent + '" stop-opacity="0"/></radialGradient>' +
       "</defs>";
 
-    var shadow = '<ellipse class="fig-shadow" cx="40" cy="124" rx="18" ry="4.5" fill="rgba(0,0,0,0.4)"/>';
+    var shadow =
+      '<ellipse class="fig-shadow" cx="40" cy="124.5" rx="22" ry="5.5" fill="rgba(0,0,0,0.38)"/>' +
+      '<ellipse class="fig-ao" cx="40" cy="123.2" rx="12" ry="3.2" fill="rgba(0,0,0,0.45)"/>';
     var auraG = aura ? '<ellipse class="fig-aura" cx="40" cy="70" rx="28" ry="48" fill="url(#au' + uid + ')"/>' : "";
     var parts = "";
     if (particles) {
@@ -354,8 +368,11 @@
     var lashes = female ? '<path d="M31 27 L29 25 M34 26 L33 24" stroke="#1a1020" stroke-width="0.8" fill="none"/><path d="M49 27 L51 25 M46 26 L47 24" stroke="#1a1020" stroke-width="0.8" fill="none"/>' : "";
     var face =
       '<circle cx="40" cy="28" r="11.5" fill="url(#sk' + uid + ')" stroke="#1a1020" stroke-width="1.15"/>' +
-      '<path d="M50 26 Q54 30 49 36" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.4" stroke-linecap="round"/>' +
+      '<ellipse cx="46.5" cy="31" rx="6.2" ry="8" fill="rgba(80,40,20,0.22)"/>' +
+      '<path d="M31 20 Q28 28 32 37" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1.35" stroke-linecap="round"/>' +
+      '<path d="M50 26 Q54 30 49 36" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.4" stroke-linecap="round"/>' +
       '<ellipse cx="35" cy="33" rx="2.4" ry="1.4" fill="#e8a090" opacity="0.45"/><ellipse cx="45" cy="33" rx="2.4" ry="1.4" fill="#e8a090" opacity="0.45"/>' +
+      '<ellipse cx="40" cy="38.2" rx="5.5" ry="1.8" fill="rgba(0,0,0,0.18)"/>' +
       lashes +
       '<g class="fig-eye">' +
       '<ellipse cx="35" cy="27.5" rx="2.6" ry="2.8" fill="#fff"/><circle cx="35.4" cy="27.8" r="1.45" fill="#2a1a10"/><circle cx="36" cy="27.2" r="0.5" fill="#fff"/>' +
@@ -407,6 +424,9 @@
         '<path d="M40 42 L40 62" stroke="' + (fit.kind === "gold-suit" ? "#7a1020" : accent) + '" stroke-width="2.2"/>' +
         (fit.kind === "designer" || fit.kind === "gold-suit" ? '<circle cx="30" cy="56" r="1.1" fill="#f5d76e"/><circle cx="30" cy="64" r="1.1" fill="#f5d76e"/>' : "");
     }
+
+    torso += '<path d="M26 48 Q24 70 28 86" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2.2" stroke-linecap="round"/>' +
+      '<path d="M52 50 Q56 72 52 86" fill="none" stroke="rgba(0,0,0,0.28)" stroke-width="3" stroke-linecap="round"/>';
 
     var pants = (fit.kind === "gown") ? "" : (
       '<g class="fig-leg-l" style="animation-delay:' + delay + 's"><path d="M32 86 L29 116" stroke="' + fit.pants + '" stroke-width="7" stroke-linecap="round"/><rect x="24" y="114" width="10" height="5" rx="1.2" fill="' + fit.shoes + '" stroke="#1a1020" stroke-width="0.6"/></g>' +
@@ -462,17 +482,263 @@
     );
   }
 
+
+  function cityRng(seed) {
+    var a = seed | 0;
+    return function () {
+      a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function cityWinGrid(x, yTop, w, h, rng, density) {
+    var html = "";
+    var ww = w < 28 ? 3.2 : 4.4;
+    var hh = w < 28 ? 5.4 : 6.6;
+    var gapX = w < 28 ? 3.4 : 4.2;
+    var gapY = 5.4;
+    var padX = 3.2;
+    var padY = 5;
+    var cols = Math.max(1, Math.floor((w - padX * 2) / (ww + gapX)));
+    var rows = Math.max(1, Math.floor((h - padY * 2 - 6) / (hh + gapY)));
+    var startX = x + (w - cols * (ww + gapX) + gapX) / 2;
+    var startY = yTop + padY;
+    var r, c, off, cool;
+    for (r = 0; r < rows; r++) {
+      for (c = 0; c < cols; c++) {
+        if (rng() > density) continue;
+        off = rng() < 0.2 ? " is-off" : "";
+        cool = rng() < 0.2 ? " cool" : "";
+        html += '<rect class="city-win' + cool + off + '" x="' + (startX + c * (ww + gapX)).toFixed(1) +
+          '" y="' + (startY + r * (hh + gapY)).toFixed(1) + '" width="' + ww + '" height="' + hh + '" rx="0.35"/>';
+      }
+    }
+    return html;
+  }
+
+  function cityBuilding(b, rng, layer, gid, idPrefix) {
+    idPrefix = idPrefix || "";
+    var base = b.base;
+    var y = base - b.h;
+    var body = "";
+    var extras = "";
+    var fill = "url(#" + gid + ")";
+    if (b.shape === "stepped") {
+      var midH = b.h * 0.58;
+      body += '<rect x="' + b.x + '" y="' + (base - midH) + '" width="' + b.w + '" height="' + midH + '" fill="' + fill + '"/>';
+      body += '<rect x="' + (b.x + b.w * 0.12) + '" y="' + y + '" width="' + (b.w * 0.76) + '" height="' + (b.h - midH) + '" fill="' + fill + '"/>';
+      extras += cityWinGrid(b.x, base - midH, b.w, midH, rng, b.density);
+      extras += cityWinGrid(b.x + b.w * 0.12, y, b.w * 0.76, b.h - midH - 2, rng, b.density);
+    } else if (b.shape === "spire") {
+      var shaftH = b.h * 0.78;
+      body += '<rect x="' + b.x + '" y="' + (base - shaftH) + '" width="' + b.w + '" height="' + shaftH + '" fill="' + fill + '"/>';
+      body += '<polygon points="' + b.x + "," + (base - shaftH) + " " + (b.x + b.w / 2) + "," + y + " " + (b.x + b.w) + "," + (base - shaftH) + '" fill="' + fill + '"/>';
+      extras += cityWinGrid(b.x, base - shaftH, b.w, shaftH - 2, rng, b.density);
+    } else if (b.shape === "penthouse") {
+      var shaft = b.h - 36;
+      body += '<rect x="' + b.x + '" y="' + (base - shaft) + '" width="' + b.w + '" height="' + shaft + '" fill="' + fill + '"/>';
+      body += '<rect x="' + (b.x + 5) + '" y="' + (y + 16) + '" width="' + (b.w - 10) + '" height="22" fill="url(#' + idPrefix + 'goldTop)"/>';
+      body += '<rect x="' + (b.x + 12) + '" y="' + (y + 6) + '" width="' + (b.w - 24) + '" height="12" fill="url(#' + idPrefix + 'goldTop)"/>';
+      body += '<rect x="' + (b.x + b.w / 2 - 1.4) + '" y="' + (y - 28) + '" width="2.8" height="36" fill="#f5d76e"/>';
+      body += '<circle cx="' + (b.x + b.w / 2) + '" cy="' + (y - 30) + '" r="4.2" fill="#fff4c8"/>';
+      body += '<circle class="city-beacon" cx="' + (b.x + b.w / 2) + '" cy="' + (y - 30) + '" r="3.2" fill="#ff4a3a"/>';
+      extras += cityWinGrid(b.x, base - shaft, b.w, shaft - 4, rng, 0.92);
+      extras += '<rect class="city-win" x="' + (b.x + 8) + '" y="' + (y + 20) + '" width="' + (b.w - 16) + '" height="6" rx="0.6" fill="#fff4c8"/>';
+      extras += '<g class="city-neon neon-flicker" fill="#ffe08a" font-family="Impact, Arial Black, sans-serif" font-size="9" letter-spacing="1.2">';
+      extras += '<text x="' + (b.x + b.w / 2) + '" y="' + (y + 14) + '" text-anchor="middle">PENTHOUSE</text></g>';
+    } else if (b.shape === "mast") {
+      body += '<rect x="' + (b.x + b.w * 0.32) + '" y="' + y + '" width="' + (b.w * 0.36) + '" height="' + b.h + '" fill="' + fill + '"/>';
+      body += '<rect x="' + (b.x + b.w / 2 - 1) + '" y="' + (y - 22) + '" width="2" height="24" fill="#c9b48a"/>';
+      body += '<circle class="city-beacon" cx="' + (b.x + b.w / 2) + '" cy="' + (y - 22) + '" r="2.3" fill="#ff4a3a"/>';
+      extras += cityWinGrid(b.x + b.w * 0.32, y, b.w * 0.36, b.h - 4, rng, b.density);
+    } else {
+      body += '<rect x="' + b.x + '" y="' + y + '" width="' + b.w + '" height="' + b.h + '" fill="' + fill + '"/>';
+      extras += cityWinGrid(b.x, y, b.w, b.h, rng, b.density);
+    }
+    if (b.antenna && b.shape !== "penthouse" && b.shape !== "mast") {
+      extras += '<rect x="' + (b.x + b.w / 2 - 1) + '" y="' + (y - 16) + '" width="2" height="16" fill="#d6c48a"/>';
+      extras += '<circle class="city-beacon" cx="' + (b.x + b.w / 2) + '" cy="' + (y - 16) + '" r="2.1" fill="#ff4a3a"/>';
+    }
+    if (b.neon) {
+      var ny = y + 10;
+      extras += '<g class="city-neon neon-flicker">';
+      extras += '<rect x="' + (b.x + 3) + '" y="' + ny + '" width="' + (b.w - 6) + '" height="14" rx="1.4" fill="#140814" stroke="' + b.neonColor + '" stroke-width="0.8"/>';
+      extras += '<text x="' + (b.x + b.w / 2) + '" y="' + (ny + 10.5) + '" text-anchor="middle" fill="' + b.neonColor + '" font-family="Impact, Arial Black, sans-serif" font-size="8">' + b.neon + "</text></g>";
+    }
+    /* left rim + right AO for a 3D shaft */
+    if (b.shape !== "mast") {
+      extras += '<rect x="' + b.x + '" y="' + y + '" width="' + Math.max(3, b.w * 0.1) + '" height="' + b.h + '" fill="rgba(255,255,255,0.1)"/>';
+      extras += '<rect x="' + (b.x + b.w - Math.max(4, b.w * 0.16)) + '" y="' + y + '" width="' + Math.max(4, b.w * 0.16) + '" height="' + b.h + '" fill="rgba(0,0,0,0.28)"/>';
+    }
+    var defs = '<linearGradient id="' + gid + '" x1="0" y1="0" x2="1" y2="0.08"><stop offset="0%" stop-color="' + b.c1 + '"/><stop offset="45%" stop-color="' + b.c2 + '"/><stop offset="100%" stop-color="' + (b.c3 || "#0a0c14") + '"/></linearGradient>';
+    return { defs: defs, body: body + extras };
+  }
+
+  function buildSkylineLayer(kind, idPrefix) {
+    idPrefix = idPrefix || "";
+    var base, specs, viewH, densityDefault, seed;
+    if (kind === "far") {
+      viewH = 130; base = 130; seed = 28; densityDefault = 0.32;
+      specs = [
+        { x: 0, w: 70, h: 46, shape: "block", c1: "#141a2c", c2: "#0c101c" },
+        { x: 68, w: 48, h: 78, shape: "stepped", c1: "#161c30", c2: "#0c1220" },
+        { x: 118, w: 36, h: 100, shape: "spire", c1: "#181e32", c2: "#0e1422", antenna: true },
+        { x: 156, w: 58, h: 62, shape: "block", c1: "#121828", c2: "#0a0e18" },
+        { x: 216, w: 42, h: 88, shape: "block", c1: "#1a2034", c2: "#101624" },
+        { x: 260, w: 30, h: 110, shape: "mast", c1: "#1c2438", c2: "#101624" },
+        { x: 292, w: 80, h: 54, shape: "block", c1: "#141a2c", c2: "#0c101c" },
+        { x: 374, w: 44, h: 96, shape: "spire", c1: "#1a1830", c2: "#100e20" },
+        { x: 420, w: 52, h: 70, shape: "block", c1: "#161c30", c2: "#0c1220" },
+        { x: 474, w: 38, h: 108, shape: "stepped", c1: "#1c2238", c2: "#101624" },
+        { x: 514, w: 66, h: 60, shape: "block", c1: "#141828", c2: "#0c1018" },
+        { x: 582, w: 40, h: 92, shape: "block", c1: "#181e32", c2: "#0e1422", antenna: true },
+        { x: 624, w: 72, h: 50, shape: "block", c1: "#12182a", c2: "#0a0e1a" },
+        { x: 698, w: 46, h: 84, shape: "spire", c1: "#1a2034", c2: "#101624" },
+        { x: 746, w: 36, h: 104, shape: "mast", c1: "#161c30", c2: "#0c1220" },
+        { x: 784, w: 58, h: 66, shape: "block", c1: "#141a2c", c2: "#0c101c" },
+        { x: 844, w: 42, h: 90, shape: "stepped", c1: "#1a1830", c2: "#100e20" },
+        { x: 888, w: 54, h: 58, shape: "block", c1: "#151b2e", c2: "#0c1220" },
+        { x: 944, w: 56, h: 74, shape: "block", c1: "#141a2c", c2: "#0c101c" }
+      ];
+    } else if (kind === "mid") {
+      viewH = 180; base = 180; seed = 29; densityDefault = 0.5;
+      specs = [
+        { x: 8, w: 58, h: 90, shape: "block", c1: "#24304c", c2: "#161e30" },
+        { x: 68, w: 36, h: 128, shape: "spire", c1: "#2a2848", c2: "#181828", antenna: true },
+        { x: 108, w: 70, h: 78, shape: "stepped", c1: "#26324e", c2: "#161e32" },
+        { x: 182, w: 44, h: 118, shape: "block", c1: "#2c243c", c2: "#1a1628" },
+        { x: 230, w: 32, h: 150, shape: "mast", c1: "#28344e", c2: "#161e30" },
+        { x: 268, w: 62, h: 86, shape: "block", c1: "#24304a", c2: "#161e2e", neon: "24h", neonColor: "#7ef0ff" },
+        { x: 334, w: 48, h: 132, shape: "stepped", c1: "#2a3854", c2: "#181e30" },
+        { x: 478, w: 54, h: 110, shape: "block", c1: "#283046", c2: "#181e2c" },
+        { x: 536, w: 40, h: 148, shape: "spire", c1: "#2c2040", c2: "#1a142c", antenna: true },
+        { x: 580, w: 76, h: 84, shape: "stepped", c1: "#24324c", c2: "#161e30" },
+        { x: 660, w: 46, h: 126, shape: "block", c1: "#2a3048", c2: "#181e2c" },
+        { x: 710, w: 34, h: 142, shape: "mast", c1: "#28344e", c2: "#161e30" },
+        { x: 750, w: 64, h: 96, shape: "block", c1: "#262848", c2: "#16162a", neon: "HOTEL", neonColor: "#ff8ad8" },
+        { x: 818, w: 42, h: 134, shape: "spire", c1: "#24304c", c2: "#161e30" },
+        { x: 864, w: 58, h: 88, shape: "block", c1: "#2a243c", c2: "#1a1628" },
+        { x: 926, w: 66, h: 74, shape: "stepped", c1: "#24304a", c2: "#161e2e" }
+      ];
+    } else {
+      viewH = 240; base = 240; seed = 30; densityDefault = 0.7;
+      specs = [
+        { x: 0, w: 62, h: 92, shape: "block", c1: "#2e3a58", c2: "#1a2236" },
+        { x: 64, w: 40, h: 150, shape: "spire", c1: "#33405c", c2: "#1c2438", antenna: true },
+        { x: 108, w: 54, h: 118, shape: "stepped", c1: "#3a2e4e", c2: "#221a32" },
+        { x: 166, w: 36, h: 168, shape: "block", c1: "#2a3854", c2: "#161e30" },
+        { x: 206, w: 72, h: 100, shape: "block", c1: "#30364e", c2: "#1a1e2c", neon: "INS", neonColor: "#5cffbf" },
+        { x: 282, w: 30, h: 176, shape: "mast", c1: "#2c3852", c2: "#161e2e" },
+        { x: 316, w: 58, h: 138, shape: "stepped", c1: "#2e3a56", c2: "#1a2234" },
+        { x: 388, w: 86, h: 214, shape: "penthouse", c1: "#1c2440", c2: "#12182c", c3: "#0a0e18" },
+        { x: 478, w: 50, h: 146, shape: "block", c1: "#2a344c", c2: "#161e2e" },
+        { x: 532, w: 96, h: 112, shape: "stepped", c1: "#32344c", c2: "#1c1e2c", neon: "METROPOLE", neonColor: "#ffd36a" },
+        { x: 632, w: 40, h: 186, shape: "spire", c1: "#2c2044", c2: "#1a142c", antenna: true },
+        { x: 676, w: 52, h: 132, shape: "block", c1: "#2e3a58", c2: "#1a2236" },
+        { x: 732, w: 38, h: 158, shape: "block", c1: "#33405c", c2: "#1c2438" },
+        { x: 774, w: 38, h: 158, shape: "block", c1: "#2e3854", c2: "#181e30" },
+        { x: 816, w: 58, h: 96, shape: "block", c1: "#322848", c2: "#1e1830", neon: "BAR", neonColor: "#ff6b9d" },
+        { x: 878, w: 42, h: 170, shape: "spire", c1: "#2a3854", c2: "#161e30", antenna: true },
+        { x: 924, w: 76, h: 108, shape: "stepped", c1: "#2e3a56", c2: "#1a2234" }
+      ];
+    }
+    var rng = cityRng(seed);
+    var defs = "";
+    var body = "";
+    if (kind === "near") {
+      defs += '<linearGradient id="' + idPrefix + 'goldTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff6c2"/><stop offset="45%" stop-color="#f5d76e"/><stop offset="100%" stop-color="#8a5a10"/></linearGradient>';
+      defs += '<radialGradient id="' + idPrefix + 'pentGlow" cx="50%" cy="20%"><stop offset="0%" stop-color="#f5d76e" stop-opacity="0.55"/><stop offset="100%" stop-color="#f5d76e" stop-opacity="0"/></radialGradient>';
+      body += '<ellipse cx="431" cy="28" rx="70" ry="36" fill="url(#' + idPrefix + 'pentGlow)"/>';
+    }
+    specs.forEach(function (b, i) {
+      b.base = base;
+      b.density = b.density || densityDefault;
+      var part = cityBuilding(b, rng, kind, idPrefix + kind + "g" + i);
+      defs += part.defs;
+      body += part.body;
+    });
+    var cls = "skyline-svg skyline-" + kind;
+    return '<svg class="' + cls + '" viewBox="0 0 1000 ' + viewH + '" preserveAspectRatio="none" aria-hidden="true"><defs>' + defs + "</defs>" + body + "</svg>";
+  }
+
+  function buildSkyStars() {
+    var rng = cityRng(17);
+    var html = '<div class="city-stars" aria-hidden="true">';
+    var i, x, y, s, d;
+    for (i = 0; i < 52; i++) {
+      x = (rng() * 100).toFixed(1);
+      y = (rng() * 52).toFixed(1);
+      s = (0.7 + rng() * 2.1).toFixed(1);
+      d = (rng() * 4).toFixed(2);
+      html += '<span style="left:' + x + "%;top:" + y + "%;width:" + s + "px;height:" + s + "px;animation-delay:" + d + 's"></span>';
+    }
+    return html + "</div>";
+  }
+
+  function buildSparkles() {
+    var rng = cityRng(42);
+    var html = '<div class="city-sparks" aria-hidden="true">';
+    var i, x, y, d;
+    for (i = 0; i < 16; i++) {
+      x = (4 + rng() * 92).toFixed(1);
+      y = (18 + rng() * 55).toFixed(1);
+      d = (rng() * 2.6).toFixed(2);
+      html += '<i class="city-spark" style="left:' + x + "%;top:" + y + "%;animation-delay:" + d + 's"></i>';
+    }
+    return html + "</div>";
+  }
+
+  function buildStreetLamps() {
+    var spots = ["l1", "l2", "l3", "l4"];
+    return spots.map(function (cls) {
+      return (
+        '<span class="lamp ' + cls + '" aria-hidden="true">' +
+        '<svg viewBox="0 0 28 78" class="lamp-svg"><path d="M13 78 V18" stroke="#2a2a32" stroke-width="3"/>' +
+        '<path d="M13 18 H22" stroke="#2a2a32" stroke-width="2.4" stroke-linecap="round"/>' +
+        '<path d="M18 18 L26 26 L14 26 Z" fill="#f5d76e"/>' +
+        '<ellipse cx="20" cy="26" rx="8" ry="3" fill="#ffe9a0" opacity="0.85"/>' +
+        "</svg></span>"
+      );
+    }).join("");
+  }
+
+  function podiumHtml(n) {
+    var out = '<div class="empty-lots">';
+    var i;
+    for (i = 0; i < n; i++) {
+      out += '<div class="podium"><span class="podium-column"></span><span class="podium-plate"></span><span class="podium-label">FREI</span></div>';
+    }
+    return out + "</div>";
+  }
+
+  function bindCityLights() {
+    if (bindCityLights._t) { clearInterval(bindCityLights._t); bindCityLights._t = null; }
+    if (reducedMotion()) return;
+    bindCityLights._t = setInterval(function () {
+      var wins = document.querySelectorAll(".city-layer.near .city-win, .city-layer.mid .city-win");
+      if (!wins.length) return;
+      var n = 8;
+      var i, w;
+      for (i = 0; i < n; i++) {
+        w = wins[Math.floor(Math.random() * wins.length)];
+        w.classList.toggle("is-off");
+      }
+    }, 2600);
+  }
+
   function renderCity(list) {
     var root = document.getElementById("cityParallax");
     if (!root) return;
     var max = maxIns(list) || 1;
-    var mid, streetInner;
+    var mid;
     if (!list.length) {
       mid = '<div class="city-empty-msg"><strong>Die Stadt wartet</strong>Noch ist niemand in der Metropole. Die ersten Aufsteiger ziehen bald ein – von der Straßenkante bis zur Yacht.</div>' +
-        '<div class="empty-lots"><span class="empty-lot">FREI</span><span class="empty-lot">FREI</span><span class="empty-lot">FREI</span><span class="empty-lot">FREI</span></div>';
+        podiumHtml(4);
     } else {
       mid = '<div class="towers" id="cityTowers">' + list.map(function (p, i) {
-        var h = 64 + Math.round((p.ins / max) * 150);
+        var h = 128 + Math.round((p.ins / max) * 140);
         var lead = isFirst(p, list);
         return (
           '<button type="button" class="tower' + (lead ? " is-lead" : "") + '" data-name="' + esc(p.name) + '" style="height:' + h + "px;background:linear-gradient(180deg," + esc(p.color) + " 0%,#1a1020 140%);animation-delay:" + (0.08 * i).toFixed(2) + 's" aria-label="' + esc(p.name) + ", " + p.ins + " Ins, " + esc(stageFor(p.ins).name) + '">' +
@@ -480,16 +746,39 @@
           '<span class="tag">#' + (p.place || p.bib) + " " + esc(p.name) + "</span>" +
           '<span class="windows"></span>' +
           '<span class="fig">' + figureSvg(p, { crown: lead }) + "</span>" +
+          '<span class="tower-podium" aria-hidden="true"></span>' +
           "</button>"
         );
       }).join("") + "</div>";
     }
+    var nearSvg = buildSkylineLayer("near");
+    var midSvg = buildSkylineLayer("mid");
+    var farSvg = buildSkylineLayer("far");
     root.innerHTML =
-      '<div class="city-layer far" data-depth="6"><div class="city-skyline"></div></div>' +
-      '<div class="city-layer mid" data-depth="12"><div class="city-haze"></div></div>' +
+      '<div class="city-layer sky" data-depth="3">' +
+        '<div class="city-sky"></div>' +
+        buildSkyStars() +
+        '<div class="city-moon" aria-hidden="true"></div>' +
+      "</div>" +
+      '<div class="city-horizon" aria-hidden="true"></div>' +
+      '<div class="city-layer far" data-depth="6">' + farSvg + "</div>" +
+      '<div class="city-layer mid" data-depth="12">' + midSvg +
+        '<div class="city-haze"></div>' +
+      "</div>" +
+      '<div class="city-searchlight sl1" aria-hidden="true"></div>' +
+      '<div class="city-searchlight sl2" aria-hidden="true"></div>' +
+      '<div class="city-layer near" data-depth="16">' + nearSvg + "</div>" +
+      '<div class="city-fog f1" aria-hidden="true"></div>' +
+      '<div class="city-fog f2" aria-hidden="true"></div>' +
+      buildSparkles() +
       '<div class="city-layer street" data-depth="22">' + mid +
-      '<span class="lamp l1"></span><span class="lamp l2"></span><span class="lamp l3"></span>' +
-      '<div class="street-base"></div>' +
+      buildStreetLamps() +
+      '<div class="street-base">' +
+        '<div class="street-reflect" aria-hidden="true">' + buildSkylineLayer("near", "refl") + "</div>" +
+        '<div class="street-sheen"></div>' +
+        '<span class="lamp-pool p1"></span><span class="lamp-pool p2"></span>' +
+        '<span class="lamp-pool p3"></span><span class="lamp-pool p4"></span>' +
+      "</div>" +
       '<button type="button" class="beggar" id="beggar" aria-label="Becher des Bettlers – Münze werfen">' + beggarSvg() + "</button>" +
       '<div class="city-traffic" id="cityTraffic" aria-hidden="true"></div>' +
       '<span class="pigeon p1" aria-hidden="true"></span><span class="pigeon p2" aria-hidden="true"></span>' +
@@ -497,6 +786,7 @@
       '<div class="fireworks" id="cityFx"></div>' +
       "</div>";
     placeGoldCoin();
+    bindCityLights();
   }
 
   function placeGoldCoin() {
@@ -1006,6 +1296,85 @@
     narrator.speak(text, !!interrupt);
   }
 
+  var HOST_CLIPS = {
+    intro: "audio/intro.mp3",
+    "chapter-1": "audio/chapter-1.mp3",
+    "chapter-2": "audio/chapter-2.mp3",
+    "chapter-3": "audio/chapter-3.mp3"
+  };
+  var HOST_INTRO_CUES = [0, 4.5, 10.73, 16.02, 20.92, 25.46];
+  var HOST_CHAPTER_LINES = {
+    "chapter-1": "Tag eins, der achtundzwanzigste November. Kapitel eins: Ganz unten.",
+    "chapter-2": "Tag zwei, der neunundzwanzigste November. Kapitel zwei: Der Aufstieg.",
+    "chapter-3": "Tag drei, der dreißigste November. Das Finale: Die Millionärsgala."
+  };
+  var CHAPTER_VO_KEY = "millionaer-chapter-vo";
+
+  var hostAudio = {
+    current: null,
+    cache: {},
+    preload: function (id) {
+      var src = HOST_CLIPS[id];
+      if (!src) return null;
+      if (this.cache[id]) return this.cache[id];
+      var a = new Audio(src);
+      a.preload = "auto";
+      try { a.load(); } catch (e) {}
+      this.cache[id] = a;
+      return a;
+    },
+    play: function (id, opts) {
+      opts = opts || {};
+      this.stop();
+      var src = HOST_CLIPS[id];
+      if (!src) {
+        if (opts.fallback) speakLine(opts.fallback, true);
+        return null;
+      }
+      var a = this.cache[id] || new Audio(src);
+      this.cache[id] = a;
+      try { a.pause(); a.currentTime = 0; } catch (e) {}
+      this.current = a;
+      var self = this;
+      var finished = false;
+      var done = function (failed) {
+        if (finished) return;
+        finished = true;
+        a.onended = a.onerror = null;
+        if (self.current === a) self.current = null;
+        if (failed && opts.fallback) speakLine(opts.fallback, true);
+        if (opts.onend) opts.onend(!!failed);
+      };
+      a.onended = function () { done(false); };
+      a.onerror = function () { done(true); };
+      var playP = a.play();
+      if (playP && playP.catch) {
+        playP.catch(function () { done(true); });
+      }
+      return a;
+    },
+    stop: function () {
+      var a = this.current;
+      this.current = null;
+      if (!a) return;
+      a.onended = a.onerror = null;
+      try { a.pause(); a.currentTime = 0; } catch (e) {}
+    }
+  };
+
+  function maybeAnnounceChapter() {
+    if (!cityAudio.on) return;
+    if (dayStatus() !== "today") return;
+    var ch = currentChapter();
+    if (ch < 0 || ch > 2) return;
+    var id = "chapter-" + (ch + 1);
+    try {
+      if (sessionStorage.getItem(CHAPTER_VO_KEY) === id) return;
+      sessionStorage.setItem(CHAPTER_VO_KEY, id);
+    } catch (e) {}
+    hostAudio.play(id, { fallback: HOST_CHAPTER_LINES[id] });
+  }
+
   function voiceFor(p, list) {
     var st = stageFor(p.ins);
     var lead = isFirst(p, list);
@@ -1417,8 +1786,17 @@
     var want = false;
     try { want = localStorage.getItem(SOUND_KEY) === "on"; } catch (e) {}
     function setSound(on) {
-      if (on) { cityAudio.start(); if (soundBtn) { soundBtn.setAttribute("aria-pressed", "true"); soundBtn.textContent = "Ton aus"; } }
-      else { cityAudio.stop(); if (soundBtn) { soundBtn.setAttribute("aria-pressed", "false"); soundBtn.textContent = "Ton an"; } }
+      if (on) {
+        cityAudio.start();
+        if (soundBtn) { soundBtn.setAttribute("aria-pressed", "true"); soundBtn.textContent = "Ton aus"; }
+        var introEl = document.getElementById("intro");
+        if (!introEl || introEl.hidden || introEl.classList.contains("is-done")) maybeAnnounceChapter();
+      } else {
+        cityAudio.stop();
+        hostAudio.stop();
+        narrator.stop();
+        if (soundBtn) { soundBtn.setAttribute("aria-pressed", "false"); soundBtn.textContent = "Ton an"; }
+      }
       try { localStorage.setItem(SOUND_KEY, on ? "on" : "off"); } catch (e) {}
     }
     if (soundBtn) {
@@ -1429,6 +1807,7 @@
       if (document.hidden) {
         if (cityAudio.on) { cityAudio.stop(); cityAudio._resume = true; }
         narrator.stop();
+        hostAudio.stop();
       } else if (cityAudio._resume) {
         cityAudio._resume = false;
         cityAudio.start();
@@ -1456,18 +1835,29 @@
       { kicker: "TAG 3 · 30.11.", title: "DIE MILLIONÄRSGALA", sub: "Roter Teppich. Feuerwerk. Finale." },
       { kicker: "PEERWISE", title: "DER WEG ZUM MILLIONÄR", sub: "Wer schafft es auf die Yacht?", titleCard: true }
     ];
-    var narr = "Peerwise präsentiert den Weg zum Millionär. In drei Tagen erzählen wir drei Kapitel, vom achtundzwanzigsten bis zum dreißigsten November. Am ersten Tag beginnt die Geschichte ganz unten. Am zweiten Tag folgt der Aufstieg. Und am dritten Tag, bei der Millionärsgala, fällt das große Finale. Wer schafft es von der Straße bis auf die Yacht?";
+    var narr = "Herzlich willkommen zu Vom Bettler zum Millionär! Vom achtundzwanzigsten bis zum dreißigsten November erzählen wir drei Kapitel. Tag eins: ganz unten, als Bettler auf der Straße. Tag zwei: der Aufstieg, Stufe für Stufe. Tag drei: die Millionärsgala auf der Yacht. Schaut euch um, bleibt hier, und fiebert mit!";
     var timers = [];
     var closed = false;
+    hostAudio.preload("intro");
 
     function finish() {
       if (closed) return;
       closed = true;
       timers.forEach(function (t) { clearTimeout(t); });
+      hostAudio.stop();
       narrator.stop();
       intro.classList.add("is-done");
       setTimeout(function () { intro.hidden = true; }, reducedMotion() ? 0 : 600);
       try { sessionStorage.setItem(INTRO_KEY, "1"); } catch (e) {}
+      maybeAnnounceChapter();
+    }
+
+    function renderCard(i) {
+      var c = cards[i];
+      if (!c) return;
+      stage.innerHTML = '<div class="intro-card' + (c.titleCard ? " is-title" : "") + '"><span class="intro-kicker">' + esc(c.kicker) + "</span>" +
+        (c.title ? "<strong>" + esc(c.title) + "</strong>" : "") +
+        (c.sub ? "<em>" + esc(c.sub) + "</em>" : "") + "</div>";
     }
 
     function play() {
@@ -1475,20 +1865,44 @@
       cityAudio.whoosh();
       cityAudio.sting();
       if (setSound) setSound(true);
-      speakLine(narr);
-      var i = 0;
-      function show() {
-        if (closed) return;
-        var c = cards[i];
-        stage.innerHTML = '<div class="intro-card' + (c.titleCard ? " is-title" : "") + '"><span class="intro-kicker">' + esc(c.kicker) + "</span>" +
-          (c.title ? "<strong>" + esc(c.title) + "</strong>" : "") +
-          (c.sub ? "<em>" + esc(c.sub) + "</em>" : "") + "</div>";
-        cityAudio.whoosh();
-        i += 1;
-        if (i < cards.length) timers.push(setTimeout(show, reducedMotion() ? 500 : (i === 1 ? 3600 : 4200)));
-        else timers.push(setTimeout(finish, reducedMotion() ? 700 : 5200));
+      var cardIndex = -1;
+      function syncCard(t) {
+        var i = 0;
+        while (i + 1 < HOST_INTRO_CUES.length && t >= HOST_INTRO_CUES[i + 1]) i += 1;
+        if (i !== cardIndex) {
+          cardIndex = i;
+          renderCard(i);
+          if (i > 0) cityAudio.whoosh();
+        }
       }
-      show();
+      renderCard(0);
+      var audio = hostAudio.play("intro", {
+        fallback: narr,
+        onend: function (failed) {
+          if (closed) return;
+          if (failed) {
+            /* fallback TTS: keep timed cards, then close */
+            var i = 0;
+            function show() {
+              if (closed) return;
+              renderCard(i);
+              if (i > 0) cityAudio.whoosh();
+              i += 1;
+              if (i < cards.length) timers.push(setTimeout(show, reducedMotion() ? 500 : (i === 1 ? 3600 : 4200)));
+              else timers.push(setTimeout(finish, reducedMotion() ? 700 : 5200));
+            }
+            show();
+            return;
+          }
+          timers.push(setTimeout(finish, reducedMotion() ? 200 : 900));
+        }
+      });
+      if (audio) {
+        audio.ontimeupdate = function () {
+          if (closed) return;
+          syncCard(audio.currentTime || 0);
+        };
+      }
     }
 
     if (start) start.addEventListener("click", play);
