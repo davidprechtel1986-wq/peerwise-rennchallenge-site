@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PEERWISE · Schneckenrennen</title>
-  <link rel="stylesheet" href="css/schnecke-12.css" />
+  <link rel="stylesheet" href="css/schnecke-11.css" />
 </head>
 <body class="schnecke-body">
   <div class="sky" aria-hidden="true">
@@ -60,38 +60,11 @@
       </div>
       <p class="poster-brand">PEERWISE</p>
       <h1>SCHNECKENRENNEN</h1>
-      <p class="poster-date">28. BIS 30. NOVEMBER</p>
+      <p class="poster-date">NUR AM SONNTAG, 15. NOVEMBER</p>
       <p class="poster-slogan">Langsam war gestern – jetzt wird geschleimt!</p>
-      <ol class="chapter-strip" id="chapterStrip" aria-label="Drei Kapitel">
-        <li data-n="1"><em>Tag 1 · 28.11.</em><span>Ganz unten</span></li>
-        <li data-n="2"><em>Tag 2 · 29.11.</em><span>Der Aufstieg</span></li>
-        <li data-n="3"><em>Tag 3 · 30.11.</em><span>Die Millionärsgala</span></li>
-      </ol>
-      <p class="chapter-now" id="chapterBanner">Drei Kapitel: Ganz unten · Der Aufstieg · Die Millionärsgala</p>
       <p class="entry-slot"><a class="entry-button" id="entryCorner" href="schnecke-eintragen.html" hidden>Ins eintragen</a></p>
       <div class="countdown-board" id="countdownBoard"></div>
     </header>
-
-
-    <section class="metropole" id="metropole" aria-label="Ins-Metropole">
-      <div class="metro-head">
-        <div>
-          <h2 id="metroTitle">INS-METROPOLE</h2>
-          <p>Drei Tage, drei Kapitel: 28.11. Ganz unten, 29.11. Der Aufstieg, 30.11. Die Millionärsgala. Tippe auf die Moderatoren, neige das Handy, jag versteckte Münzen – und bleib so lange du willst.</p>
-        </div>
-        <div class="metro-tools">
-          <button type="button" class="metro-btn" id="soundToggle" aria-pressed="false">Ton an</button>
-          <button type="button" class="metro-btn" id="tiltBtn" hidden>Neigung an</button>
-          <button type="button" class="metro-btn game" id="gameOpen">Coin-Catcher</button>
-        </div>
-      </div>
-      <div class="city-stage" id="cityStage">
-        <div class="city-parallax" id="cityParallax"></div>
-        <div class="stock-wrap" aria-label="Börsenticker"><div class="stock-ticker" id="stockTicker"></div></div>
-        <div class="city-toast" id="cityToast" hidden></div>
-      </div>
-      <aside class="prognose" id="prognose"></aside>
-    </section>
 
     <section class="stadium" aria-label="Rennstadion">
       <div class="stands" aria-hidden="true">
@@ -153,27 +126,6 @@
     <p class="sack-note" id="sackNote"></p>
   </main>
 
-  <div class="profile-layer" id="profileLayer" hidden>
-    <article class="profile-card" id="profileCard" role="dialog" aria-modal="true" aria-labelledby="profileName"></article>
-  </div>
-  <div class="game-layer" id="gameLayer" hidden>
-    <div class="game-box" role="dialog" aria-modal="true" aria-labelledby="gameTitle">
-      <h2 id="gameTitle">Coin-Catcher</h2>
-      <p class="game-disclaimer">Nur zum Spaß – das Spiel ändert keine Ins und hat nichts mit der Wertung zu tun.</p>
-      <p class="game-hi">Bestleistung: <b id="gameBest">0</b></p>
-      <canvas id="gameCanvas" width="360" height="280"></canvas>
-      <div class="game-bar">
-        <span id="gameStatus">20 Sekunden – fang die Münzen mit dem Topf!</span>
-        <div class="game-actions">
-          <button type="button" class="metro-btn game" id="gameStart">Start</button>
-          <button type="button" class="metro-btn" id="gameClose">Schließen</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="money-rain" id="moneyRain" aria-hidden="true"></div>
-
-
   <script>
     (function () {
       var host = location.hostname;
@@ -183,6 +135,6 @@
       }
     })();
   </script>
-  <script src="js/schnecke-12.js"></script>
+  <script src="js/schnecke-11.js"></script>
 </body>
 </html>

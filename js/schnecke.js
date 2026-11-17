@@ -1,6 +1,5 @@
 /* PEERWISE · Schneckenrennen
-   Drei Kapitel, 28.11. bis 30.11.2026:
-   Tag 1 Ganz unten, Tag 2 Der Aufstieg, Tag 3 Die Millionärsgala.
+   Ein Tag: Sonntag, 15.11.2026.
    Eine gemeinsame Starterliste, ein Rennen, eine Rangliste.
 
    Namen später eintragen: unten in PEOPLE eine Zeile pro Person
@@ -11,13 +10,7 @@
    glasses: true setzt eine Rennbrille. color ist die Hausfarbe. ins startet bei 0.
    Die Eintragen-Seite liest diese Liste automatisch. */
 (function () {
-  var EVENT_START = new Date(2026, 10, 28);
-  var EVENT_END = new Date(2026, 10, 30);
-  var CHAPTERS = [
-    { n: 1, title: "Ganz unten", date: "28.11." },
-    { n: 2, title: "Der Aufstieg", date: "29.11." },
-    { n: 3, title: "Die Millionärsgala", date: "30.11." }
-  ];
+  var EVENT = new Date(2026, 10, 15);
 
   var PEOPLE = [
     { name: "Anni", gender: "f", look: "pigtails", glasses: true, color: "#ff6b9d", hair: "#5c3a1e", mood: 1, ins: 87 },
@@ -54,65 +47,19 @@
     });
   }
 
-  function atMidnight(d) {
-    var x = new Date(d.getTime());
-    x.setHours(0, 0, 0, 0);
-    return x;
-  }
-
-  function eventStart() {
-    return atMidnight(EVENT_START);
-  }
-
-  function eventEndExclusive() {
-    var d = atMidnight(EVENT_END);
-    d.setDate(d.getDate() + 1);
+  function eventDay() {
+    var d = new Date(EVENT.getTime());
+    d.setHours(0, 0, 0, 0);
     return d;
   }
 
-  function eventDay() {
-    return eventStart();
-  }
-
   function dayStatus() {
-    var now = atMidnight(new Date());
-    if (now.getTime() < eventStart().getTime()) return "soon";
-    if (now.getTime() >= eventEndExclusive().getTime()) return "done";
+    var now = new Date();
+    now.setHours(0, 0, 0, 0);
+    var day = eventDay();
+    if (now.getTime() < day.getTime()) return "soon";
+    if (now.getTime() > day.getTime()) return "done";
     return "today";
-  }
-
-  function currentChapter() {
-    if (dayStatus() !== "today") return null;
-    var now = atMidnight(new Date());
-    var idx = Math.round((now.getTime() - eventStart().getTime()) / 86400000);
-    if (idx < 0) idx = 0;
-    if (idx > 2) idx = 2;
-    return CHAPTERS[idx];
-  }
-
-  function renderChapters() {
-    var ch = currentChapter();
-    var status = dayStatus();
-    var banner = document.getElementById("chapterBanner");
-    if (banner) {
-      if (status === "soon") banner.textContent = "Start am 28.11. · Drei Kapitel: Ganz unten · Der Aufstieg · Die Millionärsgala";
-      else if (status === "done") banner.textContent = "Finale vorbei · Die Millionärsgala war am 30.11.";
-      else if (ch) banner.textContent = "Jetzt: Kapitel " + ch.n + " · " + ch.date + " · " + ch.title;
-    }
-    var strip = document.getElementById("chapterStrip");
-    if (strip) {
-      var items = strip.querySelectorAll("li");
-      for (var i = 0; i < items.length; i++) {
-        var n = Number(items[i].getAttribute("data-n"));
-        items[i].classList.remove("is-now", "is-done");
-        if (status === "done" || (ch && n < ch.n)) items[i].classList.add("is-done");
-        if (ch && n === ch.n) items[i].classList.add("is-now");
-      }
-    }
-    if (document.body) {
-      document.body.classList.remove("chapter-1", "chapter-2", "chapter-3");
-      if (ch) document.body.classList.add("chapter-" + ch.n);
-    }
   }
 
   function esc(s) {
@@ -317,13 +264,11 @@
 
   function renderClock() {
     var status = dayStatus();
-    var ch = currentChapter();
     var pill = document.getElementById("livePill");
     var clock = document.getElementById("eventClock");
     var board = document.getElementById("countdownBoard");
     var now = new Date();
     var time = pad(now.getHours()) + ":" + pad(now.getMinutes()) + ":" + pad(now.getSeconds());
-    renderChapters();
 
     if (pill) {
       pill.classList.remove("is-soon", "is-done");
@@ -339,31 +284,22 @@
     }
 
     if (clock) {
-      var prefix = "28.–30.11. · ";
-      if (status === "soon") prefix = "COUNTDOWN · ";
-      else if (ch) prefix = "KAP " + ch.n + " · " + ch.title.toUpperCase() + " · ";
-      else if (status === "done") prefix = "GALA ENDE · ";
-      clock.textContent = prefix + time;
+      clock.textContent =
+        (status === "today" ? "RENNTAG \u00b7 " : status === "soon" ? "COUNTDOWN \u00b7 " : "15.11. \u00b7 ") + time;
     }
 
     if (!board) return;
     if (status === "done") {
-      board.innerHTML = '<p class="status">MILLIONÄRSGALA BEENDET</p><div class="digits">' +
-        '<div class="cell"><b>28</b><span>START</span></div>' +
-        '<div class="cell"><b>30</b><span>NOV</span></div>' +
+      board.innerHTML = '<p class="status">RENNEN BEENDET</p><div class="digits">' +
+        '<div class="cell"><b>15</b><span>NOV</span></div>' +
         '<div class="cell"><b>26</b><span>JAHR</span></div></div>';
       return;
     }
-    var target = eventStart();
-    var label = "START 28.11. IN";
+    var target = eventDay();
+    var label = "START IN";
     if (status === "today") {
-      if (ch && ch.n < 3) {
-        target = new Date(atMidnight(new Date()).getTime() + 24 * 60 * 60 * 1000);
-        label = "LIVE · KAPITEL " + ch.n + " · " + ch.title.toUpperCase() + " – NOCH";
-      } else {
-        target = eventEndExclusive();
-        label = "LIVE · MILLIONÄRSGALA – NOCH";
-      }
+      target = new Date(eventDay().getTime() + 24 * 60 * 60 * 1000);
+      label = "LIVE \u00b7 RENNTAG \u2013 NOCH";
     }
     var t = splitTime(target.getTime() - now.getTime());
     var digits = "";
@@ -374,11 +310,9 @@
 
   function tickerLines(list) {
     var status = dayStatus();
-    var ch = currentChapter();
     var lines = [
-      "PEERWISE SCHNECKENRENNEN — 28. BIS 30. NOVEMBER 2026!",
-      "Drei Kapitel: 28.11. Ganz unten · 29.11. Der Aufstieg · 30.11. Die Millionärsgala!",
-      "Langsam war gestern – jetzt wird geschleimt!",
+      "PEERWISE SCHNECKENRENNEN \u2014 NUR HEUTE, NUR SONNTAG, 15. NOVEMBER!",
+      "Langsam war gestern \u2013 jetzt wird geschleimt!",
       "Wer die meisten Ins holt, steht ganz vorn an der Ziellinie und gewinnt!"
     ];
     if (list && list.length) {
@@ -397,10 +331,9 @@
     } else {
       lines.push("Die Starterliste kommt noch \u2013 die Bahn ist schon warm geschleimt!");
     }
-    if (status === "today" && ch) lines.unshift("LIVE · Kapitel " + ch.n + " · " + ch.title + " · " + ch.date + "!");
-    else if (status === "today") lines.unshift("LIVE aus der PEERWISE-Ins-Metropole!");
-    if (status === "soon") lines.unshift("Bald geht’s los: 28. bis 30. November 2026 — drei Kapitel bis zur Millionärsgala!");
-    if (status === "done") lines.unshift("Die Millionärsgala ist vorbei – danke fürs Schleimen!");
+    if (status === "today") lines.unshift("LIVE aus dem PEERWISE-Schleimstadion \u2013 RENNTAG!");
+    if (status === "soon") lines.unshift("Bald geht\u2019s los: Sonntag, 15. November 2026!");
+    if (status === "done") lines.unshift("Das Schneckenrennen ist gelaufen \u2013 danke f\u00fcrs Schleimen!");
     return lines;
   }
 
@@ -584,582 +517,6 @@
     box.innerHTML = html;
   }
 
-
-  var MILLION = 1000;
-  var GAME_BEST_KEY = "schnecke-coin-catcher-best";
-  var SOUND_KEY = "schnecke-city-sound";
-
-  function stageFor(ins) {
-    if (ins >= 1000) return "Ins-Millionär";
-    if (ins >= 600) return "Penthouse";
-    if (ins >= 400) return "Tower-Suite";
-    if (ins >= 250) return "Stadtwohnung";
-    if (ins >= 100) return "Dachkammer";
-    return "Straßenkante";
-  }
-
-  function storyFor(p, list) {
-    var stage = stageFor(p.ins);
-    var lead = isFirst(p, list);
-    var bits = {
-      Anni: "Anni schleimt sich mit Brille und Zöpfen durch die Gassen. Jedes In ist ein Stein in ihrer Treppe nach oben.",
-      HeikoWi: "HeikoWi hat die Kappe festgezogen und schaut vom hohen Turm über die ganze Meile. Die Krone ist zum Greifen nah.",
-      Dave: "Dave nimmt die Skyline mit Bart und Durchblick. Cool bleiben, weiter schleimen, die Suite wartet.",
-      JoeSp: "JoeSp macht Druck an der Silberlinie – kurz, knackig, und immer mit Blick aufs Penthouse.",
-      "PascalePätz": "Pascale hat den Ponytail fest und eine lila Spur durchs Viertel gezogen. Die nächste Etage ist schon beleuchtet.",
-      FelixHau: "Felix haut rein, Irokesenschnitt im Wind. Vom Bürgersteig bis zur Börse ist es nur ein kühner Satz."
-    };
-    var base = bits[p.name] || (p.name + " ist in der Ins-Metropole unterwegs.");
-    return base + " Grade: " + stage + ", " + p.ins + " Ins." + (lead ? " Gerade führt " + p.name + " das Feld an." : "");
-  }
-
-  function badgesFor(p, list, place) {
-    var out = [];
-    if (p.ins >= 1) out.push("Erste Spur");
-    if (p.ins >= 50) out.push("Schleimspur");
-    if (p.ins >= 100) out.push("Dreistellig");
-    if (p.ins >= 200) out.push("Aufsteiger");
-    if (p.ins >= 400) out.push("Skyline");
-    if (p.ins >= 600) out.push("Penthouse");
-    if (p.ins >= MILLION) out.push("Ins-Millionär");
-    if (place && place <= 3) out.push("Podium");
-    if (isFirst(p, list)) out.push("Kronenträger");
-    return out;
-  }
-
-  function applyDayNight() {
-    var h = new Date().getHours();
-    var mode = h >= 21 || h < 6 ? "night" : h < 8 ? "dawn" : h < 17 ? "day" : "dusk";
-    if (!document.body) return mode;
-    document.body.classList.remove("is-night", "is-dawn", "is-day", "is-dusk");
-    document.body.classList.add("is-" + mode);
-    return mode;
-  }
-
-  function toast(msg) {
-    var el = document.getElementById("cityToast");
-    if (!el) return;
-    el.hidden = false;
-    el.textContent = msg;
-    clearTimeout(toast._t);
-    toast._t = setTimeout(function () { el.hidden = true; }, 2600);
-  }
-
-  var cityAudio = {
-    ctx: null,
-    gain: null,
-    timer: null,
-    on: false,
-    ensure: function () {
-      var AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return null;
-      if (!this.ctx) this.ctx = new AC();
-      if (this.ctx.state === "suspended") this.ctx.resume();
-      if (!this.gain) {
-        this.gain = this.ctx.createGain();
-        this.gain.gain.value = 0.035;
-        this.gain.connect(this.ctx.destination);
-      }
-      return this.ctx;
-    },
-    drone: function () {
-      if (!this.on || !this.ctx) return;
-      var ctx = this.ctx;
-      var osc = ctx.createOscillator();
-      var g = ctx.createGain();
-      osc.type = "sine";
-      osc.frequency.value = 78 + Math.random() * 18;
-      g.gain.value = 0.0001;
-      osc.connect(g);
-      g.connect(this.gain);
-      var now = ctx.currentTime;
-      g.gain.exponentialRampToValueAtTime(0.5, now + 0.4);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 3.2);
-      osc.start(now);
-      osc.stop(now + 3.3);
-    },
-    ping: function (freq) {
-      if (!this.on || !this.ctx) return;
-      var ctx = this.ctx;
-      var osc = ctx.createOscillator();
-      var g = ctx.createGain();
-      osc.type = "triangle";
-      osc.frequency.value = freq || 520;
-      g.gain.value = 0.0001;
-      osc.connect(g);
-      g.connect(this.gain);
-      var now = ctx.currentTime;
-      g.gain.exponentialRampToValueAtTime(0.8, now + 0.03);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
-      osc.start(now);
-      osc.stop(now + 0.4);
-    },
-    start: function () {
-      this.on = true;
-      if (!this.ensure()) return;
-      var self = this;
-      this.drone();
-      this.timer = setInterval(function () { if (self.on) self.drone(); }, 2800);
-    },
-    stop: function () {
-      this.on = false;
-      if (this.timer) clearInterval(this.timer);
-      this.timer = null;
-    }
-  };
-
-  function speakLine(text) {
-    if (!window.speechSynthesis) return;
-    try {
-      window.speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(text);
-      u.lang = "de-DE";
-      u.rate = 1.02;
-      u.pitch = 1.05;
-      window.speechSynthesis.speak(u);
-    } catch (err) {}
-  }
-
-  function beggarSvg() {
-    return (
-      '<svg viewBox="0 0 80 90" aria-hidden="true">' +
-      '<ellipse cx="40" cy="84" rx="22" ry="5" fill="rgba(0,0,0,0.3)"/>' +
-      '<path d="M28 80 Q26 58 40 52 Q54 58 52 80 Z" fill="#4a3a2a" stroke="#1a1020" stroke-width="1.5"/>' +
-      '<circle cx="40" cy="40" r="11" fill="#e8c2a0" stroke="#1a1020" stroke-width="1.4"/>' +
-      '<path d="M30 36 Q40 28 50 36" fill="#3a2a20"/>' +
-      '<ellipse cx="58" cy="78" rx="10" ry="5" fill="#5a3a10" stroke="#1a1020" stroke-width="1.3"/>' +
-      '<ellipse cx="58" cy="77" rx="6" ry="3" fill="#1a1020"/>' +
-      '<text x="58" y="73" text-anchor="middle" font-size="7" fill="#ffe44d">+</text>' +
-      "</svg>"
-    );
-  }
-
-  function renderCity(people, list) {
-    var root = document.getElementById("cityParallax");
-    if (!root) return;
-    var max = maxIns(list) || 1;
-    var towers = people.map(function (p, i) {
-      var h = 56 + Math.round((p.ins / max) * 150);
-      var lead = isFirst(p, list);
-      var delay = (0.08 * i).toFixed(2);
-      return (
-        '<button type="button" class="tower' + (lead ? " is-lead" : "") + '" data-name="' + esc(p.name) + '" style="height:' + h + "px;background:linear-gradient(180deg," + esc(p.color) + " 0%,#1a1020 140%);animation-delay:" + delay + 's" aria-label="' + esc(p.name) + ", " + p.ins + ' Ins">' +
-        (lead ? '<span class="antenna" aria-hidden="true"></span>' : "") +
-        '<span class="tag">#' + p.bib + " " + esc(p.name) + "</span>" +
-        '<span class="roof"></span><span class="windows"></span>' +
-        '<span class="fig crawl">' + snailSvg(p, { crown: lead, bib: p.bib, delay: i * 0.1 }) + "</span>" +
-        "</button>"
-      );
-    }).join("");
-
-    root.innerHTML =
-      '<div class="city-layer far" data-depth="6"><div class="city-skyline"></div></div>' +
-      '<div class="city-layer mid" data-depth="12"><div class="city-haze"></div></div>' +
-      '<div class="city-layer street" data-depth="22">' +
-      '<div class="towers" id="cityTowers">' + towers + "</div>" +
-      '<span class="lamp l1"></span><span class="lamp l2"></span><span class="lamp l3"></span>' +
-      '<div class="street-base"></div>' +
-      '<button type="button" class="beggar" id="beggar" aria-label="Becher des Bettlers – Münze werfen">' + beggarSvg() + "</button>" +
-      '<div class="taxi" id="cityTaxi" aria-hidden="true"></div>' +
-      '<span class="pigeon p1" aria-hidden="true"></span><span class="pigeon p2" aria-hidden="true"></span>' +
-      '<button type="button" class="gold-coin" id="goldCoin" aria-label="Goldmünze"></button>' +
-      "</div>" +
-      '<div class="city-layer near" data-depth="32"></div>' +
-      '<div id="cityFx"></div>';
-  }
-
-  function renderStock(list) {
-    var el = document.getElementById("stockTicker");
-    if (!el) return;
-    var rows = ranked(list);
-    var bits = ["INS-BÖRSE LIVE · PEERWISE METROPOLE"];
-    rows.forEach(function (r) {
-      bits.push(r.person.name + " " + r.person.ins + " INS · Platz " + r.place);
-    });
-    bits.push("Topf " + sum(list) + " INS");
-    bits.push("Drei Kapitel: 28.11. Ganz unten · 29.11. Der Aufstieg · 30.11. Die Millionärsgala");
-    bits.push("Wer wird zuerst Ins-Millionär?");
-    var line = bits.join("   ·   ");
-    el.innerHTML = "<span>" + esc(line) + "   ·   </span><span>" + esc(line) + "   ·   </span>";
-  }
-
-  function renderPrognose(list) {
-    var el = document.getElementById("prognose");
-    if (!el || !list.length) return;
-    var rows = ranked(list);
-    var first = rows[0].person;
-    var second = rows[1] ? rows[1].person : null;
-    var need = Math.max(0, MILLION - first.ins);
-    var pct = Math.min(100, Math.round((first.ins / MILLION) * 100));
-    var msg;
-    if (first.ins >= MILLION) {
-      msg = first.name + " ist bereits Ins-Millionär. Die Skyline gehört " + first.name + "!";
-    } else {
-      msg = "Bei aktuellem Stand wird <b>" + esc(first.name) + "</b> zuerst Ins-Millionär (Ziel: " + MILLION + " Ins). Noch " + need + " Ins — Finale bei der Millionärsgala am 30.11.";
-      if (second) {
-        msg += " Vorsprung vor " + esc(second.name) + ": " + (first.ins - second.ins) + " Ins.";
-      }
-    }
-    el.innerHTML =
-      "<h3>PROGNOSE</h3><p>" + msg + "</p>" +
-      '<div class="prog-track"><div class="prog-fill" style="width:' + pct + '%"></div></div>' +
-      '<p class="sub">' + esc(first.name) + " steht bei " + first.ins + " von " + MILLION + " Ins (" + pct + "%).</p>";
-  }
-
-  function closeProfile() {
-    var layer = document.getElementById("profileLayer");
-    if (layer) layer.hidden = true;
-    if (window.speechSynthesis) try { window.speechSynthesis.cancel(); } catch (e) {}
-  }
-
-  function openProfile(p, list) {
-    var layer = document.getElementById("profileLayer");
-    var card = document.getElementById("profileCard");
-    if (!layer || !card) return;
-    var place = 0;
-    ranked(list).some(function (r) {
-      if (r.person.name === p.name) { place = r.place; return true; }
-      return false;
-    });
-    var badges = badgesFor(p, list, place).map(function (b, i) {
-      return '<span class="badge" style="animation-delay:' + (i * 0.06) + 's">' + esc(b) + "</span>";
-    }).join("");
-    var line = quipFor(p, list);
-    card.innerHTML =
-      '<div class="top"><div class="avatar crawl">' + snailSvg(p, { crown: isFirst(p, list), bib: p.bib }) + "</div>" +
-      "<div><h3 id=\"profileName\">" + esc(p.name) + " #" + p.bib + "</h3>" +
-      '<span class="stage">' + esc(stageFor(p.ins)) + " · " + p.ins + " INS</span></div></div>" +
-      '<p class="story">' + esc(storyFor(p, list)) + "</p>" +
-      (badges ? '<div class="badges">' + badges + "</div>" : "") +
-      '<div class="profile-actions">' +
-      '<button type="button" class="metro-btn game" id="voiceBtn">Stimme anhören</button>' +
-      '<button type="button" class="metro-btn" id="profileClose">Schließen</button></div>';
-    layer.hidden = false;
-    var voice = document.getElementById("voiceBtn");
-    if (voice) voice.addEventListener("click", function () { speakLine(p.name + ". " + line + " " + storyFor(p, list)); cityAudio.ping(660); });
-    var close = document.getElementById("profileClose");
-    if (close) close.addEventListener("click", closeProfile);
-    layer.onclick = function (ev) { if (ev.target === layer) closeProfile(); };
-  }
-
-  function throwCoin(btn) {
-    var coin = document.createElement("span");
-    coin.className = "toss-coin";
-    btn.appendChild(coin);
-    setTimeout(function () { if (coin.parentNode) coin.parentNode.removeChild(coin); }, 750);
-    cityAudio.ping(880);
-    toast("Klingeling – eine Münze im Becher. (Nur Spaß, keine Ins!)");
-  }
-
-  function moneyRain() {
-    var box = document.getElementById("moneyRain");
-    if (!box || reducedMotion()) { toast("Münzregen!"); return; }
-    var html = "";
-    for (var i = 0; i < 36; i++) {
-      var left = (3 + i * 2.7) % 100;
-      html += '<i style="left:' + left.toFixed(1) + "%;animation-delay:" + (i * 0.05).toFixed(2) + 's"></i>';
-    }
-    box.innerHTML = html;
-    toast("Münzregen über der Metropole!");
-    cityAudio.ping(1200);
-    setTimeout(function () { box.innerHTML = ""; }, 3200);
-  }
-
-  function fireworksOverLead() {
-    var fx = document.getElementById("cityFx");
-    var lead = document.querySelector(".tower.is-lead");
-    if (!fx || !lead || reducedMotion()) return;
-    var stage = document.getElementById("cityStage");
-    var sr = stage.getBoundingClientRect();
-    var lr = lead.getBoundingClientRect();
-    var x = lr.left + lr.width / 2 - sr.left;
-    var colors = ["#ffe44d", "#ff4fd8", "#5ce1ff", "#34d399", "#fff"];
-    for (var i = 0; i < 5; i++) {
-      var s = document.createElement("span");
-      s.className = "fw";
-      s.style.left = (x - 20 + i * 10) + "px";
-      s.style.top = (12 + (i % 3) * 10) + "px";
-      s.style.color = colors[i % colors.length];
-      fx.appendChild(s);
-      (function (el) { setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 1200); })(s);
-    }
-    toast("Feuerwerk über dem Penthouse!");
-    cityAudio.ping(980);
-  }
-
-  function bindParallax() {
-    var stage = document.getElementById("cityStage");
-    var par = document.getElementById("cityParallax");
-    if (!stage || !par || reducedMotion()) return;
-    var cx = 0, cy = 0, tx = 0, ty = 0, raf = 0;
-    function loop() {
-      cx += (tx - cx) * 0.12;
-      cy += (ty - cy) * 0.12;
-      par.style.transform = "rotateY(" + (cx * 6) + "deg) rotateX(" + (-cy * 4) + "deg) translate(" + (cx * 8) + "px," + (cy * 6) + "px)";
-      var layers = par.querySelectorAll("[data-depth]");
-      for (var i = 0; i < layers.length; i++) {
-        var d = Number(layers[i].getAttribute("data-depth")) || 10;
-        layers[i].style.transform = "translate(" + (-cx * d) + "px," + (-cy * (d * 0.4)) + "px)";
-      }
-      raf = requestAnimationFrame(loop);
-    }
-    function setFromPoint(x, y) {
-      var r = stage.getBoundingClientRect();
-      tx = ((x - r.left) / r.width - 0.5) * 2;
-      ty = ((y - r.top) / r.height - 0.5) * 2;
-    }
-    stage.addEventListener("mousemove", function (e) { setFromPoint(e.clientX, e.clientY); });
-    stage.addEventListener("mouseleave", function () { tx = 0; ty = 0; });
-    stage.addEventListener("touchmove", function (e) {
-      if (e.touches[0]) setFromPoint(e.touches[0].clientX, e.touches[0].clientY);
-    }, { passive: true });
-    if (!window.__cityParallaxOn) {
-      window.__cityParallaxOn = true;
-      raf = requestAnimationFrame(loop);
-    }
-    var tiltBtn = document.getElementById("tiltBtn");
-    if (tiltBtn && window.DeviceOrientationEvent) {
-      tiltBtn.hidden = false;
-      tiltBtn.onclick = function () {
-        function hook() {
-          window.addEventListener("deviceorientation", function (ev) {
-            var g = ev.gamma || 0, b = ev.beta || 0;
-            tx = Math.max(-1, Math.min(1, g / 25));
-            ty = Math.max(-1, Math.min(1, (b - 45) / 35));
-          });
-          tiltBtn.textContent = "Neigung aktiv";
-          toast("Neigung an – kipp das Handy, die Stadt kippt mit.");
-        }
-        if (typeof DeviceOrientationEvent.requestPermission === "function") {
-          DeviceOrientationEvent.requestPermission().then(function (s) { if (s === "granted") hook(); });
-        } else hook();
-      };
-    }
-  }
-
-  function bindEasterEggs() {
-    var beggar = document.getElementById("beggar");
-    if (beggar) beggar.addEventListener("click", function () { throwCoin(beggar); });
-    var gold = document.getElementById("goldCoin");
-    if (gold) gold.addEventListener("click", function () {
-      gold.classList.add("found");
-      toast("Goldmünze gefunden! Du kennst die Metropole.");
-      cityAudio.ping(1320);
-      moneyRain();
-    });
-    var seq = [];
-    var konami = "ArrowUp,ArrowUp,ArrowDown,ArrowDown,ArrowLeft,ArrowRight,ArrowLeft,ArrowRight,b,a";
-    document.addEventListener("keydown", function (e) {
-      seq.push(e.key);
-      if (seq.length > 10) seq.shift();
-      if (seq.join(",") === konami) moneyRain();
-    });
-    var taps = 0, tapTimer;
-    var title = document.getElementById("metroTitle");
-    if (title) {
-      title.style.cursor = "pointer";
-      title.addEventListener("click", function () {
-        taps += 1;
-        clearTimeout(tapTimer);
-        if (taps >= 5) { taps = 0; moneyRain(); }
-        else tapTimer = setTimeout(function () { taps = 0; }, 1400);
-      });
-    }
-  }
-
-  function liveEvents() {
-    if (reducedMotion()) return;
-    var lines = [
-      function () { toast("Ein Taxi rollt durch die Meile."); },
-      function () { toast("Tauben streiten sich um eine Schleimspur."); },
-      function () { fireworksOverLead(); },
-      function () { toast("Der Börsenticker zuckt – Ins sind heiß!"); }
-    ];
-    setInterval(function () {
-      if (document.hidden) return;
-      var ch = currentChapter();
-      if (ch && ch.n === 3 && Math.random() < 0.45) fireworksOverLead();
-      else lines[Math.floor(Math.random() * lines.length)]();
-    }, 11000);
-  }
-
-  function bootGame() {
-    var layer = document.getElementById("gameLayer");
-    var canvas = document.getElementById("gameCanvas");
-    var startBtn = document.getElementById("gameStart");
-    var closeBtn = document.getElementById("gameClose");
-    var openBtn = document.getElementById("gameOpen");
-    var status = document.getElementById("gameStatus");
-    var bestEl = document.getElementById("gameBest");
-    if (!layer || !canvas) return;
-    var ctx = canvas.getContext("2d");
-    var best = 0;
-    try { best = Number(localStorage.getItem(GAME_BEST_KEY)) || 0; } catch (e) {}
-    if (bestEl) bestEl.textContent = String(best);
-    var running = false, score = 0, left = 20, potX = 0.5, coins = [], raf, tick;
-
-    function resize() {
-      var w = canvas.clientWidth || 360;
-      var h = Math.round(w * 0.78);
-      canvas.width = w;
-      canvas.height = h;
-    }
-    function spawn() {
-      coins.push({ x: 0.08 + Math.random() * 0.84, y: -0.05, s: 0.008 + Math.random() * 0.01, gold: Math.random() < 0.12 });
-    }
-    function draw() {
-      var w = canvas.width, h = canvas.height;
-      ctx.clearRect(0, 0, w, h);
-      var grd = ctx.createLinearGradient(0, 0, 0, h);
-      grd.addColorStop(0, "#4ec7ff");
-      grd.addColorStop(1, "#3d1a9c");
-      ctx.fillStyle = grd;
-      ctx.fillRect(0, 0, w, h);
-      var pw = w * 0.18, ph = h * 0.09;
-      var px = potX * w - pw / 2, py = h - ph - 8;
-      ctx.fillStyle = "#6b2d12";
-      ctx.strokeStyle = "#1a1020";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(px, py);
-      ctx.lineTo(px + pw, py);
-      ctx.lineTo(px + pw - 8, py + ph);
-      ctx.lineTo(px + 8, py + ph);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
-      ctx.strokeStyle = "#ffd24a";
-      ctx.beginPath();
-      ctx.moveTo(px - 4, py);
-      ctx.lineTo(px + pw + 4, py);
-      ctx.stroke();
-      coins.forEach(function (c) {
-        ctx.beginPath();
-        ctx.fillStyle = c.gold ? "#fff6c2" : "#ffd24a";
-        ctx.arc(c.x * w, c.y * h, c.gold ? 9 : 7, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = "#8a5a10";
-        ctx.stroke();
-      });
-      ctx.fillStyle = "#ffe44d";
-      ctx.font = "700 16px Arial";
-      ctx.fillText("Münzen: " + score, 10, 22);
-    }
-    function step() {
-      if (!running) return;
-      if (Math.random() < 0.08) spawn();
-      var pw = 0.18;
-      coins = coins.filter(function (c) {
-        c.y += c.s;
-        if (c.y > 0.88 && c.y < 0.98 && Math.abs(c.x - potX) < pw / 2 + 0.02) {
-          score += c.gold ? 5 : 1;
-          cityAudio.ping(c.gold ? 1200 : 800);
-          return false;
-        }
-        return c.y < 1.1;
-      });
-      draw();
-      raf = requestAnimationFrame(step);
-    }
-    function stop() {
-      running = false;
-      if (raf) cancelAnimationFrame(raf);
-      if (tick) clearInterval(tick);
-      if (score > best) {
-        best = score;
-        try { localStorage.setItem(GAME_BEST_KEY, String(best)); } catch (e) {}
-        if (bestEl) bestEl.textContent = String(best);
-        if (status) status.textContent = "Neue Bestleistung: " + best + "!";
-      } else if (status) {
-        status.textContent = "Zeit um! Diesmal " + score + " Münzen. Bestleistung: " + best + ".";
-      }
-      if (startBtn) startBtn.disabled = false;
-    }
-    function start() {
-      score = 0; left = 20; coins = []; potX = 0.5; running = true;
-      if (startBtn) startBtn.disabled = true;
-      if (status) status.textContent = "Noch 20 Sekunden – nur zum Spaß!";
-      resize();
-      if (tick) clearInterval(tick);
-      tick = setInterval(function () {
-        left -= 1;
-        if (status && running) status.textContent = "Noch " + left + " Sekunden – nur zum Spaß!";
-        if (left <= 0) stop();
-      }, 1000);
-      step();
-    }
-    function move(clientX) {
-      var r = canvas.getBoundingClientRect();
-      potX = Math.max(0.1, Math.min(0.9, (clientX - r.left) / r.width));
-    }
-    canvas.addEventListener("mousemove", function (e) { move(e.clientX); });
-    canvas.addEventListener("touchmove", function (e) {
-      if (e.touches[0]) { move(e.touches[0].clientX); e.preventDefault(); }
-    }, { passive: false });
-    if (openBtn) openBtn.addEventListener("click", function () {
-      layer.hidden = false;
-      resize();
-      draw();
-      if (status) status.textContent = "20 Sekunden – fang die Münzen mit dem Topf!";
-    });
-    if (startBtn) startBtn.addEventListener("click", start);
-    if (closeBtn) closeBtn.addEventListener("click", function () { stop(); layer.hidden = true; });
-    layer.addEventListener("click", function (e) { if (e.target === layer) { stop(); layer.hidden = true; } });
-  }
-
-  function bootCity(list) {
-    if (!document.getElementById("metropole")) return;
-    applyDayNight();
-    setInterval(applyDayNight, 60000);
-    renderCity(list, list);
-    renderStock(list);
-    renderPrognose(list);
-    bindParallax();
-    bindEasterEggs();
-    liveEvents();
-    bootGame();
-
-    var towers = document.getElementById("cityTowers");
-    if (towers) {
-      towers.addEventListener("click", function (e) {
-        var btn = e.target.closest(".tower");
-        if (!btn) return;
-        var name = btn.getAttribute("data-name");
-        var p = null;
-        for (var i = 0; i < list.length; i++) if (list[i].name === name) p = list[i];
-        if (p) openProfile(p, list);
-      });
-    }
-
-    var soundBtn = document.getElementById("soundToggle");
-    var want = false;
-    try { want = localStorage.getItem(SOUND_KEY) === "on"; } catch (e) {}
-    function setSound(on) {
-      if (on) { cityAudio.start(); if (soundBtn) { soundBtn.setAttribute("aria-pressed", "true"); soundBtn.textContent = "Ton aus"; } }
-      else { cityAudio.stop(); if (soundBtn) { soundBtn.setAttribute("aria-pressed", "false"); soundBtn.textContent = "Ton an"; } }
-      try { localStorage.setItem(SOUND_KEY, on ? "on" : "off"); } catch (e) {}
-    }
-    if (soundBtn) {
-      soundBtn.addEventListener("click", function () { setSound(!cityAudio.on); });
-      if (want) {
-        /* wait for a gesture before actually starting */
-        var once = function () { setSound(true); document.removeEventListener("click", once); };
-        document.addEventListener("click", once);
-        soundBtn.textContent = "Ton bereit";
-      }
-    }
-
-    document.addEventListener("visibilitychange", function () {
-      if (document.hidden) {
-        if (cityAudio.on) { cityAudio.stop(); cityAudio._resume = true; }
-        if (window.speechSynthesis) try { window.speechSynthesis.cancel(); } catch (e) {}
-      } else if (cityAudio._resume) {
-        cityAudio._resume = false;
-        cityAudio.start();
-      }
-    });
-  }
-
   var people = withPerson(PEOPLE);
   var waiting = people.length === 0;
 
@@ -1173,7 +530,6 @@
   renderLegend();
   renderConfetti();
   renderCoinPot(people);
-  bootCity(people);
   show("emptyState", waiting);
   show("liveRank", !waiting);
   show("podiumWrap", !waiting);
@@ -1182,7 +538,7 @@
   if (note) {
     note.textContent = waiting
       ? ""
-      : "Drei Tage, 28. bis 30.11.2026: Ganz unten, Der Aufstieg, Die Millionärsgala. Wer die meisten Ins holt, liegt an der Ziellinie und gewinnt.";
+      : "Nur dieser eine Sonntag, der 15.11.2026. Wer die meisten Ins holt, liegt an der Ziellinie und gewinnt.";
   }
 
   if (!waiting) {
