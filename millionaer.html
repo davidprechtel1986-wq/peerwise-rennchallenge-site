@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PEERWISE: Der Weg zum Millionär. Drei Tage, drei Kapitel – 28. bis 30. November 2026." />
+  <title>PEERWISE · Der Weg zum Millionär</title>
+  <link rel="stylesheet" href="css/millionaer-1.css" />
+</head>
+<body class=" mil-body">
+  <div id="intro" class="intro" role="dialog" aria-label="Trailer">
+    <div class="intro-grain" aria-hidden="true"></div>
+    <button type="button" class="intro-skip" id="introSkip">Überspringen</button>
+    <div class="intro-stage" id="introStage">
+      <button type="button" class="intro-start" id="introStart">
+        <span class="intro-start-kicker">PEERWISE PRÄSENTIERT</span>
+        <strong>Ton starten</strong>
+        <em>Tippe, um den Trailer mit Ton zu sehen</em>
+      </button>
+    </div>
+  </div>
+
+  <div class="fx-layer" aria-hidden="true">
+    <div class="money-rain" id="moneyRain" hidden></div>
+  </div>
+
+  <div class="breaking" id="breaking" hidden role="status">
+    <span class="breaking-kicker">BREAKING NEWS</span>
+    <p id="breakingText"></p>
+  </div>
+
+  <div class="ascend" id="ascend" hidden role="status">
+    <span class="ascend-kicker">AUFGESTIEGEN</span>
+    <p id="ascendText"></p>
+  </div>
+
+  <div class="broadcast" role="status">
+    <span class="live-pill" id="livePill"><i></i> SOON</span>
+    <div class="ticker" aria-label="Newsticker">
+      <div class="ticker-track" id="tickerTrack"></div>
+    </div>
+    <div class="led-clock" id="eventClock"></div>
+  </div>
+
+  <a class="events-corner" href="alte-events.html">alte Events</a>
+
+  <aside class="vault" id="vault" aria-label="Tresor mit Gesamt-Ins">
+    <div class="vault-art" aria-hidden="true">
+      <svg class="vault-svg" viewBox="0 0 120 120">
+        <defs>
+          <radialGradient id="vaultGlow" cx="50%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#ffe9a0" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#f5d76e" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="60" cy="108" rx="40" ry="7" fill="rgba(245,215,110,0.25)"/>
+        <rect x="18" y="22" width="84" height="84" rx="10" fill="#1a140c" stroke="#f5d76e" stroke-width="3"/>
+        <rect x="26" y="30" width="68" height="68" rx="8" fill="#2a2114" stroke="#8a6a28" stroke-width="2"/>
+        <circle cx="60" cy="64" r="22" fill="#12100c" stroke="#f5d76e" stroke-width="3"/>
+        <circle cx="60" cy="64" r="8" fill="#f5d76e"/>
+        <g stroke="#c9a227" stroke-width="3" stroke-linecap="round">
+          <line x1="60" y1="46" x2="60" y2="52"/>
+          <line x1="60" y1="76" x2="60" y2="82"/>
+          <line x1="42" y1="64" x2="48" y2="64"/>
+          <line x1="72" y1="64" x2="78" y2="64"/>
+        </g>
+        <rect x="30" y="36" width="14" height="8" rx="1" fill="#f5d76e"/>
+        <rect x="76" y="36" width="14" height="8" rx="1" fill="#f5d76e"/>
+        <circle cx="26" cy="28" r="6" fill="url(#vaultGlow)"/>
+      </svg>
+    </div>
+    <div class="vault-meta">
+      <span class="vault-label">TRESOR · Gesamt-Ins</span>
+      <strong class="vault-total" id="coinPotTotal">0</strong>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <header class="hero">
+      <div class="logo" aria-label="PEERWISE">
+        <img class="logo-img" src="peerwise-logo.png?v=25" alt="PEERWISE" />
+      </div>
+      <p class="poster-brand">PEERWISE</p>
+      <h1>DER WEG ZUM MILLIONÄR</h1>
+      <p class="poster-date">28. BIS 30. NOVEMBER</p>
+      <p class="poster-slogan">Von der Straße auf die Yacht – in drei Kapiteln.</p>
+      <ol class="chapter-strip" id="chapterStrip" aria-label="Drei Kapitel">
+        <li data-n="1"><em>Tag 1 · 28.11.</em><span>Ganz unten</span></li>
+        <li data-n="2"><em>Tag 2 · 29.11.</em><span>Der Aufstieg</span></li>
+        <li data-n="3"><em>Tag 3 · 30.11.</em><span>Die Millionärsgala</span></li>
+      </ol>
+      <p class="chapter-now" id="chapterBanner">Drei Kapitel: Ganz unten · Der Aufstieg · Die Millionärsgala</p>
+      <p class="entry-slot"><a class="entry-button" id="entryCorner" href="millionaer-eintragen.html" hidden>Ins eintragen</a></p>
+      <div class="countdown-board" id="countdownBoard"></div>
+    </header>
+
+    <section class="metropole" id="metropole" aria-label="Ins-Metropole">
+      <div class="metro-head">
+        <div>
+          <h2>INS-METROPOLE</h2>
+          <p id="metroIntro">Drei Tage, drei Kapitel: 28.11. Ganz unten, 29.11. Der Aufstieg, 30.11. Die Millionärsgala. Tippe auf die Moderatoren, neige das Handy, jag versteckte Münzen – und bleib so lange du willst.</p>
+        </div>
+        <div class="metro-actions">
+          <button type="button" id="soundToggle" aria-pressed="false">Ton an</button>
+          <button type="button" id="tiltBtn">Neigung an</button>
+          <button type="button" id="gameOpen">Coin-Catcher</button>
+        </div>
+      </div>
+      <div class="city-frame">
+        <div class="city-parallax" id="cityParallax"></div>
+        <div class="stock-ticker" id="stockTicker" aria-label="Ins-Börse"></div>
+      </div>
+      <p class="city-toast" id="cityToast" hidden></p>
+    </section>
+
+    <section class="prognose-card" id="prognose" aria-label="Prognose"></section>
+
+    <section class="ladder" aria-label="Stufenleiter">
+      <h2>VON BETTLER ZUR YACHT</h2>
+      <ol class="ladder-list" id="ladderList"></ol>
+    </section>
+
+    <section class="gala" id="gala" aria-label="Millionärsgala">
+      <div class="gala-inner">
+        <p class="gala-kicker">Tag 3 · 30.11.</p>
+        <h2>DIE MILLIONÄRSGALA</h2>
+        <p id="galaCopy">Der rote Teppich ist schon ausgerollt. Am 30. November steigt die Gala – mit Feuerwerk über der Yacht und dem großen Finale.</p>
+        <div class="gala-stage" id="galaStage"></div>
+      </div>
+    </section>
+
+    <section class="badge-board" id="badgeBoard" aria-label="Abzeichen"></section>
+
+    <p class="foot-note" id="sackNote"></p>
+  </main>
+
+  <div class="profile-layer" id="profileLayer" hidden>
+    <div class="profile-card" id="profileCard" role="dialog" aria-modal="true" aria-labelledby="profileName"></div>
+  </div>
+
+  <div class="game-layer" id="gameLayer" hidden>
+    <div class="game-panel" role="dialog" aria-modal="true" aria-labelledby="gameTitle">
+      <div class="game-head">
+        <h2 id="gameTitle">COIN-CATCHER</h2>
+        <button type="button" id="gameClose">Schließen</button>
+      </div>
+      <p class="game-hint">Nur zum Spaß – die gefangenen Münzen zählen nicht für die Ins. Fang so viele Goldstücke wie möglich, bevor die Zeit abläuft.</p>
+      <div class="game-meta">
+        <span>Punkte: <strong id="gameScore">0</strong></span>
+        <span>Zeit: <strong id="gameTime">30</strong></span>
+        <span>Bestwert: <strong id="gameBest">0</strong></span>
+      </div>
+      <div class="game-arena" id="gameArena"></div>
+      <button type="button" class="game-start" id="gameStart">Spiel starten</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var host = location.hostname;
+      if (host === "127.0.0.1" || host === "localhost") {
+        var link = document.getElementById("entryCorner");
+        if (link) link.hidden = false;
+      }
+    })();
+  </script>
+  <script src="js/millionaer-1.js"></script>
+</body>
+</html>

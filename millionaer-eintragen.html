@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ins eintragen · Der Weg zum Millionär</title>
+  <style>
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #07060c; color: #fff6e8; }
+    .entry-wrap { max-width: 1080px; margin: 0 auto; padding: 1.4rem 1rem 3rem; }
+    .entry-card {
+      background: rgba(12, 8, 20, 0.86);
+      border: 2px solid rgba(245, 215, 110, 0.35);
+      border-radius: 16px;
+      padding: 1rem 1rem 1.15rem;
+      margin-bottom: 1rem;
+    }
+    h1 { font-family: "Arial Black", Impact, sans-serif; font-size: 1.55rem; letter-spacing: 0.04em; margin: 0 0 0.35rem; color: #f5d76e; }
+    h2 { margin: 0 0 0.6rem; font-size: 1.05rem; letter-spacing: 0.04em; }
+    .lead { color: #d7c4a0; margin: 0 0 1rem; line-height: 1.45; }
+    label { display: block; font-size: 0.82rem; font-weight: 800; margin-bottom: 0.3rem; }
+    input, select, button { font: inherit; }
+    input, select {
+      width: 100%;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      background: #120818;
+      color: #fff7ff;
+      padding: 0.55rem 0.7rem;
+    }
+    .pass-row, .add-row { display: flex; gap: 0.6rem; align-items: end; flex-wrap: wrap; }
+    .pass-row input { max-width: 220px; }
+    .field { flex: 1 1 140px; }
+    button {
+      border: 3px solid #fff3bf;
+      border-radius: 12px;
+      padding: 0.85rem 1.4rem;
+      font-family: "Arial Black", Impact, sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ffd24a 0%, #ff9a3c 45%, #ff2d9b 100%);
+      color: #1a0a2e;
+    }
+    button:disabled { opacity: 0.55; cursor: wait; }
+    .msg { min-height: 1.3rem; margin: 0.75rem 0 0; font-weight: 800; }
+    .msg.ok { color: #7dffb3; }
+    .msg.bad { color: #ff8aa8; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: end; margin-bottom: 1rem; }
+    .person {
+      display: grid;
+      grid-template-columns: 1fr 110px;
+      gap: 0.45rem 0.7rem;
+      align-items: center;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .sack-preview { margin-top: 1rem; font-family: "Arial Black", Impact, sans-serif; font-size: 1.25rem; color: #f5d76e; }
+    .back { color: #f5d76e; font-weight: 800; }
+    .empty-hint { margin: 0; font-weight: 800; color: #ffe08a; line-height: 1.45; }
+  </style>
+</head>
+<body>
+  <main class="entry-wrap">
+    <p><a class="back" href="millionaer.html">← Zur Millionärs-Seite</a></p>
+    <h1>INS EINTRAGEN</h1>
+    <p class="lead">Nur auf diesem Computer. Du trägst Namen und Ins für den 28. bis 30.11.2026 ein. Neue Zahlen ersetzen die alten. Danach aktualisiert sich die Seite automatisch.</p>
+
+    <section class="entry-card" id="lockView">
+      <label for="password">Passwort</label>
+      <div class="pass-row">
+        <input id="password" type="password" autocomplete="current-password" />
+        <button type="button" id="unlockBtn">Weiter</button>
+      </div>
+      <p class="msg" id="lockMsg"></p>
+    </section>
+
+    <section class="entry-card" id="formView" hidden>
+      <div class="toolbar" id="saveBar" hidden>
+        <button type="button" id="saveBtn">Speichern und übernehmen</button>
+      </div>
+      <p class="lead" id="formLead" hidden>Eine leere Zahl zählt als 0. Jede neue Zahl ersetzt die alte.</p>
+      <div id="lists"></div>
+      <p class="sack-preview" id="preview"></p>
+      <p class="msg" id="saveMsg"></p>
+    </section>
+
+    <section class="entry-card" id="addView" hidden>
+      <h2>Person hinzufügen</h2>
+      <p class="lead">Name ist Pflicht. Aussehen kannst du lassen – dann sucht die Seite selbst Farben und Frisur.</p>
+      <div class="add-row">
+        <div class="field">
+          <label for="newName">Name</label>
+          <input id="newName" maxlength="32" />
+        </div>
+        <div class="field">
+          <label for="newIns">Ins (Start)</label>
+          <input id="newIns" type="number" min="0" step="1" inputmode="numeric" value="0" />
+        </div>
+        <div class="field">
+          <label for="newGender">Geschlecht</label>
+          <select id="newGender">
+            <option value="m">m</option>
+            <option value="f">f</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="newLook">Look</label>
+          <select id="newLook">
+            <option value="">automatisch</option>
+            <option value="short">short</option>
+            <option value="cap">cap</option>
+            <option value="beard">beard</option>
+            <option value="pigtails">pigtails</option>
+            <option value="ponytail">ponytail</option>
+            <option value="mohawk">mohawk</option>
+          </select>
+        </div>
+        <button type="button" id="addBtn">Hinzufügen</button>
+      </div>
+      <p class="msg" id="addMsg"></p>
+    </section>
+  </main>
+  <script>
+    var password = "";
+    var board = null;
+
+    function msg(el, text, ok) {
+      el.textContent = text || "";
+      el.className = "msg" + (text ? (ok ? " ok" : " bad") : "");
+    }
+
+    function allPeople() {
+      return (board && board.people) ? board.people.slice() : [];
+    }
+
+    function valueAt(person) {
+      var input = document.querySelector('input[data-name="' + person.name + '"]');
+      if (!input) return Number(person.ins) || 0;
+      var raw = String(input.value || "").trim();
+      if (raw === "") return 0;
+      var n = Number(raw);
+      return isFinite(n) ? Math.max(0, Math.round(n)) : 0;
+    }
+
+    function render() {
+      var lists = document.getElementById("lists");
+      lists.innerHTML = "";
+      var people = allPeople();
+      var saveBar = document.getElementById("saveBar");
+      var formLead = document.getElementById("formLead");
+      var preview = document.getElementById("preview");
+      if (!people.length) {
+        if (saveBar) saveBar.hidden = true;
+        formLead.hidden = true;
+        preview.textContent = "";
+        var hint = document.createElement("p");
+        hint.className = "empty-hint";
+        hint.textContent = "Die Liste ist noch leer. Unten kannst du die erste Person hinzufügen. Danach erscheinen hier die Ins-Felder.";
+        lists.appendChild(hint);
+        return;
+      }
+      if (saveBar) saveBar.hidden = false;
+      formLead.hidden = false;
+      var card = document.createElement("section");
+      var title = document.createElement("h2");
+      title.textContent = "Starter";
+      card.appendChild(title);
+      people.forEach(function (person) {
+        var row = document.createElement("div");
+        row.className = "person";
+        var name = document.createElement("b");
+        name.textContent = person.name;
+        var input = document.createElement("input");
+        input.type = "number";
+        input.min = "0";
+        input.step = "1";
+        input.inputMode = "numeric";
+        input.setAttribute("data-name", person.name);
+        input.value = person.ins == null ? "" : String(person.ins);
+        row.appendChild(name);
+        row.appendChild(input);
+        card.appendChild(row);
+        input.addEventListener("input", refresh);
+      });
+      lists.appendChild(card);
+      refresh();
+    }
+
+    function refresh() {
+      var total = 0;
+      allPeople().forEach(function (person) { total += valueAt(person); });
+      document.getElementById("preview").textContent = "Ins gesamt (Tresor): " + total;
+    }
+
+    function collect() {
+      var scores = {};
+      allPeople().forEach(function (person) { scores[person.name] = valueAt(person); });
+      return scores;
+    }
+
+    function remember() {
+      allPeople().forEach(function (person) { person.ins = valueAt(person); });
+    }
+
+    function loadBoard() {
+      return fetch("/api/millionaer-entry").then(function (res) { return res.json(); }).then(function (data) {
+        board = data;
+        document.getElementById("lockView").hidden = true;
+        document.getElementById("formView").hidden = false;
+        document.getElementById("addView").hidden = false;
+        render();
+      });
+    }
+
+    document.getElementById("unlockBtn").addEventListener("click", function () {
+      password = document.getElementById("password").value;
+      msg(document.getElementById("lockMsg"), "");
+      fetch("/api/millionaer-auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: password })
+      }).then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+        .then(function (result) {
+          if (!result.ok) {
+            msg(document.getElementById("lockMsg"), (result.data && result.data.error) || "Passwort stimmt nicht.", false);
+            return;
+          }
+          return loadBoard();
+        })
+        .catch(function () {
+          msg(document.getElementById("lockMsg"), "Das geht nur auf diesem Computer, wenn die Seite hier läuft.", false);
+        });
+    });
+
+    document.getElementById("password").addEventListener("keydown", function (event) {
+      if (event.key === "Enter") document.getElementById("unlockBtn").click();
+    });
+
+    document.getElementById("saveBtn").addEventListener("click", function () {
+      var button = document.getElementById("saveBtn");
+      button.disabled = true;
+      msg(document.getElementById("saveMsg"), "Speichere …", true);
+      fetch("/api/millionaer-save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: password, scores: collect() })
+      }).then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+        .then(function (result) {
+          button.disabled = false;
+          if (!result.ok) {
+            msg(document.getElementById("saveMsg"), (result.data && result.data.error) || "Speichern fehlgeschlagen.", false);
+            return;
+          }
+          remember();
+          if (result.data.changed) {
+            location.href = "millionaer.html?neu=" + result.data.version;
+            return;
+          }
+          refresh();
+          msg(document.getElementById("saveMsg"), "Diese Zahlen stehen schon auf der Seite.", true);
+        })
+        .catch(function () {
+          button.disabled = false;
+          msg(document.getElementById("saveMsg"), "Speichern fehlgeschlagen.", false);
+        });
+    });
+
+    document.getElementById("addBtn").addEventListener("click", function () {
+      var name = String(document.getElementById("newName").value || "").trim();
+      var insRaw = String(document.getElementById("newIns").value || "").trim();
+      var ins = insRaw === "" ? 0 : Number(insRaw);
+      var button = document.getElementById("addBtn");
+      if (!name) {
+        msg(document.getElementById("addMsg"), "Bitte einen Namen eingeben.", false);
+        return;
+      }
+      button.disabled = true;
+      msg(document.getElementById("addMsg"), "Füge hinzu …", true);
+      fetch("/api/millionaer-add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          password: password,
+          name: name,
+          ins: isFinite(ins) ? Math.max(0, Math.round(ins)) : 0,
+          gender: document.getElementById("newGender").value,
+          look: document.getElementById("newLook").value
+        })
+      }).then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+        .then(function (result) {
+          button.disabled = false;
+          if (!result.ok) {
+            msg(document.getElementById("addMsg"), (result.data && result.data.error) || "Hinzufügen fehlgeschlagen.", false);
+            return;
+          }
+          document.getElementById("newName").value = "";
+          document.getElementById("newIns").value = "0";
+          msg(document.getElementById("addMsg"), name + " ist dabei.", true);
+          if (result.data && result.data.people) {
+            board = { people: result.data.people };
+            render();
+          } else {
+            loadBoard();
+          }
+        })
+        .catch(function () {
+          button.disabled = false;
+          msg(document.getElementById("addMsg"), "Hinzufügen fehlgeschlagen.", false);
+        });
+    });
+  </script>
+</body>
+</html>
