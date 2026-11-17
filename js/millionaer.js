@@ -87,6 +87,95 @@
     return isLocalHost() && /(?:\?|&)pathdemo=1(?:&|$)/.test(location.search);
   }
 
+  function timeOverride() {
+    if (!isLocalHost()) return null;
+    var m = /(?:\?|&)time=(\d{1,2}):(\d{2})(?:&|$)/.exec(location.search);
+    if (!m) return null;
+    var h = Number(m[1]), min = Number(m[2]);
+    if (!isFinite(h) || !isFinite(min) || h > 23 || min > 59) return null;
+    return { h: h, min: min };
+  }
+
+  function cityNow() {
+    var now = new Date();
+    var ov = timeOverride();
+    if (ov) now.setHours(ov.h, ov.min, 0, 0);
+    return now;
+  }
+
+  function minutesOfDay(d) {
+    return d.getHours() * 60 + d.getMinutes() + d.getSeconds() / 60;
+  }
+
+  var SKY_STOPS = [
+    { m: 0,    sky: ["#02040c", "#070c20", "#10182c", "#141822"], star: 1,    sun: 0,    moon: 1,    neon: 1,    winDay: 0,    search: 1,    cloud: 0.04, sunCol: ["#ffe566", "#ff9a2a"], h1: "rgba(50,70,110,.22)", h2: "rgba(40,55,90,.28)" },
+    { m: 330,  sky: ["#060818", "#101838", "#2a2048", "#3a2a48"], star: 0.9,  sun: 0,    moon: 1,    neon: 1,    winDay: 0,    search: 0.9,  cloud: 0.08, sunCol: ["#ffd080", "#ff7a3a"], h1: "rgba(80,50,90,.22)", h2: "rgba(120,70,80,.28)" },
+    { m: 360,  sky: ["#0c1238", "#2a2460", "#8a4a68", "#f0a070"], star: 0.55, sun: 0.55, moon: 0.7,  neon: 0.85, winDay: 0.15, search: 0.35, cloud: 0.25, sunCol: ["#ffd080", "#ff7a3a"], h1: "rgba(255,140,90,.32)", h2: "rgba(255,190,130,.42)" },
+    { m: 420,  sky: ["#1a3068", "#e07070", "#ff8a4a", "#ffd090"], star: 0.15, sun: 1,    moon: 0.2,  neon: 0.5,  winDay: 0.45, search: 0.05, cloud: 0.45, sunCol: ["#ffe0a0", "#ff8020"], h1: "rgba(255,120,70,.4)", h2: "rgba(255,200,120,.5)" },
+    { m: 480,  sky: ["#2a6cc8", "#4a98e0", "#8ec8f0", "#d8eefc"], star: 0,    sun: 1,    moon: 0,    neon: 0.22, winDay: 0.92, search: 0,    cloud: 0.8,  sunCol: ["#fff6c2", "#ffb84a"], h1: "rgba(180,210,240,.2)", h2: "rgba(210,230,250,.28)" },
+    { m: 720,  sky: ["#1560c0", "#2a88e0", "#6ab4ee", "#c5e6fa"], star: 0,    sun: 1,    moon: 0,    neon: 0.18, winDay: 1,    search: 0,    cloud: 0.85, sunCol: ["#fffce0", "#ffd24a"], h1: "rgba(170,210,240,.16)", h2: "rgba(200,228,250,.24)" },
+    { m: 960,  sky: ["#1a68c8", "#4a96dc", "#8ab8e0", "#e4d2b4"], star: 0,    sun: 1,    moon: 0,    neon: 0.22, winDay: 0.9,  search: 0,    cloud: 0.8,  sunCol: ["#ffe8b0", "#ffb03a"], h1: "rgba(200,210,230,.16)", h2: "rgba(230,200,160,.26)" },
+    { m: 1020, sky: ["#2a4a88", "#c46a48", "#f0a058", "#ffe0a8"], star: 0.05, sun: 1,    moon: 0.1,  neon: 0.4,  winDay: 0.55, search: 0.08, cloud: 0.55, sunCol: ["#ffd080", "#ff6a28"], h1: "rgba(255,140,60,.32)", h2: "rgba(255,200,110,.42)" },
+    { m: 1080, sky: ["#14102c", "#6a2048", "#e04a30", "#ffb060"], star: 0.25, sun: 0.95, moon: 0.45, neon: 0.7,  winDay: 0.25, search: 0.25, cloud: 0.35, sunCol: ["#ffb060", "#ff3a18"], h1: "rgba(255,80,40,.4)", h2: "rgba(255,170,80,.48)" },
+    { m: 1140, sky: ["#060610", "#0c1028", "#1a1838", "#141428"], star: 0.85, sun: 0,    moon: 0.9,  neon: 0.95, winDay: 0.05, search: 0.85, cloud: 0.08, sunCol: ["#ffe566", "#ff9a2a"], h1: "rgba(80,50,90,.22)", h2: "rgba(40,50,80,.28)" },
+    { m: 1440, sky: ["#02040c", "#070c20", "#10182c", "#141822"], star: 1,    sun: 0,    moon: 1,    neon: 1,    winDay: 0,    search: 1,    cloud: 0.04, sunCol: ["#ffe566", "#ff9a2a"], h1: "rgba(50,70,110,.22)", h2: "rgba(40,55,90,.28)" }
+  ];
+
+  function parseHex(hex) {
+    var h = String(hex).replace("#", "");
+    if (h.length === 3) h = h.charAt(0) + h.charAt(0) + h.charAt(1) + h.charAt(1) + h.charAt(2) + h.charAt(2);
+    return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+  }
+  function cssRgb(rgb) {
+    return "rgb(" + Math.round(rgb[0]) + ", " + Math.round(rgb[1]) + ", " + Math.round(rgb[2]) + ")";
+  }
+  function mixNum(a, b, t) { return a + (b - a) * t; }
+  function mixHex(a, b, t) {
+    var A = parseHex(a), B = parseHex(b);
+    return cssRgb([mixNum(A[0], B[0], t), mixNum(A[1], B[1], t), mixNum(A[2], B[2], t)]);
+  }
+  function skyPhaseName(min) {
+    if (min >= 360 && min < 480) return "dawn";
+    if (min >= 480 && min < 1020) return "day";
+    if (min >= 1020 && min < 1140) return "dusk";
+    return "night";
+  }
+  function sampleSky(min) {
+    var stops = SKY_STOPS, i, a, b, t, m = min;
+    if (m < 0) m = 0;
+    if (m >= 1440) m = m % 1440;
+    for (i = 0; i < stops.length - 1; i++) {
+      if (m <= stops[i + 1].m) {
+        a = stops[i];
+        b = stops[i + 1];
+        t = (m - a.m) / (b.m - a.m || 1);
+        return {
+          sky: [mixHex(a.sky[0], b.sky[0], t), mixHex(a.sky[1], b.sky[1], t), mixHex(a.sky[2], b.sky[2], t), mixHex(a.sky[3], b.sky[3], t)],
+          star: mixNum(a.star, b.star, t),
+          sun: mixNum(a.sun, b.sun, t),
+          moon: mixNum(a.moon, b.moon, t),
+          neon: mixNum(a.neon, b.neon, t),
+          winDay: mixNum(a.winDay, b.winDay, t),
+          search: mixNum(a.search, b.search, t),
+          cloud: mixNum(a.cloud, b.cloud, t),
+          sunCol: [mixHex(a.sunCol[0], b.sunCol[0], t), mixHex(a.sunCol[1], b.sunCol[1], t)],
+          h1: t < 0.5 ? a.h1 : b.h1,
+          h2: t < 0.5 ? a.h2 : b.h2
+        };
+      }
+    }
+    return sampleSky(0);
+  }
+  function arcPos(min, rise, set) {
+    if (min < rise || min > set) return { vis: 0, x: 7, y: 58, t: 0 };
+    var t = (min - rise) / (set - rise);
+    var fade = 1;
+    var edge = 35;
+    if ((min - rise) < edge) fade = (min - rise) / edge;
+    if ((set - min) < edge) fade = Math.min(fade, (set - min) / edge);
+    return { vis: fade, x: 7 + t * 86, y: 58 - Math.sin(Math.PI * t) * 46, t: t };
+  }
+
   function wealthRatio(ins) {
     return Math.max(0, Math.min(1, (Number(ins) || 0) / MILLION));
   }
@@ -197,12 +286,59 @@
   }
 
   function applyDayNight() {
-    var h = new Date().getHours();
-    var mode = h >= 21 || h < 6 ? "night" : h < 8 ? "dawn" : h < 17 ? "day" : "dusk";
-    if (!document.body) return mode;
-    document.body.classList.remove("is-night", "is-dawn", "is-day", "is-dusk");
-    document.body.classList.add("is-" + mode);
-    return mode;
+    var now = cityNow();
+    var min = minutesOfDay(now);
+    var phase = skyPhaseName(min);
+    var sky = sampleSky(min);
+    var sunPos = arcPos(min, 375, 1110);
+    var moonClock = min >= 1050 ? min : (min <= 390 ? min + 1440 : -1);
+    var moonPos = moonClock < 0 ? { vis: 0, x: 80, y: 12, t: 0 } : arcPos(moonClock, 1050, 1800);
+    var sunVis, moonVis, root, sun, moon, label, meta;
+    if (document.body) {
+      document.body.classList.remove("is-night", "is-dawn", "is-day", "is-dusk");
+      document.body.classList.add("is-" + phase);
+      document.body.style.setProperty("--neon-glow", sky.neon.toFixed(3));
+      document.body.style.setProperty("--win-day", sky.winDay.toFixed(3));
+      document.body.style.setProperty("--star-opacity", sky.star.toFixed(3));
+      document.body.style.setProperty("--cloud-opacity", sky.cloud.toFixed(3));
+      document.body.style.setProperty("--searchlight-opacity", sky.search.toFixed(3));
+    }
+    root = document.getElementById("cityParallax");
+    if (root) {
+      root.style.setProperty("--sky-0", sky.sky[0]);
+      root.style.setProperty("--sky-1", sky.sky[1]);
+      root.style.setProperty("--sky-2", sky.sky[2]);
+      root.style.setProperty("--sky-3", sky.sky[3]);
+      root.style.setProperty("--horizon-1", sky.h1);
+      root.style.setProperty("--horizon-2", sky.h2);
+      sun = root.querySelector(".city-sun");
+      moon = root.querySelector(".city-moon");
+      sunVis = sky.sun * sunPos.vis;
+      moonVis = sky.moon * moonPos.vis;
+      if (sun) {
+        sun.style.left = sunPos.x.toFixed(2) + "%";
+        sun.style.top = sunPos.y.toFixed(2) + "%";
+        sun.style.opacity = sunVis.toFixed(3);
+        sun.style.background = "radial-gradient(circle at 35% 32%, #fffce8, " + sky.sunCol[0] + " 44%, " + sky.sunCol[1] + " 100%)";
+        sun.style.boxShadow = "0 0 28px 10px " + sky.sunCol[0].replace("rgb(", "rgba(").replace(")", ",.55)") + ", 0 0 80px 24px " + sky.sunCol[1].replace("rgb(", "rgba(").replace(")", ",.3)");
+      }
+      if (moon) {
+        moon.style.left = moonPos.x.toFixed(2) + "%";
+        moon.style.top = moonPos.y.toFixed(2) + "%";
+        moon.style.right = "auto";
+        moon.style.opacity = moonVis.toFixed(3);
+      }
+      if (!root.classList.contains("sky-ready")) {
+        root.classList.add("sky-ready");
+        requestAnimationFrame(function () { root.classList.add("sky-anim"); });
+      }
+    }
+    label = document.getElementById("skyClock");
+    if (label) {
+      meta = { night: ["🌙", "Nacht"], dawn: ["🌅", "Sonnenaufgang"], day: ["☀️", "Tag"], dusk: ["🌇", "Sonnenuntergang"] }[phase];
+      label.textContent = meta[0] + " " + pad(now.getHours()) + ":" + pad(now.getMinutes()) + " " + meta[1];
+    }
+    return phase;
   }
 
   function toast(msg) {
@@ -615,6 +751,7 @@
         if (rng() > density) continue;
         off = rng() < 0.2 ? " is-off" : "";
         cool = rng() < 0.2 ? " cool" : "";
+        if (rng() < 0.16) off += " day-lit";
         html += '<rect class="city-win' + cool + off + '" x="' + (startX + c * (ww + gapX)).toFixed(1) +
           '" y="' + (startY + r * (hh + gapY)).toFixed(1) + '" width="' + ww + '" height="' + hh + '" rx="0.35"/>';
       }
@@ -837,12 +974,12 @@
         "</div>";
     }).join("");
     var signs = STAGES.map(function (s, i) {
-      return '<div class="mile-sign" style="left:' + pathStationX(i).toFixed(2) + '%"><b>' +
+      return '<div class="mile-sign' + (s.id === "yacht" ? " is-yacht" : "") + '" style="left:' + pathStationX(i).toFixed(2) + '%"><b>' +
         (s.id === "yacht" ? "Millionär<br>auf Yacht" : esc(s.name)) +
         "</b><span>" + formatDeNumber(s.min) + " Ins</span></div>";
     }).join("");
     return '<div class="city-path-line" aria-hidden="true"></div><div class="milestones">' + arts +
-      '</div><div class="mile-signs">' + signs + "</div>";
+      '</div><div class="sign-row-base" aria-hidden="true"></div><div class="mile-signs">' + signs + "</div>";
   }
 
   function walkerLane(i) {
@@ -1010,8 +1147,11 @@
       '<div class="city-layer sky" data-depth="3">' +
         '<div class="city-sky"></div>' +
         buildSkyStars() +
-        '<div class="city-moon" aria-hidden="true"></div>' +
+        '<div class="city-clouds" aria-hidden="true"><span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span><span class="cloud c4"></span></div>' +
       "</div>" +
+      '<div class="city-sun" aria-hidden="true"></div>' +
+      '<div class="city-moon" aria-hidden="true"></div>' +
+      '<div class="sky-clock" id="skyClock" aria-live="polite"></div>' +
       '<div class="city-horizon" aria-hidden="true"></div>' +
       '<div class="city-layer far" data-depth="6">' + farSvg + "</div>" +
       '<div class="city-layer mid" data-depth="12">' + midSvg +
@@ -1045,6 +1185,7 @@
     placeGoldCoin();
     bindCityLights();
     startWalkerMoves(list);
+    applyDayNight();
   }
 
   function placeGoldCoin() {
@@ -1054,7 +1195,7 @@
     try { found = localStorage.getItem(GOLD_KEY) === "1"; } catch (e) {}
     if (found) { coin.classList.add("is-found"); return; }
     coin.style.left = (12 + Math.round(Math.random() * 70)) + "%";
-    coin.style.bottom = (50 + Math.round(Math.random() * 90)) + "px";
+    coin.style.bottom = "calc(var(--sign-gutter) + " + (50 + Math.round(Math.random() * 90)) + "px)";
   }
 
   function renderStock(list) {
