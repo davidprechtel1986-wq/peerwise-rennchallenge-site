@@ -1336,19 +1336,50 @@
     );
   }
 
-  function papSvg() {
+  function papSvg(variant) {
+    variant = variant || 1;
+    if (variant === 2) {
+      return (
+        '<svg viewBox="0 0 80 120" aria-hidden="true">' +
+        '<ellipse cx="38" cy="114" rx="20" ry="5" fill="rgba(0,0,0,.45)"/>' +
+        '<path d="M18 112 L16 78 Q20 62 40 60 Q58 62 62 80 L60 112 Z" fill="#0b0b10"/>' +
+        '<path d="M22 80 L14 70 L22 58 H52 L62 66 L54 80 Z" fill="#101018"/>' +
+        '<path d="M28 58 Q40 42 54 58" fill="#0a0a0e"/>' +
+        '<rect x="48" y="62" width="28" height="16" rx="2" fill="#111"/>' +
+        '<circle cx="70" cy="70" r="8" fill="#1a1a1a" stroke="#f5d76e" stroke-width="1.6"/>' +
+        '<circle cx="70" cy="70" r="3.2" fill="#7ad7ff"/>' +
+        '<rect x="52" y="56" width="9" height="6" rx="1" fill="#c9a227"/>' +
+        '<path d="M16 72 L4 64" stroke="#0b0b10" stroke-width="5" stroke-linecap="round"/>' +
+        "</svg>"
+      );
+    }
+    if (variant === 3) {
+      return (
+        '<svg viewBox="0 0 80 120" aria-hidden="true">' +
+        '<ellipse cx="36" cy="114" rx="16" ry="4.5" fill="rgba(0,0,0,.4)"/>' +
+        '<path d="M22 112 L20 70 H50 L54 112 Z" fill="#0c0c12"/>' +
+        '<path d="M24 70 L20 54 H54 L50 70 Z" fill="#12121a"/>' +
+        '<path d="M28 54 Q38 40 50 54" fill="#0a0a0e"/>' +
+        '<rect x="42" y="28" width="24" height="18" rx="2" fill="#111" transform="rotate(-18 54 37)"/>' +
+        '<circle cx="64" cy="30" r="7" fill="#1a1a1a" stroke="#f5d76e" stroke-width="1.5"/>' +
+        '<circle cx="64" cy="30" r="2.8" fill="#9ae8ff"/>' +
+        '<path d="M16 62 L6 50" stroke="#0b0b10" stroke-width="4.5" stroke-linecap="round"/>' +
+        "</svg>"
+      );
+    }
     return (
-      '<svg viewBox="0 0 70 90" aria-hidden="true">' +
-      '<ellipse cx="32" cy="86" rx="16" ry="4" fill="rgba(0,0,0,.35)"/>' +
-      '<path d="M20 84 L18 52 H44 L46 84 Z" fill="#1a1a22" stroke="#0a0a10" stroke-width="1.2"/>' +
-      '<path d="M22 54 L16 40 H48 L44 54 Z" fill="#2a2a36" stroke="#0a0a10" stroke-width="1.2"/>' +
-      '<circle cx="32" cy="30" r="9" fill="#e8c2a0" stroke="#1a1020" stroke-width="1.2"/>' +
-      '<path d="M23 28 Q32 22 41 28" fill="#1a1410"/>' +
-      '<rect x="40" y="36" width="22" height="14" rx="2" fill="#111" stroke="#f5d76e" stroke-width="1.2"/>' +
-      '<circle cx="58" cy="43" r="6" fill="#222" stroke="#c9a227" stroke-width="1.4"/>' +
-      '<circle cx="58" cy="43" r="3" fill="#5ce1ff"/>' +
-      '<rect x="44" y="32" width="8" height="5" rx="1" fill="#f5d76e"/>' +
-      '<path d="M14 44 L6 38" stroke="#1a1020" stroke-width="3" stroke-linecap="round"/>' +
+      '<svg viewBox="0 0 80 120" aria-hidden="true">' +
+      '<ellipse cx="36" cy="114" rx="22" ry="5.5" fill="rgba(0,0,0,.5)"/>' +
+      '<path d="M16 112 L14 68 Q18 50 38 48 Q60 50 64 70 L62 112 Z" fill="#0a0a0e"/>' +
+      '<path d="M20 68 L16 52 Q38 36 60 52 L56 68 Z" fill="#111118"/>' +
+      '<path d="M26 52 Q38 34 54 52" fill="#08080c"/>' +
+      '<path d="M24 50 Q38 46 54 50 L54 58 Q38 64 24 58 Z" fill="#0c0c12"/>' +
+      '<rect x="50" y="54" width="28" height="18" rx="2.2" fill="#101014" stroke="#c9a227" stroke-width="1.2"/>' +
+      '<circle cx="72" cy="63" r="9" fill="#16161c" stroke="#f5d76e" stroke-width="1.8"/>' +
+      '<circle cx="72" cy="63" r="3.6" fill="#8ce0ff"/>' +
+      '<rect x="54" y="48" width="11" height="7" rx="1.2" fill="#f5d76e"/>' +
+      '<path d="M14 64 L2 54" stroke="#0a0a0e" stroke-width="6" stroke-linecap="round"/>' +
+      '<path d="M58 72 L64 86" stroke="#1a1a22" stroke-width="2.2"/>' +
       "</svg>"
     );
   }
@@ -1362,12 +1393,20 @@
 
   function glitterDots() {
     var html = "";
-    for (var i = 0; i < 28; i++) {
-      var left = Math.round(Math.random() * 100);
-      var top = Math.round(Math.random() * 55);
-      var delay = (Math.random() * 3).toFixed(2);
-      var size = 2 + Math.round(Math.random() * 3);
+    var i, left, top, delay, size, dur;
+    for (i = 0; i < 22; i++) {
+      left = Math.round(Math.random() * 100);
+      top = Math.round(Math.random() * 58);
+      delay = (Math.random() * 3).toFixed(2);
+      size = 2 + Math.round(Math.random() * 3);
       html += '<i class="gala-glitter" style="left:' + left + "%;top:" + top + "%;width:" + size + "px;height:" + size + "px;animation-delay:" + delay + 's"></i>';
+    }
+    for (i = 0; i < 14; i++) {
+      left = Math.round(8 + Math.random() * 84);
+      delay = (Math.random() * 8).toFixed(2);
+      dur = (7 + Math.random() * 5).toFixed(1);
+      size = 3 + Math.round(Math.random() * 4);
+      html += '<i class="gala-goldbit" style="left:' + left + "%;top:-8%;width:" + size + "px;height:" + size + "px;animation-delay:" + delay + "s;animation-duration:" + dur + 's"></i>';
     }
     return html;
   }
@@ -1399,7 +1438,7 @@
         world.classList.add("flash-wash");
         setTimeout(function () { world.classList.remove("flash-wash"); }, 90);
       }
-      cityAudio.flash();
+      if (cityAudio.on) cityAudio.flash();
     }
     if (reducedMotion()) return;
     galaTimers.push(setTimeout(flashOne, 900));
@@ -1411,6 +1450,44 @@
     galaTimers.push(setInterval(function () {
       fireworks(currentChapter() === 2 ? 18 : 11, "galaFx");
     }, 3800));
+  }
+
+  function galaGuestSlots(n) {
+    var slots = [
+      { x: 0, y: 6, s: 1.2 },
+      { x: -12, y: 14, s: 0.9 },
+      { x: 12, y: 16, s: 0.84 },
+      { x: -7, y: 24, s: 0.66 },
+      { x: 8, y: 26, s: 0.62 },
+      { x: 0, y: 32, s: 0.5 }
+    ];
+    return slots.slice(0, Math.max(0, n));
+  }
+
+  function bindGalaCamera() {
+    var world = document.getElementById("galaWorld");
+    if (!world) return;
+    if (reducedMotion()) {
+      world.classList.add("is-still");
+      return;
+    }
+    function setCam(x, y) {
+      world.style.setProperty("--gala-x", (x * 14).toFixed(1) + "px");
+      world.style.setProperty("--gala-y", (y * 9).toFixed(1) + "px");
+    }
+    world.addEventListener("mousemove", function (e) {
+      var r = world.getBoundingClientRect();
+      setCam(((e.clientX - r.left) / Math.max(1, r.width) - 0.5) * 2, ((e.clientY - r.top) / Math.max(1, r.height) - 0.5) * 2);
+    });
+    world.addEventListener("mouseleave", function () { setCam(0, 0); });
+  }
+
+  function galaPaps(side) {
+    return '<div class="gala-paps ' + side + '" aria-label="Paparazzi">' +
+      '<span class="pap pap-a" aria-hidden="true">' + papSvg(1) + '<i class="flash-burst"></i></span>' +
+      '<span class="pap pap-b" aria-hidden="true">' + papSvg(2) + '<i class="flash-burst"></i></span>' +
+      '<span class="pap pap-c" aria-hidden="true">' + papSvg(3) + '<i class="flash-burst"></i></span>' +
+      "</div>";
   }
 
   function renderGala(list) {
@@ -1426,38 +1503,41 @@
     if (!stage) return;
     var people = "";
     if (list.length) {
-      people = '<div class="gala-people">' + ranked(list).slice(0, 3).map(function (r) {
-        return '<span class="fig" title="' + esc(r.person.name) + '">' + figureSvg(r.person, { crown: r.place === 1 }) + "</span>";
+      var rankedList = ranked(list);
+      var slots = galaGuestSlots(rankedList.length);
+      people = '<div class="gala-people">' + rankedList.map(function (r, i) {
+        var sl = slots[i] || slots[slots.length - 1];
+        var klass = "gala-guest" + (r.place <= 3 ? " is-spot" : "") + (r.place === 1 ? " is-lead" : "");
+        return '<div class="' + klass + '" style="--gx:' + sl.x + "%;--gy:" + sl.y + "%;--gs:" + sl.s + ";z-index:" + (32 - i) + '" title="' + esc(r.person.name) + '">' +
+          '<span class="gala-guest-inner">' +
+          (r.place <= 3 ? '<i class="gala-guest-spot" aria-hidden="true"></i>' : "") +
+          '<span class="fig">' + figureSvg(r.person, { crown: r.place === 1 }) + "</span>" +
+          '<span class="gala-guest-name">' + esc(r.person.name) + "</span>" +
+          "</span></div>";
       }).join("") + "</div>";
     }
     stage.innerHTML =
-      '<div class="gala-world">' +
-      '<div class="gala-sky" aria-hidden="true">' +
-      '<div class="gala-fw" id="galaFx"></div>' +
-      '<span class="gala-spot-beam s1"></span><span class="gala-spot-beam s2"></span>' +
-      glitterDots() +
-      "</div>" +
-      '<div class="gala-water" aria-hidden="true">' +
-      '<div class="gala-yacht">' + yachtSvg() + "</div>" +
-      '<div class="gala-yacht-refl">' + yachtSvg() + "</div>" +
-      '<span class="gala-wave"></span>' +
-      "</div>" +
-      '<div class="gala-venue">' +
-      '<div class="gala-entrance" aria-label="Eingang zur Gala">' + entranceSvg() + "</div>" +
-      '<div class="gala-carpet" aria-label="Roter Teppich"><span class="gala-carpet-run"></span></div>' +
-      '<div class="gala-rope left" aria-hidden="true">' + ropeRow("left") + '<svg class="rope-line" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M8,80 Q18,70 26,62 Q34,52 42,46" fill="none" stroke="#d4a017" stroke-width="1.6" stroke-linecap="round"/></svg></div>' +
-      '<div class="gala-rope right" aria-hidden="true">' + ropeRow("right") + '<svg class="rope-line" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M92,80 Q82,70 74,62 Q66,52 58,46" fill="none" stroke="#d4a017" stroke-width="1.6" stroke-linecap="round"/></svg></div>' +
-      '<div class="gala-paps left" aria-label="Paparazzi">' +
-      '<button type="button" class="pap" aria-label="Paparazzo">' + papSvg() + '<i class="flash-burst"></i></button>' +
-      '<button type="button" class="pap pap-b" aria-label="Paparazzo">' + papSvg() + '<i class="flash-burst"></i></button>' +
-      "</div>" +
-      '<div class="gala-paps right" aria-label="Paparazzi">' +
-      '<button type="button" class="pap" aria-label="Paparazzo">' + papSvg() + '<i class="flash-burst"></i></button>' +
-      '<button type="button" class="pap pap-b" aria-label="Paparazzo">' + papSvg() + '<i class="flash-burst"></i></button>' +
-      "</div>" +
-      people +
-      "</div></div>";
+      '<div class="gala-world" id="galaWorld">' +
+        '<div class="gala-plate-wrap">' +
+          '<picture>' +
+            '<source media="(max-width: 720px)" type="image/webp" srcset="img/gala-night-mobile.webp">' +
+            '<source media="(max-width: 720px)" type="image/jpeg" srcset="img/gala-night-mobile.jpg">' +
+            '<source type="image/webp" srcset="img/gala-night.webp">' +
+            '<img class="gala-plate" src="img/gala-night.jpg" width="1280" height="720" alt="Millionärsgala bei Nacht: roter Teppich, goldener PEERWISE-GALA-Bogen und eine beleuchtete Yacht im Hafen">' +
+          "</picture>" +
+          '<div class="gala-shimmer" aria-hidden="true"></div>' +
+        "</div>" +
+        '<div class="gala-sky-fx" aria-hidden="true">' +
+          '<span class="gala-spot-beam s1"></span><span class="gala-spot-beam s2"></span><span class="gala-spot-beam s3"></span>' +
+          glitterDots() +
+          '<div class="gala-fw" id="galaFx"></div>' +
+        "</div>" +
+        galaPaps("left") + galaPaps("right") +
+        people +
+        '<div class="gala-vignette" aria-hidden="true"></div>' +
+      "</div>";
     bindGalaEffects();
+    bindGalaCamera();
   }
 
 
