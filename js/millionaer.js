@@ -9,6 +9,7 @@
   var INTRO_KEY = "millionaer-intro-done";
   var GOLD_KEY = "millionaer-gold-found";
   var STAGE_KEY = "millionaer-stages";
+  var PATH_INS_KEY = "millionaer-path-ins";
 
   var CHAPTERS = [
     { n: 1, title: "Ganz unten", date: "28.11." },
@@ -75,6 +76,64 @@
     var num = Number(n);
     if (!isFinite(num)) num = 0;
     try { return num.toLocaleString("de-DE"); } catch (err) { return String(num); }
+  }
+
+  function isLocalHost() {
+    var h = location.hostname;
+    return h === "127.0.0.1" || h === "localhost" || h === "::1";
+  }
+
+  function isPathDemo() {
+    return isLocalHost() && /(?:\?|&)pathdemo=1(?:&|$)/.test(location.search);
+  }
+
+  function wealthRatio(ins) {
+    return Math.max(0, Math.min(1, (Number(ins) || 0) / MILLION));
+  }
+
+  function fortuneEuro(ins) {
+    return formatDeNumber((Number(ins) || 0) * 500) + " €";
+  }
+
+  function pathStationX(index) {
+    return 7 + (index / (STAGES.length - 1)) * 86;
+  }
+
+  function pathLeftPct(ins) {
+    var stages = STAGES;
+    var last = stages.length - 1;
+    ins = Math.max(0, Number(ins) || 0);
+    if (ins >= stages[last].min) return pathStationX(last);
+    var i, a, b, t;
+    for (i = 0; i < last; i++) {
+      a = stages[i].min;
+      b = stages[i + 1].min;
+      if (ins < b) {
+        t = (ins - a) / (b - a);
+        return pathStationX(i) + (pathStationX(i + 1) - pathStationX(i)) * t;
+      }
+    }
+    return pathStationX(last);
+  }
+
+  function loadPathIns() {
+    try { return JSON.parse(sessionStorage.getItem(PATH_INS_KEY) || "{}"); } catch (e) { return {}; }
+  }
+
+  function savePathIns(map) {
+    try { sessionStorage.setItem(PATH_INS_KEY, JSON.stringify(map)); } catch (e) {}
+  }
+
+  function applyPathDemo(list) {
+    if (!isPathDemo() || !list.length) return list;
+    return list.map(function (p, i) {
+      if (i !== 0) return p;
+      var copy = {};
+      var k;
+      for (k in p) if (Object.prototype.hasOwnProperty.call(p, k)) copy[k] = p[k];
+      copy.ins = 650;
+      return copy;
+    });
   }
 
   function sum(list) {
@@ -456,11 +515,56 @@
 
     var neck = '<path d="M36 38 L44 38 L43 44 L37 44 Z" fill="url(#sk' + uid + ')"/>';
 
+    var ins = p.ins || 0;
+    var wr = wealthRatio(ins);
+    if (ins > 0) {
+      var glowR = 22 + wr * 18;
+      auraG += '<ellipse class="fig-wealth-glow" cx="40" cy="70" rx="' + glowR.toFixed(1) + '" ry="' + (glowR * 1.55).toFixed(1) + '" fill="#f5d76e" opacity="' + (0.1 + wr * 0.42).toFixed(2) + '"/>';
+    }
+    if (ins >= 1 && !particles) {
+      var sparkN = Math.min(7, 1 + Math.floor(wr * 6));
+      var si, sx, sy, sr;
+      parts += '<g class="fig-spark fig-wealth-spark" opacity="' + (0.45 + wr * 0.55).toFixed(2) + '">';
+      for (si = 0; si < sparkN; si++) {
+        sx = 18 + ((si * 17) % 46);
+        sy = 22 + ((si * 23) % 80);
+        sr = 0.9 + (si % 3) * 0.35;
+        parts += '<circle cx="' + sx + '" cy="' + sy + '" r="' + sr.toFixed(1) + '" fill="' + (si % 2 ? "#fff6c2" : "#f5d76e") + '"/>';
+      }
+      parts += "</g>";
+    }
+
+    var acc = "";
+    if (ins >= 1) {
+      acc += '<g class="fig-purse"><rect x="15" y="78" width="9.5" height="8.2" rx="1.6" fill="#6a3a12" stroke="#1a1020" stroke-width="0.7"/><path d="M15 81.2 H24.5" stroke="#f5d76e" stroke-width="0.85"/><circle cx="19.8" cy="85.2" r="0.85" fill="#f5d76e"/></g>';
+    }
+    if (ins >= 80) {
+      acc += '<g class="fig-watch"><rect x="16.6" y="69.5" width="6.4" height="4.2" rx="0.9" fill="#1a1a22" stroke="#f5d76e" stroke-width="0.7"/><circle cx="19.8" cy="71.6" r="1.15" fill="#d7ecff"/></g>';
+    }
+    if (ins >= 280) {
+      acc += '<g class="fig-chain"><ellipse cx="40" cy="45.5" rx="7.2" ry="4.1" fill="none" stroke="#f5d76e" stroke-width="1.35"/><circle cx="40" cy="49.8" r="1.7" fill="#f5d76e" stroke="#8a5a10" stroke-width="0.4"/></g>';
+    }
+    if (ins >= 420 && !shades) {
+      acc += '<g class="fig-shades-acc" fill="#1a1020" stroke="#f5d76e" stroke-width="0.9"><rect x="29" y="25.2" width="9" height="5.8" rx="1.4"/><rect x="42" y="25.2" width="9" height="5.8" rx="1.4"/><path d="M38 28 H42"/></g>';
+    }
+    if (ins >= 620 && !holdGlass && !holdCup) {
+      armL = '<g class="fig-arm-l"><path d="M26 52 Q15 68 18 80" fill="none" stroke="url(#cl' + uid + ')" stroke-width="5.2" stroke-linecap="round"/><g class="fig-case"><rect x="10" y="78" width="16" height="12" rx="1.4" fill="#2a1a10" stroke="#1a1020" stroke-width="0.8"/><rect x="10" y="82" width="16" height="2" fill="#f5d76e"/><rect x="16" y="76.2" width="4" height="3" rx="0.6" fill="#c9a227"/></g></g>';
+    }
+    if (ins >= 850) {
+      var bills = Math.min(5, 2 + Math.floor(wr * 4));
+      var bi;
+      acc += '<g class="fig-bills">';
+      for (bi = 0; bi < bills; bi++) {
+        acc += '<g class="fig-bill" style="animation-delay:' + (bi * 0.22).toFixed(2) + 's"><rect x="' + (12 + bi * 11) + '" y="' + (36 + (bi % 3) * 8) + '" width="9" height="5" rx="0.6" fill="#7dcf7a" stroke="#1a1020" stroke-width="0.4" transform="rotate(' + (bi * 18 - 20) + ' ' + (16 + bi * 11) + ' ' + (38 + (bi % 3) * 8) + ')"/></g>';
+      }
+      acc += "</g>";
+    }
+
     return (
       '<svg class="fig-svg" viewBox="0 0 80 130" aria-hidden="true">' + defs + shadow + auraG + parts +
       '<g class="fig-3d">' +
       '<g class="fig-breathe" style="animation-delay:' + delay + 's">' +
-      pants + torso + armL + armR + neck +
+      pants + torso + armL + armR + neck + acc +
       hairBack +
       '<g class="fig-head">' + face + hairFront + glass + crownSvg + "</g>" +
       "</g></g></svg>"
@@ -704,13 +808,177 @@
     }).join("");
   }
 
-  function podiumHtml(n) {
-    var out = '<div class="empty-lots">';
-    var i;
-    for (i = 0; i < n; i++) {
-      out += '<div class="podium"><span class="podium-column"></span><span class="podium-plate"></span><span class="podium-label">FREI</span></div>';
+  function milestoneArt(id) {
+    if (id === "bettler") {
+      return '<svg class="mile-svg" viewBox="0 0 80 72" aria-hidden="true"><rect x="6" y="60" width="68" height="7" rx="1.2" fill="#5a3a18"/><rect x="10" y="57" width="60" height="4" fill="#8a6230"/><path d="M18 58 L22 30 H58 L62 58 Z" fill="#c9a24a" stroke="#5a3a10" stroke-width="1.2"/><path d="M22 30 L40 22 L58 30" fill="#e2c56a" stroke="#5a3a10" stroke-width="1.1"/><path d="M20 42 H60" stroke="#8a5a10" stroke-width="1.1"/></svg>';
     }
-    return out + "</div>";
+    if (id === "strasse") {
+      return '<svg class="mile-svg" viewBox="0 0 80 72" aria-hidden="true"><path d="M8 62 H72 L68 50 H12 Z" fill="#6a6a72" stroke="#2a2a30" stroke-width="1.1"/><rect x="14" y="34" width="10" height="16" rx="5" fill="#c23b3b" stroke="#1a1020"/><rect x="17" y="28" width="4" height="8" fill="#8a8a92"/><rect x="48" y="44" width="22" height="7" rx="1.2" fill="#3a4a3a" stroke="#1a1020"/></svg>';
+    }
+    if (id === "dachkammer") {
+      return '<svg class="mile-svg" viewBox="0 0 80 72" aria-hidden="true"><path d="M14 60 V40 L40 20 L66 40 V60 Z" fill="#6a4a32" stroke="#1a1020" stroke-width="1.2"/><path d="M14 40 L40 20 L66 40" fill="#8a3a2a" stroke="#1a1020"/><rect x="34" y="40" width="12" height="12" fill="#ffe08a" stroke="#1a1020"/></svg>';
+    }
+    if (id === "wohnung") {
+      return '<svg class="mile-svg" viewBox="0 0 80 72" aria-hidden="true"><rect x="18" y="22" width="44" height="40" fill="#3a4a62" stroke="#1a1020" stroke-width="1.2"/><rect x="24" y="28" width="10" height="8" fill="#ffe08a"/><rect x="46" y="28" width="10" height="8" fill="#d4ecff"/><rect x="24" y="42" width="10" height="8" fill="#d4ecff"/><rect x="46" y="42" width="10" height="8" fill="#ffe08a"/><rect x="36" y="48" width="8" height="14" fill="#2a1a10"/></svg>';
+    }
+    if (id === "penthouse") {
+      return '<svg class="mile-svg" viewBox="0 0 80 72" aria-hidden="true"><rect x="20" y="28" width="40" height="32" fill="#1c2440" stroke="#f5d76e" stroke-width="1.4"/><rect x="16" y="26" width="48" height="5" fill="url(#none)" stroke="#f5d76e" fill="#f5d76e"/><rect x="28" y="34" width="24" height="8" fill="#fff4c8"/><rect x="38" y="18" width="4" height="8" fill="#f5d76e"/></svg>';
+    }
+    if (id === "villa") {
+      return '<svg class="mile-svg" viewBox="0 0 80 72" aria-hidden="true"><path d="M12 58 L16 32 H64 L68 58 Z" fill="#efe6d4" stroke="#1a1020" stroke-width="1.2"/><path d="M16 32 L40 16 L64 32" fill="#8a3a2a" stroke="#1a1020"/><rect x="34" y="42" width="12" height="16" fill="#2a1a10"/><rect x="22" y="44" width="8" height="8" fill="#cfe8ff"/><rect x="50" y="44" width="8" height="8" fill="#cfe8ff"/><rect x="24" y="50" width="4" height="8" fill="#f5d76e"/><rect x="52" y="50" width="4" height="8" fill="#f5d76e"/></svg>';
+    }
+    return '<svg class="mile-svg" viewBox="0 0 90 78" aria-hidden="true"><rect x="4" y="60" width="82" height="6" fill="#6a4a24"/><rect x="8" y="56" width="10" height="10" fill="#4a3a20"/><rect x="72" y="56" width="10" height="10" fill="#4a3a20"/><path d="M22 58 L28 36 H78 L84 52 L80 58 Z" fill="#f4f0ea" stroke="#1a1020" stroke-width="1.2"/><path d="M28 36 H78 L74 28 H32 Z" fill="#d4e8f4" stroke="#1a1020"/><rect x="40" y="42" width="10" height="6" fill="#ffe08a"/><rect x="56" y="42" width="10" height="6" fill="#ffe08a"/><path d="M84 40 Q92 36 88 28" fill="none" stroke="#c9a227" stroke-width="1.2"/><circle cx="88" cy="27" r="2" fill="#c23b3b"/></svg>';
+  }
+
+  function milestonesHtml() {
+    var arts = STAGES.map(function (s, i) {
+      return '<div class="milestone is-' + s.id + '" style="left:' + pathStationX(i).toFixed(2) + '%">' +
+        milestoneArt(s.id) +
+        "</div>";
+    }).join("");
+    var signs = STAGES.map(function (s, i) {
+      return '<div class="mile-sign" style="left:' + pathStationX(i).toFixed(2) + '%"><b>' +
+        (s.id === "yacht" ? "Millionär<br>auf Yacht" : esc(s.name)) +
+        "</b><span>" + formatDeNumber(s.min) + " Ins</span></div>";
+    }).join("");
+    return '<div class="city-path-line" aria-hidden="true"></div><div class="milestones">' + arts +
+      '</div><div class="mile-signs">' + signs + "</div>";
+  }
+
+  function walkerLane(i) {
+    var pattern = [0, -1, 1, -2, 2];
+    return pattern[i % pattern.length];
+  }
+
+  function wealthGearId(ins) {
+    ins = Number(ins) || 0;
+    var bits = [stageFor(ins).id];
+    if (ins >= 1) bits.push("p");
+    if (ins >= 80) bits.push("w");
+    if (ins >= 280) bits.push("c");
+    if (ins >= 420) bits.push("s");
+    if (ins >= 620) bits.push("b");
+    if (ins >= 850) bits.push("m" + Math.min(5, 2 + Math.floor(wealthRatio(ins) * 4)));
+    bits.push("g" + Math.floor(wealthRatio(ins) * 8));
+    return bits.join("-");
+  }
+
+  function placeWalker(el, p, list, insValue) {
+    var ins = insValue == null ? p.ins : insValue;
+    el.style.left = pathLeftPct(ins) + "%";
+    var gear = wealthGearId(ins);
+    var fig = el.querySelector(".fig");
+    if (fig && el.getAttribute("data-gear") !== gear) {
+      el.setAttribute("data-gear", gear);
+      el.setAttribute("data-stage", stageFor(ins).id);
+      fig.innerHTML = figureSvg({
+        name: p.name, gender: p.gender, look: p.look, glasses: p.glasses,
+        color: p.color, hair: p.hair, ins: ins, bib: p.bib
+      }, { crown: isFirst(p, list) && Math.round(ins) === p.ins });
+    }
+    el.setAttribute("data-ins", String(Math.round(ins)));
+    el.setAttribute("aria-label", p.name + ", " + formatDeNumber(Math.round(ins)) + " Ins, " + stageFor(ins).name + ", Vermögen " + fortuneEuro(Math.round(ins)));
+  }
+
+  function countWealth(el, fromIns, toIns, dur) {
+    var label = el.querySelector(".walker-wealth strong");
+    if (!label) return;
+    if (reducedMotion() || fromIns === toIns) {
+      label.textContent = fortuneEuro(toIns);
+      return;
+    }
+    var start = performance.now();
+    function frame(now) {
+      var t = Math.min(1, (now - start) / dur);
+      var ins = Math.round(fromIns + (toIns - fromIns) * t);
+      label.textContent = fortuneEuro(ins);
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function animateWalker(el, p, list, fromIns, toIns) {
+    if (reducedMotion() || fromIns === toIns || isPathDemo()) {
+      el.classList.remove("is-walking");
+      placeWalker(el, p, list, toIns);
+      return;
+    }
+    var dist = Math.abs(pathLeftPct(toIns) - pathLeftPct(fromIns)) / 86;
+    var dur = Math.max(700, Math.min(2600, dist * 2400));
+    el.classList.add("is-walking");
+    if (toIns > fromIns) cityAudio.ding();
+    countWealth(el, fromIns, toIns, dur);
+    var start = performance.now();
+    function frame(now) {
+      var t = Math.min(1, (now - start) / dur);
+      var eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      placeWalker(el, p, list, fromIns + (toIns - fromIns) * eased);
+      if (t < 1) requestAnimationFrame(frame);
+      else {
+        el.classList.remove("is-walking");
+        placeWalker(el, p, list, toIns);
+        scrollPathToLeader(list);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function scrollPathToLeader(list) {
+    var sc = document.getElementById("cityStreetScroll");
+    if (!sc || sc.scrollWidth <= sc.clientWidth + 4) return;
+    var target = null;
+    if (list && list.length) {
+      var rows = ranked(list);
+      var name = rows[0] && rows[0].person && rows[0].person.name;
+      if (name) target = sc.querySelector('.walker[data-name="' + name.replace(/"/g, "") + '"]');
+    }
+    if (!target) return;
+    var left = target.offsetLeft - sc.clientWidth / 2 + target.offsetWidth / 2;
+    sc.scrollTo({ left: Math.max(0, left), behavior: reducedMotion() ? "auto" : "smooth" });
+  }
+
+  function renderWalkers(list) {
+    if (!list.length) return "";
+    var prevMap = loadPathIns();
+    if (isPathDemo()) {
+      list.forEach(function (p) { prevMap[p.name] = p.ins; });
+    }
+    return '<div class="walkers" id="cityWalkers">' + list.map(function (p, i) {
+      var lead = isFirst(p, list);
+      var lane = walkerLane(i);
+      var startIns = prevMap.hasOwnProperty(p.name) ? prevMap[p.name] : p.ins;
+      return (
+        '<button type="button" class="walker' + (lead ? " is-lead" : "") + '" data-name="' + esc(p.name) +
+        '" data-ins="' + startIns + '" data-stage="' + esc(stageFor(startIns).id) +
+        '" style="left:' + pathLeftPct(startIns).toFixed(2) + "%;--lane-y:" + (lane * 8) + "px;--lane-x:" + (lane * 6) +
+        'px;z-index:' + (14 - Math.abs(lane)) + '" aria-label="' + esc(p.name) + ", " + formatDeNumber(p.ins) + " Ins, " +
+        esc(stageFor(p.ins).name) + ', Vermögen ' + fortuneEuro(p.ins) + '">' +
+        '<span class="walker-wealth"><em>Vermögen</em><strong>' + fortuneEuro(startIns) + "</strong></span>" +
+        '<span class="tag">#' + (p.place || p.bib) + " " + esc(p.name) + "</span>" +
+        '<span class="fig">' + figureSvg({
+          name: p.name, gender: p.gender, look: p.look, glasses: p.glasses,
+          color: p.color, hair: p.hair, ins: startIns, bib: p.bib
+        }, { crown: lead && startIns === p.ins }) + "</span>" +
+        "</button>"
+      );
+    }).join("") + "</div>";
+  }
+
+  function startWalkerMoves(list) {
+    var prevMap = loadPathIns();
+    var nextMap = {};
+    var walkers = document.getElementById("cityWalkers");
+    if (!walkers) return;
+    list.forEach(function (p) {
+      nextMap[p.name] = p.ins;
+      var el = walkers.querySelector('.walker[data-name="' + p.name.replace(/"/g, "") + '"]');
+      if (!el) return;
+      var fromIns = prevMap.hasOwnProperty(p.name) ? prevMap[p.name] : p.ins;
+      if (isPathDemo()) fromIns = p.ins;
+      animateWalker(el, p, list, fromIns, p.ins);
+    });
+    savePathIns(nextMap);
+    setTimeout(function () { scrollPathToLeader(list); }, 80);
   }
 
   function bindCityLights() {
@@ -731,25 +999,9 @@
   function renderCity(list) {
     var root = document.getElementById("cityParallax");
     if (!root) return;
-    var max = maxIns(list) || 1;
-    var mid;
+    var empty = "";
     if (!list.length) {
-      mid = '<div class="city-empty-msg"><strong>Die Stadt wartet</strong>Noch ist niemand in der Metropole. Die ersten Aufsteiger ziehen bald ein – von der Straßenkante bis zur Yacht.</div>' +
-        podiumHtml(4);
-    } else {
-      mid = '<div class="towers" id="cityTowers">' + list.map(function (p, i) {
-        var h = 128 + Math.round((p.ins / max) * 140);
-        var lead = isFirst(p, list);
-        return (
-          '<button type="button" class="tower' + (lead ? " is-lead" : "") + '" data-name="' + esc(p.name) + '" style="height:' + h + "px;background:linear-gradient(180deg," + esc(p.color) + " 0%,#1a1020 140%);animation-delay:" + (0.08 * i).toFixed(2) + 's" aria-label="' + esc(p.name) + ", " + p.ins + " Ins, " + esc(stageFor(p.ins).name) + '">' +
-          (lead ? '<span class="antenna" aria-hidden="true"></span>' : "") +
-          '<span class="tag">#' + (p.place || p.bib) + " " + esc(p.name) + "</span>" +
-          '<span class="windows"></span>' +
-          '<span class="fig">' + figureSvg(p, { crown: lead }) + "</span>" +
-          '<span class="tower-podium" aria-hidden="true"></span>' +
-          "</button>"
-        );
-      }).join("") + "</div>";
+      empty = '<div class="city-empty-msg"><strong>Die Stadt wartet</strong>Noch ist niemand in der Metropole. Die ersten Aufsteiger ziehen bald ein – von der Straßenkante bis zur Yacht.</div>';
     }
     var nearSvg = buildSkylineLayer("near");
     var midSvg = buildSkylineLayer("mid");
@@ -771,7 +1023,12 @@
       '<div class="city-fog f1" aria-hidden="true"></div>' +
       '<div class="city-fog f2" aria-hidden="true"></div>' +
       buildSparkles() +
-      '<div class="city-layer street" data-depth="22">' + mid +
+      empty +
+      '<div class="city-layer street" data-depth="22">' +
+      '<div class="city-street-scroll" id="cityStreetScroll">' +
+      '<div class="city-path-world" id="cityPathWorld">' +
+      milestonesHtml() +
+      renderWalkers(list) +
       buildStreetLamps() +
       '<div class="street-base">' +
         '<div class="street-reflect" aria-hidden="true">' + buildSkylineLayer("near", "refl") + "</div>" +
@@ -784,9 +1041,10 @@
       '<span class="pigeon p1" aria-hidden="true"></span><span class="pigeon p2" aria-hidden="true"></span>' +
       '<button type="button" class="gold-coin" id="goldCoin" aria-label="Versteckte Goldmünze"></button>' +
       '<div class="fireworks" id="cityFx"></div>' +
-      "</div>";
+      "</div></div></div>";
     placeGoldCoin();
     bindCityLights();
+    startWalkerMoves(list);
   }
 
   function placeGoldCoin() {
@@ -1111,6 +1369,12 @@
     },
     ping: function (freq) { this.tone(freq || 520, 0.28, "triangle", this.sfx, 0.8); },
     coin: function () { this.tone(880, 0.12, "square", this.sfx, 0.5); this.tone(1320, 0.18, "triangle", this.sfx, 0.4); },
+    ding: function () {
+      if (!this.on) return;
+      this.tone(988, 0.08, "square", this.sfx, 0.42);
+      this.tone(1318, 0.14, "triangle", this.sfx, 0.5);
+      this.tone(1568, 0.2, "sine", this.sfx, 0.32);
+    },
     whoosh: function () { this.tone(220, 0.5, "sawtooth", this.sfx, 0.25); },
     sting: function () { this.tone(392, 0.25, "triangle", this.sfx, 0.7); this.tone(587, 0.4, "triangle", this.sfx, 0.6); },
     flash: function () {
@@ -1602,10 +1866,10 @@
         toast("Die versteckte Goldmünze! Geldregen über der Stadt.");
       });
     }
-    var towers = document.getElementById("cityTowers");
-    if (towers) {
-      towers.addEventListener("click", function (e) {
-        var btn = e.target.closest(".tower");
+    var walkers = document.getElementById("cityWalkers");
+    if (walkers) {
+      walkers.addEventListener("click", function (e) {
+        var btn = e.target.closest(".walker");
         if (!btn) return;
         var name = btn.getAttribute("data-name");
         var p = null;
@@ -1953,7 +2217,7 @@
 
   function boot() {
     narrator.init();
-    var list = decorate(PEOPLE);
+    var list = applyPathDemo(decorate(PEOPLE));
     applyDayNight();
     renderChapters();
     renderClock();
@@ -1967,7 +2231,7 @@
     renderGala(list);
     renderNote();
     renderFigureShowcase();
-    checkAscensions(list);
+    if (!isPathDemo()) checkAscensions(list);
     bindCity(list);
     bindParallax();
     bindKonami();
