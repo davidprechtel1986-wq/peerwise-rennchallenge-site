@@ -139,7 +139,7 @@ body.chapter-3 { box-shadow: inset 0 0 180px rgba(196, 30, 58, 0.22); }
 .vault-label { display: block; font-size: .78rem; letter-spacing: .08em; font-weight: 800; color: #ffe9a8; text-transform: uppercase; text-shadow: none; }
 .vault-total { font-family: Impact, "Arial Black", sans-serif; font-size: 1.7rem; color: #fff6c2; line-height: 1; text-shadow: none; }
 
-.stage { width: min(1120px, calc(100% - 1.2rem)); margin: 0 auto; padding: 1.2rem 0 4rem; }
+.stage { width: min(1120px, 100%); margin: 0 auto; padding: 1.2rem .9rem 4rem; max-width: 100%; }
 
 .hero { text-align: center; padding: 1.2rem 0 1.6rem; }
 .logo-img { width: 72px; height: auto; filter: drop-shadow(0 0 12px rgba(245,215,110,.45)); }
@@ -152,35 +152,35 @@ h1 {
   text-shadow: 0 2px 0 #1a1020, 0 8px 22px rgba(0,0,0,.45);
 }
 .poster-date {
-  display: inline-block; margin: .35rem 0;
+  display: inline-block; margin: .5rem 0;
   background: var(--gold); color: #1a1020;
   font-family: Impact, "Arial Black", sans-serif;
-  letter-spacing: .08em; padding: .3rem 1rem; border-radius: 999px;
-  font-size: 1.05rem; text-shadow: none;
+  letter-spacing: .08em; padding: .48rem 1.5rem; border-radius: 999px;
+  font-size: 1.6rem; text-shadow: none;
 }
 .poster-slogan {
-  font-size: 1.28rem; font-weight: 600; margin: .65rem auto 1rem;
-  line-height: 1.55; max-width: 34rem;
-  background: rgba(8, 6, 16, 0.72); border-radius: 12px; padding: .45rem .85rem;
+  font-size: 1.92rem; font-weight: 600; margin: .85rem auto 1.2rem;
+  line-height: 1.45; max-width: 48rem;
+  background: rgba(8, 6, 16, 0.72); border-radius: 16px; padding: .7rem 1.3rem;
 }
 
 .chapter-strip {
-  list-style: none; padding: 0; margin: 0 auto 0.7rem;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: .45rem;
-  max-width: 720px;
+  list-style: none; padding: 0; margin: 0 auto 0.9rem;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem;
+  max-width: 1080px; width: 100%;
 }
 .chapter-strip li {
   background: rgba(8,6,16,.7); border: 1px solid rgba(245,215,110,.28);
-  border-radius: 12px; padding: .55rem .4rem; text-align: center;
+  border-radius: 16px; padding: .9rem .7rem; text-align: center;
 }
-.chapter-strip em { display: block; font-style: normal; font-size: .82rem; letter-spacing: .06em; color: #efe3c8; text-transform: uppercase; font-family: "Segoe UI", "Helvetica Neue", Calibri, Arial, sans-serif; font-weight: 700; }
-.chapter-strip span { font-family: Impact, "Arial Black", sans-serif; font-size: 1.12rem; color: #ffe9a8; text-shadow: var(--text-shadow); }
+.chapter-strip em { display: block; font-style: normal; font-size: 1.2rem; letter-spacing: .06em; color: #efe3c8; text-transform: uppercase; font-family: "Segoe UI", "Helvetica Neue", Calibri, Arial, sans-serif; font-weight: 700; margin-bottom: .2rem; }
+.chapter-strip span { font-family: Impact, "Arial Black", sans-serif; font-size: 1.7rem; color: #ffe9a8; text-shadow: var(--text-shadow); }
 .chapter-strip li.is-soon { opacity: .92; }
 .chapter-strip li.is-live { border-color: var(--gold); box-shadow: 0 0 16px rgba(245,215,110,.35); background: rgba(8,6,16,.9); }
 .chapter-strip li.is-done { opacity: .8; }
 .chapter-now {
-  color: #fff4c8; font-weight: 650; margin: 0 auto 1rem; font-size: 1.1rem; line-height: 1.55;
-  max-width: 36rem; background: rgba(8, 6, 16, 0.72); border-radius: 12px; padding: .45rem .85rem;
+  color: #fff4c8; font-weight: 650; margin: 0 auto 1.15rem; font-size: 1.65rem; line-height: 1.5;
+  max-width: 52rem; width: 100%; background: rgba(8, 6, 16, 0.72); border-radius: 16px; padding: .7rem 1.25rem;
 }
 
 .entry-button {
@@ -192,28 +192,33 @@ h1 {
 }
 .countdown-board {
   display: inline-block; background: rgba(8,6,16,.82);
-  border: 2px solid rgba(245,215,110,.4); border-radius: 16px;
-  padding: .7rem 1.1rem; min-width: min(100%, 340px);
+  border: 2px solid rgba(245,215,110,.4); border-radius: 22px;
+  padding: 1.1rem 1.7rem 1.2rem; min-width: min(100%, 520px);
 }
 .countdown-board .status {
   font-family: Impact, "Arial Black", sans-serif; color: var(--gold);
-  letter-spacing: .06em; margin: 0 0 .45rem; font-size: 1.05rem;
+  letter-spacing: .06em; margin: 0 0 .65rem; font-size: 1.6rem;
 }
-.cd-grid { display: flex; justify-content: center; gap: .45rem; }
+.cd-grid { display: flex; justify-content: center; gap: .7rem; }
 .cd-cell {
-  background: #111; border-radius: 10px; min-width: 3.2rem; padding: .3rem .25rem;
-  border: 1px solid #333;
+  background: #111; border-radius: 14px; min-width: 4.8rem; padding: .5rem .4rem .4rem;
+  border: 1px solid #333; flex: 1 1 4.4rem; max-width: 6.6rem;
 }
-.cd-cell b { display: block; font-family: Impact, "Arial Black", sans-serif; font-size: 1.6rem; text-shadow: none; }
-.cd-cell span { font-size: .78rem; letter-spacing: .08em; color: #efe3c8; font-family: "Segoe UI", "Helvetica Neue", Calibri, Arial, sans-serif; font-weight: 700; }
+.cd-cell b { display: block; font-family: Impact, "Arial Black", sans-serif; font-size: 2.55rem; line-height: 1; text-shadow: none; }
+.cd-cell span { font-size: 1.15rem; letter-spacing: .08em; color: #efe3c8; font-family: "Segoe UI", "Helvetica Neue", Calibri, Arial, sans-serif; font-weight: 700; }
 
 /* City */
-.metropole { margin: 1.4rem 0 1.6rem; }
-.metro-head { display: flex; justify-content: space-between; gap: 1rem; align-items: end; flex-wrap: wrap; margin-bottom: .6rem; }
+.metropole { margin: 1.4rem 0 1.6rem; max-width: 100%; }
+.metro-head { display: flex; justify-content: space-between; gap: 1rem; align-items: end; flex-wrap: wrap; margin-bottom: .6rem; max-width: 100%; }
+.metro-head > div { min-width: 0; max-width: 100%; overflow: visible; }
 .metropole h2, .ladder h2, .gala h2, .badge-board h2 {
   font-family: Impact, "Arial Black", sans-serif; letter-spacing: .08em;
   color: #ffe9a8; margin: 0 0 .35rem; font-size: 1.7rem;
   text-shadow: var(--text-shadow);
+  padding-left: 0.18em;
+  line-height: 1.2;
+  overflow: visible;
+  max-width: 100%;
 }
 .metro-head p, .gala p, .game-hint {
   margin: 0; color: var(--ink); max-width: 46rem; line-height: 1.7; font-size: 1.08rem;
@@ -229,7 +234,7 @@ h1 {
 
 .city-frame {
   position: relative; border: 2px solid rgba(245,215,110,.35);
-  border-radius: 16px; overflow: hidden;
+  border-radius: 16px; overflow: hidden; max-width: 100%;
   background: #070b18;
   min-height: 280px;
   isolation: isolate;
@@ -958,13 +963,24 @@ body.chapter-3 .gala { box-shadow: 0 0 46px rgba(245,215,110,.3); }
   .metro-head { align-items: start; }
   body.mil-body { font-size: 1.2rem; }
   .ticker-track { font-size: 1.05rem; }
-  .poster-slogan { font-size: 1.25rem; }
+  .poster-date { font-size: 1.32rem; padding: .4rem 1.15rem; }
+  .poster-slogan { font-size: 1.42rem; padding: .55rem 1rem; margin: .7rem auto 1rem; }
+  .chapter-strip { gap: .55rem; }
+  .chapter-strip li { padding: .75rem .65rem; }
+  .chapter-strip span { font-size: 1.45rem; }
+  .chapter-strip em { font-size: 1.08rem; }
+  .chapter-now { font-size: 1.32rem; padding: .6rem 1rem; }
   .chapter-now, .metro-head p, .gala p, .game-hint, .prognose-card p, .foot-note, .ladder-list span, .profile-card p {
     font-size: 1.15rem; line-height: 1.75;
   }
-  .chapter-strip span { font-size: 1.25rem; }
-  .chapter-strip em { font-size: .92rem; }
-  .metropole h2, .ladder h2, .gala h2, .badge-board h2 { font-size: 1.8rem; }
+  .chapter-now { font-size: 1.32rem; line-height: 1.55; }
+  .countdown-board { min-width: 0; width: 100%; max-width: 26rem; padding: .9rem .75rem 1rem; }
+  .cd-grid { gap: .4rem; }
+  .cd-cell { min-width: 0; flex: 1 1 3.4rem; padding: .4rem .2rem .35rem; max-width: none; }
+  .cd-cell b { font-size: 2.1rem; }
+  .cd-cell span { font-size: 1rem; }
+  .countdown-board .status { font-size: 1.32rem; }
+  .metropole h2, .ladder h2, .gala h2, .badge-board h2 { font-size: 1.8rem; padding-left: 0.2em; }
   .city-empty-msg { font-size: 1.12rem; top: 8px; padding: .6rem .8rem .7rem; }
   .vault-label { font-size: .8rem; }
   .vault-total { font-size: 1.35rem; }
